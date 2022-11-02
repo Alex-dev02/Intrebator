@@ -3,4 +3,4 @@ project(Intrebator)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Intrebator src/main.cpp)
+add_executable(Intrebator src/main.cpp temp_folder/tempcpp.cpp)
