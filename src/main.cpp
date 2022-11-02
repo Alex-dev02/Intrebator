@@ -1,6 +1,5 @@
-#include <iostream>
+#include "../temp_folder/tempheader.h"
 
 int main() {
-  std::cout << "Hello World!";
-  return 0;
+  printHelloWorld();
 }
