@@ -1,5 +1,8 @@
 #include <iostream>
 
+#include <db/include/Database.hpp>
+
 int main() {
-  std::cout << "Hello world !";
+    Database db;
+    std::cout << "Hello world ! " << db.Get5();
 }
