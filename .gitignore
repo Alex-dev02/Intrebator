@@ -11,6 +11,9 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 
+# mac stuff
+/src/main.dSYM
+
 # build folders
 /build
 /out
