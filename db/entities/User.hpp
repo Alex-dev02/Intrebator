@@ -6,7 +6,7 @@ class User {
 public:
 
     User() = delete;
-    User(const std::string& name);
+    User(unsigned int id, const std::string& name);
 
     std::string GetName() const;
     unsigned int GetId() const;

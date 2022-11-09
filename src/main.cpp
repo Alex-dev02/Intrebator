@@ -8,8 +8,7 @@
 #include <string>
 
 int main() {
-    auto storage = Database::DB();
-    User u("Alex");
-    storage.insert(u);
+    User u{1, "Alex"};
+    DB::m_storage.replace(u);
     std::cout << "Hello world!";
 }

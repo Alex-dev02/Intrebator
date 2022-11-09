@@ -1,7 +1,8 @@
 #include "../entities/User.hpp"
 
-User::User(const std::string& name)
-    : name(name) 
+User::User(unsigned int id, const std::string& name)
+    : id(id),
+    name(name) 
 {}
 
 std::string User::GetName() const {
