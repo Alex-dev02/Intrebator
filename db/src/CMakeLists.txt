@@ -4,4 +4,4 @@ add_library(libDatabase SHARED
     User.cpp
 )
 
-target_link_libraries(libDatabase PRIVATE sqlite_orm::sqlite_orm)
+# target_link_libraries(libDatabase PRIVATE sqlite_orm::sqlite_orm)
