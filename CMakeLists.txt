@@ -8,8 +8,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_subdirectory(db)
 add_subdirectory(src)
 
-target_link_libraries(test PRIVATE libDatabase)
-
 add_executable(main src/main.cpp)
 
 target_link_libraries(main PRIVATE libDatabase)
