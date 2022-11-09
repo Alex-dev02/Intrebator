@@ -1,9 +1,11 @@
 #pragma once
 
+#include <sqlite_orm/sqlite_orm.h>
+
 class Database final {
 public:
 
-    int Get5();
+    static auto DB();
     
 private:
 

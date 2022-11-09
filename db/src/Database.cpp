@@ -1,5 +1,6 @@
 #include "../include/Database.hpp"
 
-int Database::Get5() {
-    return 5;
+auto Database::DB() {
+    // TO DO
+    return sqlite_orm::make_storage("db.sqlite");
 }
