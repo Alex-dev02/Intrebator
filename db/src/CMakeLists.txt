@@ -4,6 +4,7 @@ add_library(libDatabase SHARED
     User.cpp
     Question.cpp 
     NumericQuestion.cpp
+    MultipleAnswerQuestion.cpp
 )
 
 # target_link_libraries(libDatabase PRIVATE sqlite_orm::sqlite_orm)
