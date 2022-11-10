@@ -1,9 +1,7 @@
 #include <iostream>
-#include <sqlite_orm/sqlite_orm.h>
 
-
-#include <db/include/Database.hpp>
 #include <db/entities/User.hpp>
+#include <db/include/Database.hpp>
 
 #include <string>
 
