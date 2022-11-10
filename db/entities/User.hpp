@@ -5,7 +5,7 @@
 class User {
 public:
 
-    User() = delete;
+    User() = default;
     User(unsigned int id, const std::string& name);
 
     std::string GetName() const;
