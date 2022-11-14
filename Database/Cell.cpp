@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Cell.h"
 
 Cell::Cell(uint16_t score, Cell::BaseType base_type)

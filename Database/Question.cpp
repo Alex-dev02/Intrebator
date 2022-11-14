@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Question.h"
 
 Question::Question(const std::string& question)

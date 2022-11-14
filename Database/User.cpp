@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "User.h"
 
 User::User(unsigned int id, const std::string& name)

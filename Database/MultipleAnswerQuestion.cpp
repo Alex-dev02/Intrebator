@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "MultipleAnswerQuestion.h"
 
 MultipleAnswerQuestion::MultipleAnswerQuestion(const std::string& question, const std::array<std::string, 4>& answers)
