@@ -15,9 +15,7 @@ _deps
 /src/main.dSYM
 
 # build folders
-/build
-/out
-/cmake-build-debug
+x64
 
 # IDE cache folders
 /.vscode

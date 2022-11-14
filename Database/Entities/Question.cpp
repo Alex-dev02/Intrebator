@@ -1,9 +1,9 @@
-#include "../entities/Question.hpp"
+#include "Question.h"
 
-Question::Question(const std::string &question)
-    :m_question(question)
-    {}
+Question::Question(const std::string& question)
+	:m_question(question)
+{}
 
-const std::string &Question::GetQuestion() const {
-    return m_question;
+const std::string& Question::GetQuestion() const {
+	return m_question;
 }

@@ -1,10 +1,10 @@
-#include "../entities/NumericQuestion.hpp"
+#include "NumericQuestion.h"
 
 NumericQuestion::NumericQuestion(const std::string& question, int answer)
-	: Question(question), 
+	: Question(question),
 	m_answer(answer)
-	{}
+{}
 
-int NumericQuestion::GetAnswer() const{
+int NumericQuestion::GetAnswer() const {
 	return m_answer;
 }

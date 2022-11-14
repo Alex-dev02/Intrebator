@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Question.hpp"
+#include "Question.h"
 
-class NumericQuestion final : public Question{
+class NumericQuestion final : public Question {
 public:
 	NumericQuestion(const std::string& question, int answer);
 
