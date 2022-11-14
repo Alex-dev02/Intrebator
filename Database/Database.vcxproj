@@ -139,11 +139,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Database.hpp" />
+    <ClInclude Include="Entities\Cell.hpp" />
+    <ClInclude Include="Entities\MultipleAnswerQuestion.hpp" />
+    <ClInclude Include="Entities\NumericQuestion.hpp" />
+    <ClInclude Include="Entities\Question.hpp" />
+    <ClInclude Include="Entities\QuestionPowerUp.hpp" />
+    <ClInclude Include="Entities\User.hpp" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="Entities\Cell.cpp" />
+    <ClCompile Include="Entities\MultipleAnswerQuestion.cpp" />
+    <ClCompile Include="Entities\NumericQuestion.cpp" />
+    <ClCompile Include="Entities\Question.cpp" />
+    <ClCompile Include="Entities\QuestionPowerUp.cpp" />
+    <ClCompile Include="Entities\User.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
