@@ -1,24 +1,55 @@
-#define SDL_MAIN_HANDLED
+#include <iostream>
 
-#include "SDL2/SDL.h"
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
+#include <SFML/Network.hpp>
 
-int main(int argc, char* argv[])
-{
-	SDL_SetMainReady();
-	SDL_Init(SDL_INIT_EVERYTHING);
-	SDL_Window* window = SDL_CreateWindow("Triviador", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN);
+int main() {
 
-	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
+	// Window
+	sf::RenderWindow window(sf::VideoMode(800, 600), "Triviador");
+	sf::Event event;
 
-	SDL_SetRenderDrawColor(renderer, 40, 70, 180, 255);
+	// Game loop
+	while (window.isOpen()) {
 
-	SDL_RenderClear(renderer);
+		// Event polling
+		while (window.pollEvent(event)) {
 
-	SDL_RenderPresent(renderer);
+			switch (event.type) {
 
-	SDL_Delay(10000);
+			case sf::Event::Closed:
+				window.close();
+				break;
 
-	SDL_Quit();
+			case sf::Event::KeyPressed:
+				if (event.key.code == sf::Keyboard::Escape) {
 
+					window.close();
+
+				}
+				break;
+
+			default:
+				break;
+
+			}
+		}
+
+		// Update
+
+
+		// Render
+		window.clear(sf::Color::Blue); // Clear old frame
+
+
+		// Draw your game
+		window.display(); // Tell the app that the window is done drawing
+	}
+
+
+	// End of the application
 	return 0;
 }
