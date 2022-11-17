@@ -15,48 +15,51 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
+    <ClInclude Include="include\Entities\Cell.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
+    <ClInclude Include="include\Entities\Database.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Cell.h">
+    <ClInclude Include="include\Entities\MultipleAnswerQuestion.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MultipleAnswerQuestion.h">
+    <ClInclude Include="include\Entities\NumericQuestion.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NumericQuestion.h">
+    <ClInclude Include="include\Entities\Question.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Question.h">
+    <ClInclude Include="include\Entities\QuestionPowerUp.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="User.h">
+    <ClInclude Include="include\Entities\User.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp">
+    <ClCompile Include="src\Entities\Cell.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="src\Entities\Database.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MultipleAnswerQuestion.cpp">
+    <ClCompile Include="src\Entities\MultipleAnswerQuestion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NumericQuestion.cpp">
+    <ClCompile Include="src\Entities\NumericQuestion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Question.cpp">
+    <ClCompile Include="src\Entities\Question.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="User.cpp">
+    <ClCompile Include="src\Entities\QuestionPowerUp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Cell.cpp">
+    <ClCompile Include="src\Entities\User.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

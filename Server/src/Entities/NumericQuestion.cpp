@@ -1,6 +1,4 @@
-#include "pch.h"
-
-#include "NumericQuestion.h"
+#include "../../include/Entities/NumericQuestion.hpp"
 
 NumericQuestion::NumericQuestion(const std::string& question, int answer)
 	: Question(question),

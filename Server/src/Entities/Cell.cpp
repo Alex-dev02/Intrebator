@@ -1,6 +1,4 @@
-#include "pch.h"
-
-#include "Cell.h"
+#include "../../include/Entities/Cell.hpp"
 
 Cell::Cell(uint16_t score, Cell::BaseType base_type)
 	: m_score(score),

@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Question.h"
 #include <array>
+
+#include "../../include/Entities/Question.hpp"
 
 class MultipleAnswerQuestion final : public Question {
 public:

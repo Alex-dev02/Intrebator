@@ -1,6 +1,4 @@
-#include "pch.h"
-
-#include "User.h"
+#include "../../include/Entities/User.hpp"
 
 User::User(unsigned int id, const std::string& name)
 	: id(id),

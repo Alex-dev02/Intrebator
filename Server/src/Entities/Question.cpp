@@ -1,6 +1,4 @@
-#include "pch.h"
-
-#include "Question.h"
+#include "../../include/Entities/Question.hpp"
 
 Question::Question(const std::string& question)
 	:m_question(question)
