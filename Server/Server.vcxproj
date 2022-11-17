@@ -137,6 +137,8 @@
     <ClInclude Include="include\Server\Server.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\Database\Database.hpp" />
+    <ClCompile Include="src\Database\Database.cpp" />
     <ClCompile Include="src\Entities\Cell.cpp" />
     <ClCompile Include="src\Entities\Database.cpp" />
     <ClCompile Include="src\Entities\MultipleAnswerQuestion.cpp" />
