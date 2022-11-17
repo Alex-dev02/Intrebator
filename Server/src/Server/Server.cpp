@@ -1,11 +1,11 @@
-#include "../../include/Utils/Server.hpp"
+#include "../../include/Server/Server.hpp"
 
 crow::SimpleApp& Server::GetApp() const {
 	return m_app;
 }
 
 void Server::Start() {
-	m_app.port(18080).multithreaded().run();
+	m_app.port(80).multithreaded().run();
 }
 
 crow::SimpleApp Server::m_app {};

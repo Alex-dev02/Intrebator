@@ -36,7 +36,7 @@
     <ClInclude Include="include\Entities\User.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Utils\Server.hpp">
+    <ClInclude Include="include\Server\Server.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -65,7 +65,7 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Utils\Server.cpp">
+    <ClCompile Include="src\Server\Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
