@@ -134,6 +134,7 @@
     <ClInclude Include="include\Entities\Question.hpp" />
     <ClInclude Include="include\Entities\QuestionPowerUp.hpp" />
     <ClInclude Include="include\Entities\User.hpp" />
+    <ClInclude Include="include\Utils\Server.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Entities\Cell.cpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="src\Entities\QuestionPowerUp.cpp" />
     <ClCompile Include="src\Entities\User.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Utils\Server.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

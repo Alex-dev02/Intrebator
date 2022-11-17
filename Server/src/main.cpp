@@ -1,12 +1,25 @@
 #include "crow.h"
 
+#include "../include/Utils/Server.hpp"
+
+void n();
+
 int main()
 {
-    crow::SimpleApp app;
-
+    Server server;
+    auto& app = server.GetApp();
+    n();
     CROW_ROUTE(app, "/")([]() {
         return "Hello world";
         });
 
-    app.port(18080).multithreaded().run();
+    server.Start();
+}
+
+void n() {
+    Server server;
+    auto& app = server.GetApp();
+    CROW_ROUTE(app, "/user")([]() {
+        return "Hello user";
+        });
 }
