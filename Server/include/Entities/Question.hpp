@@ -11,9 +11,9 @@ public:
     
     ~Question() = default;
 
-    const std::uint8_t GetId() const;
+    std::uint8_t GetId() const;
 
-    void SetId(const std::uint8_t id);
+    void SetId(std::uint8_t id);
 private:
     std::uint8_t m_id;
     std::string m_question;

@@ -1,12 +1,12 @@
 #include "../../include/Entities/User.hpp"
 
 User::User(unsigned int id, const std::string& name)
-	: id(id),
-	name(name)
+	: m_id(id),
+	m_name(name)
 {}
 
-std::string User::GetName() const {
-	return name;
+const std::string& User::GetName() const {
+	return m_name;
 }
 
 unsigned int User::GetId() const {
@@ -14,9 +14,9 @@ unsigned int User::GetId() const {
 }
 
 void User::SetName(const std::string& name) {
-	this->name = name;
+	m_name = name;
 }
 
-void User::SetId(unsigned int id) {
-	this->id = id;
+void User::SetId(std::uint32_t id) {
+	m_id = id;
 }

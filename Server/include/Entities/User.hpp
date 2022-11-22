@@ -7,10 +7,10 @@ public:
     User() = default;
     User(unsigned int id, const std::string& name);
 
-    std::string GetName() const;
+    const std::string& GetName() const;
     unsigned int GetId() const;
 
-    void SetId(unsigned int id);
+    void SetId(std::uint32_t id);
     void SetName(const std::string& name);
 
 private:
