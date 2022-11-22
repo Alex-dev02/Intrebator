@@ -10,7 +10,7 @@ std::string User::GetName() const {
 }
 
 unsigned int User::GetId() const {
-	return id;
+	return m_id;
 }
 
 void User::SetName(const std::string& name) {

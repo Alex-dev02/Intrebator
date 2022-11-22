@@ -14,7 +14,7 @@ public:
     void SetName(const std::string& name);
 
 private:
-    unsigned int id;
-    std::string name;
+    unsigned int m_id;
+    std::string m_name;
 
 };
