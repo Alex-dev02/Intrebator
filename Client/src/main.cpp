@@ -8,16 +8,23 @@
 
 #include "../include/Button.hpp"
 
+#include "../../Logger/Debug.h"
+
 int main() {
 
 	// Window
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Triviador");
 	sf::Font font;
 
-	if (!font.loadFromFile("assets/Inter-Medium.ttf")) {
-		std::cerr << "Could not find contb.ttf font." << std::endl;
+	sf::Music music;
+
+	if (!music.openFromFile("assets/audio/music/menu song.ogg")) {
+		Debug::LogError("Error loading music");
 	}
 
+	if (!font.loadFromFile("assets/fonts/Inter-Medium.ttf")) {
+		Debug::LogError("Could not find contb.ttf font.");
+	}
 
 	Button play("Play", font, sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2) - sf::Vector2f(0.0f, 100.0f));
 	Button options("Options", font, sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
@@ -54,6 +61,12 @@ int main() {
 		play.update(event, window);
 		options.update(event, window);
 		exit.update(event, window);
+
+		Debug::Log(music.getStatus() == sf::Music::Stopped);
+
+		if (music.getStatus() == sf::Music::Stopped) {
+			music.play();
+		}
 
 		// Render
 		window.clear(sf::Color::Blue); // Clear old frame
