@@ -1,6 +1,6 @@
 #include "../../include/Entities/User.hpp"
 
-User::User(unsigned int id, const std::string& name)
+User::User(std::uint32_t id, const std::string& name)
 	: m_id(id),
 	m_name(name)
 {}

@@ -5,10 +5,12 @@ class User {
 public:
 
     User() = default;
-    User(unsigned int id, const std::string& name);
+    User(std::uint32_t id, const std::string& name);
+
+public:
 
     const std::string& GetName() const;
-    unsigned int GetId() const;
+    std::uint32_t GetId() const;
 
     void SetId(std::uint32_t id);
     void SetName(const std::string& name);

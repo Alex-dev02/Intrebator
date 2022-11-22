@@ -4,18 +4,22 @@
 
 class Question {
 public:
+    Question() = default;
+    Question(std::uint32_t id, const std::string& question);
     Question(const std::string& question);
 
-    const std::string& GetQuestion() const;
-    void SetQuestion(const std::string& question);
-    
     ~Question() = default;
 
-    std::uint8_t GetId() const;
+public:
 
-    void SetId(std::uint8_t id);
+    std::uint32_t GetId() const;
+    const std::string& GetQuestion() const;
+  
+    void SetId(std::uint32_t id);
+    void SetQuestion(const std::string& question);
+
 private:
-    std::uint8_t m_id;
+    std::uint32_t m_id;
     std::string m_question;
 
 };
