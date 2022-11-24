@@ -1,20 +1,21 @@
 #pragma once
+
 #include <string>
-#
+
+#include "GenerateDateAndTime.hpp"
 
 class Match{
 public:
-	Match(std::uint32_t id, std::string date);
+	Match(std::uint32_t id, const std::string& date);
 
 public:
-	const std::uint32_t& GetId() const;
-
+	std::uint32_t GetId() const;
 	const std::string& GetDate() const;
 
 	void SetId(std::uint32_t id);
+	void SetDate(const std::string& date);
 
-	void SetDate(std::string date);
 private:
 	std::uint32_t m_id;
-	std::string m_date;
+	DateGenerator::Date m_date;
 };

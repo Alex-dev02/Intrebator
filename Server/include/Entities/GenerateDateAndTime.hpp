@@ -1,8 +1,14 @@
 #pragma once
 #include <string>
-#include <ctime>
 
 class DateGenerator{
 public:
-	static const std::string& ReturnCurrentTimeAndDate();
+	struct Date {
+		Date() = default;
+		Date(const std::string& date);
+		std::string date;
+	};
+
+public:
+	static const Date& ReturnCurrentTimeAndDate();
 };
