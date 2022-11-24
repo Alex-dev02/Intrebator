@@ -15,10 +15,10 @@ public:
 	const std::string& GetThirdAnswer() const;
 	const std::string& GetCorrectAnswer() const;
 
-	void SetFirstAnswer(std::string first_answer);
-	void SetSecondAnswer(std::string second_answer);
-	void SetThirdAnswer(std::string third_answer);
-	void SetCorrectAnswer(std::string correct_answer);
+	void SetFirstAnswer(const std::string& first_answer);
+	void SetSecondAnswer(const std::string& second_answer);
+	void SetThirdAnswer(const std::string& third_answer);
+	void SetCorrectAnswer(const std::string& correct_answer);
 
 private:
 	std::array<std::string, 4> m_answers;
