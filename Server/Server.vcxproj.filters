@@ -39,6 +39,9 @@
     <ClInclude Include="include\Entities\Match.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Entities\GenerateDateAndTime.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Entities\Cell.cpp">
@@ -72,6 +75,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Entities\Match.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entities\GenerateDateAndTime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
