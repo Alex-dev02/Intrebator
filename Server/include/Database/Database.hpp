@@ -8,8 +8,7 @@
 
 class Database {
 
-
-    void function() {
+    auto function() {
         using namespace sqlite_orm;
 
         auto storage = make_storage("db.sqlite",
@@ -21,8 +20,7 @@ class Database {
                 make_column("id", &Question::GetId, &Question::SetId, autoincrement(), primary_key()),
                 make_column("question", &Question::GetQuestion, &Question::SetQuestion)
                 ));
-        
-
+        return storage;
     }
 
 };
