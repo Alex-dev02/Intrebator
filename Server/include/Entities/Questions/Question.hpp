@@ -8,7 +8,7 @@ public:
     Question(std::uint32_t id, const std::string& question);
     Question(const std::string& question);
 
-    ~Question() = default;
+    virtual ~Question() = default;
 
 public:
 

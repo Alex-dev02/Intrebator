@@ -8,3 +8,7 @@ NumericQuestion::NumericQuestion(const std::string& question, int answer)
 int NumericQuestion::GetAnswer() const {
 	return m_answer;
 }
+
+void NumericQuestion::SetAnswer(int answer) {
+	m_answer = answer;
+}
