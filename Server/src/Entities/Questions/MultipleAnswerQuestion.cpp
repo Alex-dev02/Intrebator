@@ -1,10 +1,33 @@
 #include "../../../include/Entities/Questions/MultipleAnswerQuestion.hpp"
 
+MultipleAnswerQuestion::MultipleAnswerQuestion() = default;
+
 MultipleAnswerQuestion::MultipleAnswerQuestion(const std::string& question, const std::array<std::string, 4>& answers)
-	: Question(question),
-	m_answers(answers)
+	: Question(question), m_answers(answers)
 {}
 
-const std::array<std::string, 4>& MultipleAnswerQuestion::GetAnswers() const {
-	return m_answers;
+const std::string& MultipleAnswerQuestion::GetFirstAnswer() const{
+	return m_answers[0];
+}
+const std::string& MultipleAnswerQuestion::GetFirstAnswer() const{
+	return m_answers[1];
+}
+const std::string& MultipleAnswerQuestion::GetFirstAnswer() const{
+	return m_answers[2];
+}
+const std::string& MultipleAnswerQuestion::GetFirstAnswer() const{
+	return m_answers[3];
+}
+
+void MultipleAnswerQuestion::SetFirstAnswer(std::string first_answer){
+	m_answers[0] = first_answer;
+}
+void MultipleAnswerQuestion::SetSecondAnswer(std::string second_answer){
+	m_answers[1] = second_answer;
+}
+void MultipleAnswerQuestion::SetThirdAnswer(std::string third_answer){
+	m_answers[2] = third_answer;
+}
+void MultipleAnswerQuestion::SetCorrectAnswer(std::string correct_answer){
+	m_answers[3] = correct_answer;
 }
