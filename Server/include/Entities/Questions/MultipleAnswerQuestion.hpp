@@ -7,7 +7,7 @@
 
 class MultipleAnswerQuestion final : public Question {
 public:
-	MultipleAnswerQuestion();
+	MultipleAnswerQuestion() = default;
 	MultipleAnswerQuestion(const std::string& question, const std::array<std::string, 4>& answers);
 
 	const std::string& GetFirstAnswer() const;
