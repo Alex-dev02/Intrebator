@@ -2,7 +2,7 @@
 
 #include "sqlite_orm/sqlite_orm.h"
 #include "../Entities/User.hpp"
-#include "../Entities/Question.hpp"
+#include "../Entities/Questions/Question.hpp"
 
 
 

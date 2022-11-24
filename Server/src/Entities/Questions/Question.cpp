@@ -1,4 +1,4 @@
-#include "../../include/Entities/Question.hpp"
+#include "../../../include/Entities/Questions/Question.hpp"
 
 Question::Question(std::uint32_t id, const std::string& question)
 	: m_id(id),

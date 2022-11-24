@@ -1,4 +1,4 @@
-#include "../../include/Entities/NumericQuestion.hpp"
+#include "../../../include/Entities/Questions/NumericQuestion.hpp"
 
 NumericQuestion::NumericQuestion(const std::string& question, int answer)
 	: Question(question),

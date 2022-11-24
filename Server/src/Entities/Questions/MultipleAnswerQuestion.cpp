@@ -1,4 +1,4 @@
-#include "../../include/Entities/MultipleAnswerQuestion.hpp"
+#include "../../../include/Entities/Questions/MultipleAnswerQuestion.hpp"
 
 MultipleAnswerQuestion::MultipleAnswerQuestion(const std::string& question, const std::array<std::string, 4>& answers)
 	: Question(question),

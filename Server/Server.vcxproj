@@ -128,7 +128,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\Entities\Cell.hpp" />
-    <ClInclude Include="include\Entities\Database.hpp" />
     <ClInclude Include="include\Entities\Questions\MultipleAnswerQuestion.hpp" />
     <ClInclude Include="include\Entities\Questions\NumericQuestion.hpp" />
     <ClInclude Include="include\Entities\Questions\Question.hpp" />
@@ -141,6 +140,10 @@
     <ClCompile Include="src\Database\Database.cpp" />
     <ClCompile Include="src\Entities\Cell.cpp" />
     <ClCompile Include="src\Entities\Database.cpp" />
+    <ClCompile Include="src\Entities\Questions\MultipleAnswerQuestion.cpp" />
+    <ClCompile Include="src\Entities\Questions\NumericQuestion.cpp" />
+    <ClCompile Include="src\Entities\Questions\Question.cpp" />
+    <ClCompile Include="src\Entities\Questions\QuestionPowerUp.cpp" />
     <ClCompile Include="src\Entities\User.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Server\Server.cpp" />
