@@ -2,7 +2,7 @@
 
 #include <array>
 
-#include "../../include/Entities/Question.hpp"
+#include "Question.hpp"
 
 class MultipleAnswerQuestion final : public Question {
 public:

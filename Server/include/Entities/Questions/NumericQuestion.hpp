@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../include/Entities/Question.hpp"
+#include "Question.hpp"
 
 class NumericQuestion final : public Question {
 public:

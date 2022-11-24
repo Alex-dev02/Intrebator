@@ -129,10 +129,10 @@
   <ItemGroup>
     <ClInclude Include="include\Entities\Cell.hpp" />
     <ClInclude Include="include\Entities\Database.hpp" />
-    <ClInclude Include="include\Entities\MultipleAnswerQuestion.hpp" />
-    <ClInclude Include="include\Entities\NumericQuestion.hpp" />
-    <ClInclude Include="include\Entities\Question.hpp" />
-    <ClInclude Include="include\Entities\QuestionPowerUp.hpp" />
+    <ClInclude Include="include\Entities\Questions\MultipleAnswerQuestion.hpp" />
+    <ClInclude Include="include\Entities\Questions\NumericQuestion.hpp" />
+    <ClInclude Include="include\Entities\Questions\Question.hpp" />
+    <ClInclude Include="include\Entities\Questions\QuestionPowerUp.hpp" />
     <ClInclude Include="include\Entities\User.hpp" />
     <ClInclude Include="include\Server\Server.hpp" />
   </ItemGroup>
@@ -141,10 +141,6 @@
     <ClCompile Include="src\Database\Database.cpp" />
     <ClCompile Include="src\Entities\Cell.cpp" />
     <ClCompile Include="src\Entities\Database.cpp" />
-    <ClCompile Include="src\Entities\MultipleAnswerQuestion.cpp" />
-    <ClCompile Include="src\Entities\NumericQuestion.cpp" />
-    <ClCompile Include="src\Entities\Question.cpp" />
-    <ClCompile Include="src\Entities\QuestionPowerUp.cpp" />
     <ClCompile Include="src\Entities\User.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Server\Server.cpp" />
