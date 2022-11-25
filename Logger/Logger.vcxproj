@@ -132,7 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Debug.h" />
+    <ClInclude Include="Debug.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Debug.cpp" />

@@ -8,12 +8,20 @@
 
 #include "../include/Button.hpp"
 
-#include "../../Logger/Debug.h"
+#include "../../Logger/Debug.hpp"
 
 int main() {
 
 	// Window
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Triviador");
+
+	auto image = sf::Image{};
+	if (!image.loadFromFile("assets/images/icon.png"))
+	{
+		Debug::LogError("Image not found");
+	}
+	window.setIcon(image.getSize().x, image.getSize().y, image.getPixelsPtr());
+
 	sf::Font font;
 
 	sf::Music music;
@@ -21,6 +29,8 @@ int main() {
 	if (!music.openFromFile("assets/audio/music/menu song.ogg")) {
 		Debug::LogError("Error loading music");
 	}
+	music.setLoop(true);
+	music.play();
 
 	if (!font.loadFromFile("assets/fonts/Inter-Medium.ttf")) {
 		Debug::LogError("Could not find contb.ttf font.");
@@ -61,12 +71,6 @@ int main() {
 		play.update(event, window);
 		options.update(event, window);
 		exit.update(event, window);
-
-		Debug::Log(music.getStatus() == sf::Music::Stopped);
-
-		if (music.getStatus() == sf::Music::Stopped) {
-			music.play();
-		}
 
 		// Render
 		window.clear(sf::Color::Blue); // Clear old frame
