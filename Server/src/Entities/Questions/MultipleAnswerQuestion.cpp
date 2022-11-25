@@ -1,7 +1,5 @@
 #include "../../../include/Entities/Questions/MultipleAnswerQuestion.hpp"
 
-MultipleAnswerQuestion::MultipleAnswerQuestion() = default;
-
 MultipleAnswerQuestion::MultipleAnswerQuestion(const std::string& question, const std::array<std::string, 4>& answers)
 	: Question(question), m_answers(answers)
 {}
