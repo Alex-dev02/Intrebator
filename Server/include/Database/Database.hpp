@@ -9,6 +9,9 @@ namespace sql = sqlite_orm;
 
 class InitDB {
 public:
+	InitDB() = default;
+	InitDB(const InitDB&) = delete;
+
 	static inline auto CreateStorage(const std::string& filename) {
 		auto storage = sql::make_storage(filename,
 			sql::make_table("user",
@@ -38,7 +41,11 @@ using Storage = decltype(InitDB::CreateStorage(""));
 
 class Database {
 public:
-	static inline Storage& GetStorage() { return m_storage; };
+	Database() = default;
+	Database(const Database&) = delete;
+
+	static Storage& GetStorage();
+	static const std::string& GetDatabaseName();
 private:
 	static const std::string m_database_name;
 	static Storage m_storage;
