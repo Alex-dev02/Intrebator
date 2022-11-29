@@ -34,3 +34,12 @@ public:
 };
 
 using Storage = decltype(InitDB::CreateStorage(""));
+
+
+class Database {
+public:
+	static inline Storage& GetStorage() { return m_storage; };
+private:
+	static const std::string m_database_name;
+	static Storage m_storage;
+};
