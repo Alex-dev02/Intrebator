@@ -130,6 +130,7 @@
     <ClInclude Include="include\Entities\Cell.hpp" />
     <ClInclude Include="include\Entities\GenerateDateAndTime.hpp" />
     <ClInclude Include="include\Entities\Match.hpp" />
+    <ClInclude Include="include\Entities\Player.hpp" />
     <ClInclude Include="include\Entities\Questions\MultipleAnswerQuestion.hpp" />
     <ClInclude Include="include\Entities\Questions\NumericQuestion.hpp" />
     <ClInclude Include="include\Entities\Questions\Question.hpp" />
@@ -143,6 +144,7 @@
     <ClCompile Include="src\Entities\Cell.cpp" />
     <ClCompile Include="src\Entities\GenerateDateAndTime.cpp" />
     <ClCompile Include="src\Entities\Match.cpp" />
+    <ClCompile Include="src\Entities\Player.cpp" />
     <ClCompile Include="src\Entities\Questions\MultipleAnswerQuestion.cpp" />
     <ClCompile Include="src\Entities\Questions\NumericQuestion.cpp" />
     <ClCompile Include="src\Entities\Questions\Question.cpp" />

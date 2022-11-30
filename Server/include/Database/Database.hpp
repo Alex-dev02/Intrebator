@@ -4,6 +4,7 @@
 #include "../Entities/User.hpp"
 #include "../Entities/Questions/NumericQuestion.hpp"
 #include "../Entities/Questions/MultipleAnswerQuestion.hpp"
+#include "../Entities/Match.hpp"
 
 namespace sql = sqlite_orm;
 
@@ -29,7 +30,14 @@ public:
 				sql::make_column("first_answer", &MultipleAnswerQuestion::GetFirstAnswer, &MultipleAnswerQuestion::SetFirstAnswer),
 				sql::make_column("second_answer", &MultipleAnswerQuestion::GetSecondAnswer, &MultipleAnswerQuestion::SetSecondAnswer),
 				sql::make_column("third_answer", &MultipleAnswerQuestion::GetThirdAnswer, &MultipleAnswerQuestion::SetThirdAnswer),
-				sql::make_column("corect_answer", &MultipleAnswerQuestion::GetCorrectAnswer, &MultipleAnswerQuestion::SetCorrectAnswer)));
+				sql::make_column("corect_answer", &MultipleAnswerQuestion::GetCorrectAnswer, &MultipleAnswerQuestion::SetCorrectAnswer)
+			)/*,
+			sql::make_table("matches ",
+				sql::make_column("id", &Match::GetId, &Match::SetId, sql::autoincrement(), sql::primary_key()),
+				sql::make_column("date", &Match::GetDate, &Match::SetDate),
+				...
+			)*/
+		);
 		
 		storage.sync_schema();
 		return storage;

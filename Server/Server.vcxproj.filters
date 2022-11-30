@@ -42,6 +42,9 @@
     <ClInclude Include="include\Entities\GenerateDateAndTime.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Entities\Player.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Entities\Cell.cpp">
@@ -79,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="include\Database\Database.hpp">
       <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entities\Player.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

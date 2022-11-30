@@ -3,20 +3,17 @@
 
 class User {
 public:
-
-    User() = default;
-    User(std::uint32_t id, const std::string& name);
+	User() = default;
+	User(std::uint32_t id, const std::string& name);
 
 public:
+	const std::string& GetName() const;
+	std::uint32_t GetId() const;
 
-    const std::string& GetName() const;
-    std::uint32_t GetId() const;
-
-    void SetId(std::uint32_t id);
-    void SetName(const std::string& name);
+	void SetId(std::uint32_t id);
+	void SetName(const std::string& name);
 
 private:
-    unsigned int m_id;
-    std::string m_name;
-
+	uint32_t m_id;
+	std::string m_name;
 };
