@@ -17,4 +17,5 @@ public:
 private:
 	char* m_color;
 	uint32_t m_score;
+	bool m_isActive = true;
 };
