@@ -1,19 +1,18 @@
 #include <iostream>
 
 #include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
-#include <SFML/Network.hpp>
 
 #include "../include/Button.hpp"
+#include "../include/InputField.hpp"
 
 #include "../../Logger/Debug.hpp"
 
 int main() {
 
 	// Window
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Triviador");
+	sf::RenderWindow window(sf::VideoMode(1270, 720), "Triviador");
 
 	auto image = sf::Image{};
 	if (!image.loadFromFile("assets/images/icon.png"))
@@ -40,6 +39,8 @@ int main() {
 	Button options("Options", font, sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
 	Button exit("Exit", font, sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2) + sf::Vector2f(0.0f, 100.0f));
 
+	InputField inputField(20, sf::Color::White, true);
+	
 	sf::Event event;
 
 	// Game loop
@@ -82,7 +83,6 @@ int main() {
 		// Draw your game
 		window.display(); // Tell the app that the window is done drawing
 	}
-
 
 	// End of the application
 	return 0;
