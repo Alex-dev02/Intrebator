@@ -128,10 +128,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Button.cpp" />
+    <ClCompile Include="src\InputField.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Button.hpp" />
+    <ClInclude Include="include\InputField.hpp" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
