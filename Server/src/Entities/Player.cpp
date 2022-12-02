@@ -5,7 +5,7 @@ Player::Player(uint32_t id, const std::string& name, Colour color, uint32_t scor
 {}
 
 
-const Colour& Player::GetColor() const{ //nu stiu de ce nu gaseste Colour
+const Player::Colour& Player::GetColor() const{    // Colour ii parte din Player. cum scrii Player::functie asa si Player::Colour. de asta nu ti-l gasea. (adi delete after seeing)
 	return m_color;
 }
 

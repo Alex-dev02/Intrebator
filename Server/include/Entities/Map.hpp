@@ -10,5 +10,5 @@ public:
 	// set cell ??? (anexed or base and to which color)
 
 private:
-	std::array<std::array<Cell, 5>, 3> m_grid;	//3x5
+	std::array<std::array<Cell, 5>, 3> m_grid;	// 3x5
 };
