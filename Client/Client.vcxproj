@@ -1,383 +1,338 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-  </ItemGroup>
-  <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
-    <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{adc73dcd-eabf-411a-aeb3-c3e9ea86a914}</ProjectGuid>
-    <RootNamespace>Client</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="Shared">
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Gui\Button.cpp" />
-    <ClCompile Include="Gui\CheckBox.cpp" />
-    <ClCompile Include="Gui\Image.cpp" />
-    <ClCompile Include="Gui\Label.cpp" />
-    <ClCompile Include="Gui\Layouts\FormLayout.cpp" />
-    <ClCompile Include="Gui\Layouts\HBoxLayout.cpp" />
-    <ClCompile Include="Gui\Layouts\Layout.cpp" />
-    <ClCompile Include="Gui\Layouts\VBoxLayout.cpp" />
-    <ClCompile Include="Gui\Menu.cpp" />
-    <ClCompile Include="Gui\ProgressBar.cpp" />
-    <ClCompile Include="Gui\Slider.cpp" />
-    <ClCompile Include="Gui\SpriteButton.cpp" />
-    <ClCompile Include="Gui\TextBox.cpp" />
-    <ClCompile Include="Gui\Theme.cpp" />
-    <ClCompile Include="Gui\Utils\Arrow.cpp" />
-    <ClCompile Include="Gui\Utils\Box.cpp" />
-    <ClCompile Include="Gui\Utils\Cross.cpp" />
-    <ClCompile Include="Gui\Widget.cpp" />
-    <ClCompile Include="src\Button.cpp" />
-    <ClCompile Include="src\InputField.cpp" />
-    <ClCompile Include="src\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Gui\Button.hpp" />
-    <ClInclude Include="Gui\CheckBox.hpp" />
-    <ClInclude Include="Gui\ComboBox.hpp" />
-    <ClInclude Include="Gui\Enums\Enums.hpp" />
-    <ClInclude Include="Gui\Gui.hpp" />
-    <ClInclude Include="Gui\Image.hpp" />
-    <ClInclude Include="Gui\Label.hpp" />
-    <ClInclude Include="Gui\Layouts\FormLayout.hpp" />
-    <ClInclude Include="Gui\Layouts\HBoxLayout.hpp" />
-    <ClInclude Include="Gui\Layouts\Layout.hpp" />
-    <ClInclude Include="Gui\Layouts\VBoxLayout.hpp" />
-    <ClInclude Include="Gui\Menu.hpp" />
-    <ClInclude Include="Gui\OptionsBox.hpp" />
-    <ClInclude Include="Gui\ProgressBar.hpp" />
-    <ClInclude Include="Gui\Slider.hpp" />
-    <ClInclude Include="Gui\SpriteButton.hpp" />
-    <ClInclude Include="Gui\TextBox.hpp" />
-    <ClInclude Include="Gui\Theme.hpp" />
-    <ClInclude Include="Gui\Utils\Arrow.hpp" />
-    <ClInclude Include="Gui\Utils\Box.hpp" />
-    <ClInclude Include="Gui\Utils\Cross.hpp" />
-    <ClInclude Include="Gui\Utils\ItemBox.hpp" />
-    <ClInclude Include="Gui\Widget.hpp" />
-    <ClInclude Include="include\Button.hpp" />
-    <ClInclude Include="include\InputField.hpp" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="TGUI\AbsoluteOrRelativeValue.hpp" />
-    <ClInclude Include="TGUI\AllWidgets.hpp" />
-    <ClInclude Include="TGUI\Animation.hpp" />
-    <ClInclude Include="TGUI\Any.hpp" />
-    <ClInclude Include="TGUI\Backend.hpp" />
-    <ClInclude Include="TGUI\BackendFont.hpp" />
-    <ClInclude Include="TGUI\BackendRenderTarget.hpp" />
-    <ClInclude Include="TGUI\Backends\SDL.hpp" />
-    <ClInclude Include="TGUI\Backends\SDL\BackendFontSDL.hpp" />
-    <ClInclude Include="TGUI\Backends\SDL\BackendRenderTargetSDL.hpp" />
-    <ClInclude Include="TGUI\Backends\SDL\BackendSDL.hpp" />
-    <ClInclude Include="TGUI\Backends\SDL\BackendTextSDL.hpp" />
-    <ClInclude Include="TGUI\Backends\SDL\BackendTextureSDL.hpp" />
-    <ClInclude Include="TGUI\Backends\SDL\FontCacheSDL.hpp" />
-    <ClInclude Include="TGUI\Backends\SDL\GuiSDL.hpp" />
-    <ClInclude Include="TGUI\Backends\SFML.hpp" />
-    <ClInclude Include="TGUI\Backends\SFML\BackendFontSFML.hpp" />
-    <ClInclude Include="TGUI\Backends\SFML\BackendRenderTargetSFML.hpp" />
-    <ClInclude Include="TGUI\Backends\SFML\BackendSFML.hpp" />
-    <ClInclude Include="TGUI\Backends\SFML\BackendTextSFML.hpp" />
-    <ClInclude Include="TGUI\Backends\SFML\BackendTextureSFML.hpp" />
-    <ClInclude Include="TGUI\Backends\SFML\GuiSFML.hpp" />
-    <ClInclude Include="TGUI\BackendText.hpp" />
-    <ClInclude Include="TGUI\BackendTexture.hpp" />
-    <ClInclude Include="TGUI\Color.hpp" />
-    <ClInclude Include="TGUI\Components.hpp" />
-    <ClInclude Include="TGUI\Container.hpp" />
-    <ClInclude Include="TGUI\CopiedSharedPtr.hpp" />
-    <ClInclude Include="TGUI\Core.hpp" />
-    <ClInclude Include="TGUI\Cursor.hpp" />
-    <ClInclude Include="TGUI\CustomWidgetForBindings.hpp" />
-    <ClInclude Include="TGUI\DefaultBackendWindow.hpp" />
-    <ClInclude Include="TGUI\DefaultFont.hpp" />
-    <ClInclude Include="TGUI\Duration.hpp" />
-    <ClInclude Include="TGUI\Event.hpp" />
-    <ClInclude Include="TGUI\Exception.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Config.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Dispatch.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Dispatch\DispatchTraits.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Dispatch\DoubleDispatcher.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Dispatch\SingleDispatcher.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Meta.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Meta\Preprocessor.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Meta\Templates.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Meta\Tuple.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Meta\Variadic.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\SmartPtr.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\SmartPtr\ClonersAndDeleters.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\SmartPtr\CopiedPtr.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\SmartPtr\Detail\Factories.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\SmartPtr\Detail\PtrOwner.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\SmartPtr\MakeUnique.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Tools.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Tools\Algorithms.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Tools\Any.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Tools\Downcast.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Tools\Exceptions.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Tools\ForEach.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Tools\Hash.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Tools\NamedTuple.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Tools\NonCopyable.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Tools\Optional.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Tools\PImpl.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Tools\SafeBool.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Tools\Swap.hpp" />
-    <ClInclude Include="TGUI\extlibs\Aurora\Tools\Typeid.hpp" />
-    <ClInclude Include="TGUI\extlibs\glad\gl.h" />
-    <ClInclude Include="TGUI\extlibs\glad\gles2.h" />
-    <ClInclude Include="TGUI\extlibs\nanosvg\nanosvg.h" />
-    <ClInclude Include="TGUI\extlibs\nanosvg\nanosvgrast.h" />
-    <ClInclude Include="TGUI\extlibs\stb\stb_image.h" />
-    <ClInclude Include="TGUI\FileDialogIconLoader.hpp" />
-    <ClInclude Include="TGUI\Filesystem.hpp" />
-    <ClInclude Include="TGUI\Font.hpp" />
-    <ClInclude Include="TGUI\Global.hpp" />
-    <ClInclude Include="TGUI\GuiBase.hpp" />
-    <ClInclude Include="TGUI\Keyboard.hpp" />
-    <ClInclude Include="TGUI\Layout.hpp" />
-    <ClInclude Include="TGUI\Loading\DataIO.hpp" />
-    <ClInclude Include="TGUI\Loading\Deserializer.hpp" />
-    <ClInclude Include="TGUI\Loading\ImageLoader.hpp" />
-    <ClInclude Include="TGUI\Loading\Serializer.hpp" />
-    <ClInclude Include="TGUI\Loading\Theme.hpp" />
-    <ClInclude Include="TGUI\Loading\ThemeLoader.hpp" />
-    <ClInclude Include="TGUI\Loading\WidgetFactory.hpp" />
-    <ClInclude Include="TGUI\ObjectConverter.hpp" />
-    <ClInclude Include="TGUI\OpenGL.hpp" />
-    <ClInclude Include="TGUI\Optional.hpp" />
-    <ClInclude Include="TGUI\Outline.hpp" />
-    <ClInclude Include="TGUI\Rect.hpp" />
-    <ClInclude Include="TGUI\RelFloatRect.hpp" />
-    <ClInclude Include="TGUI\RendererDefines.hpp" />
-    <ClInclude Include="TGUI\Renderers\BoxLayoutRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\ButtonRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\ChatBoxRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\CheckBoxRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\ChildWindowRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\ColorPickerRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\ComboBoxRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\EditBoxRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\FileDialogRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\GroupRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\KnobRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\LabelRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\ListBoxRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\ListViewRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\MenuBarRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\MessageBoxRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\PanelRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\PictureRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\ProgressBarRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\RadioButtonRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\RangeSliderRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\ScrollablePanelRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\ScrollbarRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\SeparatorLineRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\SliderRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\SpinButtonRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\TabsRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\TextAreaRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\TextBoxRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\TreeViewRenderer.hpp" />
-    <ClInclude Include="TGUI\Renderers\WidgetRenderer.hpp" />
-    <ClInclude Include="TGUI\RenderStates.hpp" />
-    <ClInclude Include="TGUI\Signal.hpp" />
-    <ClInclude Include="TGUI\SignalManager.hpp" />
-    <ClInclude Include="TGUI\Sprite.hpp" />
-    <ClInclude Include="TGUI\String.hpp" />
-    <ClInclude Include="TGUI\SubwidgetContainer.hpp" />
-    <ClInclude Include="TGUI\SvgImage.hpp" />
-    <ClInclude Include="TGUI\Text.hpp" />
-    <ClInclude Include="TGUI\TextStyle.hpp" />
-    <ClInclude Include="TGUI\Texture.hpp" />
-    <ClInclude Include="TGUI\TextureData.hpp" />
-    <ClInclude Include="TGUI\TextureManager.hpp" />
-    <ClInclude Include="TGUI\TGUI.hpp" />
-    <ClInclude Include="TGUI\Timer.hpp" />
-    <ClInclude Include="TGUI\ToolTip.hpp" />
-    <ClInclude Include="TGUI\Transform.hpp" />
-    <ClInclude Include="TGUI\Utf.hpp" />
-    <ClInclude Include="TGUI\Variant.hpp" />
-    <ClInclude Include="TGUI\Vector2.hpp" />
-    <ClInclude Include="TGUI\Vertex.hpp" />
-    <ClInclude Include="TGUI\Widget.hpp" />
-    <ClInclude Include="TGUI\Widgets\BitmapButton.hpp" />
-    <ClInclude Include="TGUI\Widgets\BoxLayout.hpp" />
-    <ClInclude Include="TGUI\Widgets\BoxLayoutRatios.hpp" />
-    <ClInclude Include="TGUI\Widgets\Button.hpp" />
-    <ClInclude Include="TGUI\Widgets\ButtonBase.hpp" />
-    <ClInclude Include="TGUI\Widgets\Canvas.hpp" />
-    <ClInclude Include="TGUI\Widgets\ChatBox.hpp" />
-    <ClInclude Include="TGUI\Widgets\CheckBox.hpp" />
-    <ClInclude Include="TGUI\Widgets\ChildWindow.hpp" />
-    <ClInclude Include="TGUI\Widgets\ClickableWidget.hpp" />
-    <ClInclude Include="TGUI\Widgets\ColorPicker.hpp" />
-    <ClInclude Include="TGUI\Widgets\ComboBox.hpp" />
-    <ClInclude Include="TGUI\Widgets\EditBox.hpp" />
-    <ClInclude Include="TGUI\Widgets\FileDialog.hpp" />
-    <ClInclude Include="TGUI\Widgets\Grid.hpp" />
-    <ClInclude Include="TGUI\Widgets\Group.hpp" />
-    <ClInclude Include="TGUI\Widgets\HorizontalLayout.hpp" />
-    <ClInclude Include="TGUI\Widgets\HorizontalWrap.hpp" />
-    <ClInclude Include="TGUI\Widgets\Knob.hpp" />
-    <ClInclude Include="TGUI\Widgets\Label.hpp" />
-    <ClInclude Include="TGUI\Widgets\ListBox.hpp" />
-    <ClInclude Include="TGUI\Widgets\ListView.hpp" />
-    <ClInclude Include="TGUI\Widgets\MenuBar.hpp" />
-    <ClInclude Include="TGUI\Widgets\MessageBox.hpp" />
-    <ClInclude Include="TGUI\Widgets\Panel.hpp" />
-    <ClInclude Include="TGUI\Widgets\Picture.hpp" />
-    <ClInclude Include="TGUI\Widgets\ProgressBar.hpp" />
-    <ClInclude Include="TGUI\Widgets\RadioButton.hpp" />
-    <ClInclude Include="TGUI\Widgets\RadioButtonGroup.hpp" />
-    <ClInclude Include="TGUI\Widgets\RangeSlider.hpp" />
-    <ClInclude Include="TGUI\Widgets\ScrollablePanel.hpp" />
-    <ClInclude Include="TGUI\Widgets\Scrollbar.hpp" />
-    <ClInclude Include="TGUI\Widgets\SeparatorLine.hpp" />
-    <ClInclude Include="TGUI\Widgets\Slider.hpp" />
-    <ClInclude Include="TGUI\Widgets\SpinButton.hpp" />
-    <ClInclude Include="TGUI\Widgets\SpinControl.hpp" />
-    <ClInclude Include="TGUI\Widgets\TabContainer.hpp" />
-    <ClInclude Include="TGUI\Widgets\Tabs.hpp" />
-    <ClInclude Include="TGUI\Widgets\TextArea.hpp" />
-    <ClInclude Include="TGUI\Widgets\ToggleButton.hpp" />
-    <ClInclude Include="TGUI\Widgets\TreeView.hpp" />
-    <ClInclude Include="TGUI\Widgets\VerticalLayout.hpp" />
-    <ClInclude Include="TGUI\WindowsInclude.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Client.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Gui\ComboBox.inl" />
-    <None Include="Gui\OptionsBox.inl" />
-    <None Include="Gui\Utils\ItemBox.inl" />
-    <None Include="TGUI\extlibs\Aurora\Dispatch\Detail\DoubleDispatcher.inl" />
-    <None Include="TGUI\extlibs\Aurora\Dispatch\Detail\SingleDispatcher.inl" />
-  </ItemGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="Debug|Win32">
+			<Configuration>Debug</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="Release|Win32">
+			<Configuration>Release</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="Debug|x64">
+			<Configuration>Debug</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="Release|x64">
+			<Configuration>Release</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<VCProjectVersion>16.0</VCProjectVersion>
+		<Keyword>Win32Proj</Keyword>
+		<ProjectGuid>{adc73dcd-eabf-411a-aeb3-c3e9ea86a914}</ProjectGuid>
+		<RootNamespace>Client</RootNamespace>
+		<WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<UseDebugLibraries>true</UseDebugLibraries>
+		<PlatformToolset>v143</PlatformToolset>
+		<CharacterSet>Unicode</CharacterSet>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<UseDebugLibraries>false</UseDebugLibraries>
+		<PlatformToolset>v143</PlatformToolset>
+		<WholeProgramOptimization>true</WholeProgramOptimization>
+		<CharacterSet>Unicode</CharacterSet>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<UseDebugLibraries>true</UseDebugLibraries>
+		<PlatformToolset>v143</PlatformToolset>
+		<CharacterSet>Unicode</CharacterSet>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<UseDebugLibraries>false</UseDebugLibraries>
+		<PlatformToolset>v143</PlatformToolset>
+		<WholeProgramOptimization>true</WholeProgramOptimization>
+		<CharacterSet>Unicode</CharacterSet>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="Shared">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Label="UserMacros" />
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+		<ClCompile>
+			<WarningLevel>Level3</WarningLevel>
+			<SDLCheck>true</SDLCheck>
+			<PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ConformanceMode>true</ConformanceMode>
+		</ClCompile>
+		<Link>
+			<SubSystem>Console</SubSystem>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+		</Link>
+	</ItemDefinitionGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+		<ClCompile>
+			<WarningLevel>Level3</WarningLevel>
+			<FunctionLevelLinking>true</FunctionLevelLinking>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<SDLCheck>true</SDLCheck>
+			<PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ConformanceMode>true</ConformanceMode>
+		</ClCompile>
+		<Link>
+			<SubSystem>Console</SubSystem>
+			<EnableCOMDATFolding>true</EnableCOMDATFolding>
+			<OptimizeReferences>true</OptimizeReferences>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+		</Link>
+	</ItemDefinitionGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+		<ClCompile>
+			<WarningLevel>Level3</WarningLevel>
+			<SDLCheck>true</SDLCheck>
+			<PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ConformanceMode>true</ConformanceMode>
+		</ClCompile>
+		<Link>
+			<SubSystem>Console</SubSystem>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+		</Link>
+	</ItemDefinitionGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+		<ClCompile>
+			<WarningLevel>Level3</WarningLevel>
+			<FunctionLevelLinking>true</FunctionLevelLinking>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<SDLCheck>true</SDLCheck>
+			<PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ConformanceMode>true</ConformanceMode>
+		</ClCompile>
+		<Link>
+			<SubSystem>Console</SubSystem>
+			<EnableCOMDATFolding>true</EnableCOMDATFolding>
+			<OptimizeReferences>true</OptimizeReferences>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+		</Link>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ClCompile Include="src\main.cpp" />
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="resource.h" />
+		<ClInclude Include="TGUI\AbsoluteOrRelativeValue.hpp" />
+		<ClInclude Include="TGUI\AllWidgets.hpp" />
+		<ClInclude Include="TGUI\Animation.hpp" />
+		<ClInclude Include="TGUI\Any.hpp" />
+		<ClInclude Include="TGUI\Backend.hpp" />
+		<ClInclude Include="TGUI\BackendFont.hpp" />
+		<ClInclude Include="TGUI\BackendRenderTarget.hpp" />
+		<ClInclude Include="TGUI\Backends\SDL.hpp" />
+		<ClInclude Include="TGUI\Backends\SDL\BackendFontSDL.hpp" />
+		<ClInclude Include="TGUI\Backends\SDL\BackendRenderTargetSDL.hpp" />
+		<ClInclude Include="TGUI\Backends\SDL\BackendSDL.hpp" />
+		<ClInclude Include="TGUI\Backends\SDL\BackendTextSDL.hpp" />
+		<ClInclude Include="TGUI\Backends\SDL\BackendTextureSDL.hpp" />
+		<ClInclude Include="TGUI\Backends\SDL\FontCacheSDL.hpp" />
+		<ClInclude Include="TGUI\Backends\SDL\GuiSDL.hpp" />
+		<ClInclude Include="TGUI\Backends\SFML.hpp" />
+		<ClInclude Include="TGUI\Backends\SFML\BackendFontSFML.hpp" />
+		<ClInclude Include="TGUI\Backends\SFML\BackendRenderTargetSFML.hpp" />
+		<ClInclude Include="TGUI\Backends\SFML\BackendSFML.hpp" />
+		<ClInclude Include="TGUI\Backends\SFML\BackendTextSFML.hpp" />
+		<ClInclude Include="TGUI\Backends\SFML\BackendTextureSFML.hpp" />
+		<ClInclude Include="TGUI\Backends\SFML\GuiSFML.hpp" />
+		<ClInclude Include="TGUI\BackendText.hpp" />
+		<ClInclude Include="TGUI\BackendTexture.hpp" />
+		<ClInclude Include="TGUI\Color.hpp" />
+		<ClInclude Include="TGUI\Components.hpp" />
+		<ClInclude Include="TGUI\Container.hpp" />
+		<ClInclude Include="TGUI\CopiedSharedPtr.hpp" />
+		<ClInclude Include="TGUI\Core.hpp" />
+		<ClInclude Include="TGUI\Cursor.hpp" />
+		<ClInclude Include="TGUI\CustomWidgetForBindings.hpp" />
+		<ClInclude Include="TGUI\DefaultBackendWindow.hpp" />
+		<ClInclude Include="TGUI\DefaultFont.hpp" />
+		<ClInclude Include="TGUI\Duration.hpp" />
+		<ClInclude Include="TGUI\Event.hpp" />
+		<ClInclude Include="TGUI\Exception.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Config.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Dispatch.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Dispatch\DispatchTraits.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Dispatch\DoubleDispatcher.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Dispatch\SingleDispatcher.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Meta.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Meta\Preprocessor.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Meta\Templates.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Meta\Tuple.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Meta\Variadic.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\SmartPtr.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\SmartPtr\ClonersAndDeleters.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\SmartPtr\CopiedPtr.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\SmartPtr\Detail\Factories.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\SmartPtr\Detail\PtrOwner.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\SmartPtr\MakeUnique.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Tools.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Tools\Algorithms.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Tools\Any.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Tools\Downcast.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Tools\Exceptions.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Tools\ForEach.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Tools\Hash.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Tools\NamedTuple.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Tools\NonCopyable.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Tools\Optional.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Tools\PImpl.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Tools\SafeBool.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Tools\Swap.hpp" />
+		<ClInclude Include="TGUI\extlibs\Aurora\Tools\Typeid.hpp" />
+		<ClInclude Include="TGUI\extlibs\glad\gl.h" />
+		<ClInclude Include="TGUI\extlibs\glad\gles2.h" />
+		<ClInclude Include="TGUI\extlibs\nanosvg\nanosvg.h" />
+		<ClInclude Include="TGUI\extlibs\nanosvg\nanosvgrast.h" />
+		<ClInclude Include="TGUI\extlibs\stb\stb_image.h" />
+		<ClInclude Include="TGUI\FileDialogIconLoader.hpp" />
+		<ClInclude Include="TGUI\Filesystem.hpp" />
+		<ClInclude Include="TGUI\Font.hpp" />
+		<ClInclude Include="TGUI\Global.hpp" />
+		<ClInclude Include="TGUI\GuiBase.hpp" />
+		<ClInclude Include="TGUI\Keyboard.hpp" />
+		<ClInclude Include="TGUI\Layout.hpp" />
+		<ClInclude Include="TGUI\Loading\DataIO.hpp" />
+		<ClInclude Include="TGUI\Loading\Deserializer.hpp" />
+		<ClInclude Include="TGUI\Loading\ImageLoader.hpp" />
+		<ClInclude Include="TGUI\Loading\Serializer.hpp" />
+		<ClInclude Include="TGUI\Loading\Theme.hpp" />
+		<ClInclude Include="TGUI\Loading\ThemeLoader.hpp" />
+		<ClInclude Include="TGUI\Loading\WidgetFactory.hpp" />
+		<ClInclude Include="TGUI\ObjectConverter.hpp" />
+		<ClInclude Include="TGUI\OpenGL.hpp" />
+		<ClInclude Include="TGUI\Optional.hpp" />
+		<ClInclude Include="TGUI\Outline.hpp" />
+		<ClInclude Include="TGUI\Rect.hpp" />
+		<ClInclude Include="TGUI\RelFloatRect.hpp" />
+		<ClInclude Include="TGUI\RendererDefines.hpp" />
+		<ClInclude Include="TGUI\Renderers\BoxLayoutRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\ButtonRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\ChatBoxRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\CheckBoxRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\ChildWindowRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\ColorPickerRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\ComboBoxRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\EditBoxRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\FileDialogRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\GroupRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\KnobRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\LabelRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\ListBoxRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\ListViewRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\MenuBarRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\MessageBoxRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\PanelRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\PictureRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\ProgressBarRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\RadioButtonRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\RangeSliderRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\ScrollablePanelRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\ScrollbarRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\SeparatorLineRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\SliderRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\SpinButtonRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\TabsRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\TextAreaRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\TextBoxRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\TreeViewRenderer.hpp" />
+		<ClInclude Include="TGUI\Renderers\WidgetRenderer.hpp" />
+		<ClInclude Include="TGUI\RenderStates.hpp" />
+		<ClInclude Include="TGUI\Signal.hpp" />
+		<ClInclude Include="TGUI\SignalManager.hpp" />
+		<ClInclude Include="TGUI\Sprite.hpp" />
+		<ClInclude Include="TGUI\String.hpp" />
+		<ClInclude Include="TGUI\SubwidgetContainer.hpp" />
+		<ClInclude Include="TGUI\SvgImage.hpp" />
+		<ClInclude Include="TGUI\Text.hpp" />
+		<ClInclude Include="TGUI\TextStyle.hpp" />
+		<ClInclude Include="TGUI\Texture.hpp" />
+		<ClInclude Include="TGUI\TextureData.hpp" />
+		<ClInclude Include="TGUI\TextureManager.hpp" />
+		<ClInclude Include="TGUI\TGUI.hpp" />
+		<ClInclude Include="TGUI\Timer.hpp" />
+		<ClInclude Include="TGUI\ToolTip.hpp" />
+		<ClInclude Include="TGUI\Transform.hpp" />
+		<ClInclude Include="TGUI\Utf.hpp" />
+		<ClInclude Include="TGUI\Variant.hpp" />
+		<ClInclude Include="TGUI\Vector2.hpp" />
+		<ClInclude Include="TGUI\Vertex.hpp" />
+		<ClInclude Include="TGUI\Widget.hpp" />
+		<ClInclude Include="TGUI\Widgets\BitmapButton.hpp" />
+		<ClInclude Include="TGUI\Widgets\BoxLayout.hpp" />
+		<ClInclude Include="TGUI\Widgets\BoxLayoutRatios.hpp" />
+		<ClInclude Include="TGUI\Widgets\Button.hpp" />
+		<ClInclude Include="TGUI\Widgets\ButtonBase.hpp" />
+		<ClInclude Include="TGUI\Widgets\Canvas.hpp" />
+		<ClInclude Include="TGUI\Widgets\ChatBox.hpp" />
+		<ClInclude Include="TGUI\Widgets\CheckBox.hpp" />
+		<ClInclude Include="TGUI\Widgets\ChildWindow.hpp" />
+		<ClInclude Include="TGUI\Widgets\ClickableWidget.hpp" />
+		<ClInclude Include="TGUI\Widgets\ColorPicker.hpp" />
+		<ClInclude Include="TGUI\Widgets\ComboBox.hpp" />
+		<ClInclude Include="TGUI\Widgets\EditBox.hpp" />
+		<ClInclude Include="TGUI\Widgets\FileDialog.hpp" />
+		<ClInclude Include="TGUI\Widgets\Grid.hpp" />
+		<ClInclude Include="TGUI\Widgets\Group.hpp" />
+		<ClInclude Include="TGUI\Widgets\HorizontalLayout.hpp" />
+		<ClInclude Include="TGUI\Widgets\HorizontalWrap.hpp" />
+		<ClInclude Include="TGUI\Widgets\Knob.hpp" />
+		<ClInclude Include="TGUI\Widgets\Label.hpp" />
+		<ClInclude Include="TGUI\Widgets\ListBox.hpp" />
+		<ClInclude Include="TGUI\Widgets\ListView.hpp" />
+		<ClInclude Include="TGUI\Widgets\MenuBar.hpp" />
+		<ClInclude Include="TGUI\Widgets\MessageBox.hpp" />
+		<ClInclude Include="TGUI\Widgets\Panel.hpp" />
+		<ClInclude Include="TGUI\Widgets\Picture.hpp" />
+		<ClInclude Include="TGUI\Widgets\ProgressBar.hpp" />
+		<ClInclude Include="TGUI\Widgets\RadioButton.hpp" />
+		<ClInclude Include="TGUI\Widgets\RadioButtonGroup.hpp" />
+		<ClInclude Include="TGUI\Widgets\RangeSlider.hpp" />
+		<ClInclude Include="TGUI\Widgets\ScrollablePanel.hpp" />
+		<ClInclude Include="TGUI\Widgets\Scrollbar.hpp" />
+		<ClInclude Include="TGUI\Widgets\SeparatorLine.hpp" />
+		<ClInclude Include="TGUI\Widgets\Slider.hpp" />
+		<ClInclude Include="TGUI\Widgets\SpinButton.hpp" />
+		<ClInclude Include="TGUI\Widgets\SpinControl.hpp" />
+		<ClInclude Include="TGUI\Widgets\TabContainer.hpp" />
+		<ClInclude Include="TGUI\Widgets\Tabs.hpp" />
+		<ClInclude Include="TGUI\Widgets\TextArea.hpp" />
+		<ClInclude Include="TGUI\Widgets\ToggleButton.hpp" />
+		<ClInclude Include="TGUI\Widgets\TreeView.hpp" />
+		<ClInclude Include="TGUI\Widgets\VerticalLayout.hpp" />
+		<ClInclude Include="TGUI\WindowsInclude.hpp" />
+	</ItemGroup>
+	<ItemGroup>
+		<Image Include="icon.ico" />
+	</ItemGroup>
+	<ItemGroup>
+		<ResourceCompile Include="Client.rc" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Gui\ComboBox.inl" />
+		<None Include="Gui\OptionsBox.inl" />
+		<None Include="Gui\Utils\ItemBox.inl" />
+		<None Include="TGUI\extlibs\Aurora\Dispatch\Detail\DoubleDispatcher.inl" />
+		<None Include="TGUI\extlibs\Aurora\Dispatch\Detail\SingleDispatcher.inl" />
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets">
+	</ImportGroup>
 </Project>

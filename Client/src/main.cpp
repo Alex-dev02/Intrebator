@@ -4,9 +4,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 
-//#include "../include/Button.hpp"
-//#include "../include/InputField.hpp"
-
 #include <TGUI/TGUI.hpp>
 #include <TGUI/Backends/SFML.hpp>
 
@@ -101,15 +98,6 @@ int main() {
 		window.close();
 		});
 
-	/*Button play("Play", font, sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2) - sf::Vector2f(0.0f, 100.0f));
-	Button options("Options", font, sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
-	Button exit("Exit", font, sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2) + sf::Vector2f(0.0f, 100.0f));
-
-	InputField inputField(20, sf::Color::White, true);
-
-	inputField.SetFont(font);
-	inputField.SetPosition(sf::Vector2f(100.0f, 100.0f));*/
-
 	// Game loop
 	while (window.isOpen()) {
 
@@ -134,7 +122,6 @@ int main() {
 				break;
 
 			case sf::Event::TextEntered:
-				//inputField.TypedOn(event);
 				break;
 
 			default:
