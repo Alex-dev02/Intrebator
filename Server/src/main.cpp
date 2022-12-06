@@ -4,10 +4,10 @@
 #include "../include/Database/Database.hpp"
 
 int main() {
-    Storage storage = Database::GetStorage();
+	Storage storage = Database::GetStorage();
 
-    Server server;
-    auto& app = server.GetApp();
+	Server server;
+	auto& app = server.GetApp();
 
-    server.Start();
+	server.Start();
 }

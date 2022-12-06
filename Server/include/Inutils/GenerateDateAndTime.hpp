@@ -10,5 +10,5 @@ public:
 	};
 
 public:
-	static const Date& ReturnCurrentTimeAndDate();
+	static const Date& GetCurrentTimeAndDate();
 };

@@ -138,6 +138,7 @@
     <ClInclude Include="include\Entities\Questions\Question.hpp" />
     <ClInclude Include="include\Entities\Questions\QuestionPowerUp.hpp" />
     <ClInclude Include="include\Entities\User.hpp" />
+    <ClInclude Include="include\Inutils\GenerateDateAndTime.hpp" />
     <ClInclude Include="include\Server\Server.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +157,7 @@
     <ClCompile Include="src\Entities\User.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Server\Server.cpp" />
+    <ClCompile Include="src\Utils\GenerateDateAndTime.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
