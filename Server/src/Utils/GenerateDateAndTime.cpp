@@ -1,12 +1,12 @@
 #include <ctime>
 
-#include "../../include/Entities/GenerateDateAndTime.hpp"
+#include "../../include/Inutils/GenerateDateAndTime.hpp"
 
 DateGenerator::Date::Date(const std::string& date)
 	: date(date)
 {}
 
-const DateGenerator::Date& DateGenerator::ReturnCurrentTimeAndDate(){
+const DateGenerator::Date& DateGenerator::GetCurrentTimeAndDate(){
 	time_t now = time(0);
 	tm currenttime;
 	char date_and_time[40];
