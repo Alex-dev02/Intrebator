@@ -2,13 +2,26 @@
 
 #include "Cell.hpp"
 
-#include <array>
+#include <vector>
 
-class Map{
+class Map {
+
 public:
-	// get cell ??
-	// set cell ??? (anexed or base and to which color)
+	Map() = default;
+
+	Map(int width, int height) {
+		m_grid.resize(width);
+		for (auto& row : m_grid) {
+			row.resize(height);
+		}
+	}
+
+	const Cell& GetCell(int x, int y) const {
+		return m_grid[x][y];
+	}
+
+	// set cell ??? (anexed or base and to which color
 
 private:
-	std::array<std::array<Cell, 5>, 3> m_grid;	// 3x5
+	std::vector<std::vector<Cell>> m_grid;
 };

@@ -12,8 +12,6 @@
 
 #include "../../Logger/Debug.hpp"
 
-
-
 void login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password)
 {
 	std::cout << "Username: " << username->getText().toStdString() << std::endl;
@@ -22,21 +20,15 @@ void login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password)
 
 void loadWidgets(tgui::Gui& gui)
 {
-	// Get a bound version of the window size
-	// Passing this to setPosition or setSize will make the widget automatically update when the view of the gui changes
 	auto windowWidth = tgui::bindWidth(gui);
 	auto windowHeight = tgui::bindHeight(gui);
 
-
-
-	// Create the username edit box
 	tgui::EditBox::Ptr editBoxUsername = std::make_shared<tgui::EditBox>();
 	editBoxUsername->setSize(windowWidth * 2 / 3, windowHeight / 8);
 	editBoxUsername->setPosition(windowWidth / 6, windowHeight / 6);
 	editBoxUsername->setDefaultText("Username");
 	gui.add(editBoxUsername, "Username");
 
-	// Create the password edit box
 	tgui::EditBox::Ptr editBoxPassword = std::make_shared<tgui::EditBox>();
 	editBoxPassword->setSize(windowWidth * 2 / 3, windowHeight / 8);
 	editBoxPassword->setPosition(windowWidth / 6, windowHeight * 5 / 12);
@@ -44,21 +36,16 @@ void loadWidgets(tgui::Gui& gui)
 	editBoxPassword->setDefaultText("Password");
 	gui.add(editBoxPassword, "Password");
 
-	// Create the login button
 	tgui::Button::Ptr button = std::make_shared<tgui::Button>();
 	button->setSize(windowWidth / 2, windowHeight / 6);
 	button->setPosition(windowWidth / 4, windowHeight * 7 / 10);
 	button->setText("Login");
 	gui.add(button);
 
-	// Call the login function when the button is pressed
-
 	button->onClick([editBoxUsername, editBoxPassword]() {
 		login(editBoxUsername, editBoxPassword);
 		});
 }
-
-
 
 int main() {
 	// Window
@@ -106,11 +93,9 @@ int main() {
 		Debug::Log("play");
 		});
 
-
 	options.onClick([&window]() {
 		Debug::Log("options");
 		});
-
 
 	exit.onClick([&window]() {
 		window.close();
@@ -158,10 +143,6 @@ int main() {
 		}
 
 		// Update
-
-
-
-
 
 		// Render
 		window.clear(); // Clear old frame

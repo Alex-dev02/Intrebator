@@ -12,6 +12,7 @@ public:
 	};
 
 public:
+	Cell() = default;
 	Cell(uint16_t score, BaseType base_type);
 
 	uint16_t GetScore() const;
