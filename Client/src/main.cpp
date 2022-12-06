@@ -4,58 +4,15 @@
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 
-#include <TGUI/TGUI.hpp>
-#include <TGUI/Backends/SFML.hpp>
+#include "../include/UI.hpp"
 
 #include "../../Logger/Debug.hpp"
-
-void login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password)
-{
-	std::cout << "Username: " << username->getText().toStdString() << std::endl;
-	std::cout << "Password: " << password->getText().toStdString() << std::endl;
-}
-
-void loadWidgets(tgui::Gui& gui)
-{
-	auto windowWidth = tgui::bindWidth(gui);
-	auto windowHeight = tgui::bindHeight(gui);
-
-	tgui::EditBox::Ptr editBoxUsername = std::make_shared<tgui::EditBox>();
-	editBoxUsername->setSize(windowWidth * 2 / 3, windowHeight / 8);
-	editBoxUsername->setPosition(windowWidth / 6, windowHeight / 6);
-	editBoxUsername->setDefaultText("Username");
-	gui.add(editBoxUsername, "Username");
-
-	tgui::EditBox::Ptr editBoxPassword = std::make_shared<tgui::EditBox>();
-	editBoxPassword->setSize(windowWidth * 2 / 3, windowHeight / 8);
-	editBoxPassword->setPosition(windowWidth / 6, windowHeight * 5 / 12);
-	editBoxPassword->setPasswordCharacter('*');
-	editBoxPassword->setDefaultText("Password");
-	gui.add(editBoxPassword, "Password");
-
-	tgui::Button::Ptr button = std::make_shared<tgui::Button>();
-	button->setSize(windowWidth / 2, windowHeight / 6);
-	button->setPosition(windowWidth / 4, windowHeight * 7 / 10);
-	button->setText("Login");
-	gui.add(button);
-
-	button->onClick([editBoxUsername, editBoxPassword]() {
-		login(editBoxUsername, editBoxPassword);
-		});
-}
 
 int main() {
 	// Window
 	sf::RenderWindow window(sf::VideoMode(1270, 720), "Triviador");
 
-	tgui::Gui menu(window);
-
-	try {
-		loadWidgets(menu);
-	}
-	catch (const tgui::Exception e) {
-		Debug::LogError(e.what());
-	}
+	UI ui(window);
 
 	auto image = sf::Image{};
 	if (!image.loadFromFile("assets/images/icon.png"))
@@ -78,26 +35,6 @@ int main() {
 		Debug::LogError("Could not find contb.ttf font.");
 	}
 
-	tgui::Button play("Play");
-	tgui::Button options("Play");
-	tgui::Button exit("Play");
-
-	play.setPosition(tgui::Layout2d(window.getSize().x / 2, window.getSize().y / 2) - tgui::Layout2d(0.0f, 100.0f));
-	options.setPosition(tgui::Layout2d(window.getSize().x / 2, window.getSize().y / 2));
-	exit.setPosition(tgui::Layout2d(window.getSize().x / 2, window.getSize().y / 2) + tgui::Layout2d(0.0f, 100.0f));
-
-	play.onClick([&window]() {
-		Debug::Log("play");
-		});
-
-	options.onClick([&window]() {
-		Debug::Log("options");
-		});
-
-	exit.onClick([&window]() {
-		window.close();
-		});
-
 	// Game loop
 	while (window.isOpen()) {
 
@@ -105,14 +42,14 @@ int main() {
 		sf::Event event;
 		while (window.pollEvent(event)) {
 
-			menu.handleEvent(event);
+			ui.HandleEvent(event);
 
 			switch (event.type) {
 
 			case sf::Event::Resized:
 				window.setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
 
-				menu.setAbsoluteView(tgui::FloatRect(0, 0, event.size.width, event.size.height));
+				ui.GetGui().setAbsoluteView(tgui::FloatRect(0, 0, event.size.width, event.size.height));
 
 			case sf::Event::Closed:
 				window.close();
@@ -134,7 +71,7 @@ int main() {
 		// Render
 		window.clear(); // Clear old frame
 
-		menu.draw();
+		ui.Draw();
 
 		window.display(); // Tell the app that the window is done drawing
 	}
