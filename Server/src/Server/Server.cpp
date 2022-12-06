@@ -9,3 +9,9 @@ void Server::Start() {
 }
 
 crow::SimpleApp Server::m_app {};
+
+void Server::CreateGame(){
+	CROW_ROUTE(m_app, "/create_game/<int>")([](std::uint32_t id){
+
+	});
+};

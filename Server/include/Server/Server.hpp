@@ -1,6 +1,9 @@
 #pragma once
 
 #include "crow.h"
+#include "../Entities/Game.hpp"
+
+#include <vector>
 
 class Server {
 public:
@@ -14,8 +17,9 @@ public:
 
 	void Start();
 
+	void CreateGame();
+
 private:
-
 	static crow::SimpleApp m_app;
-
+	std::vector<Game> m_games;
 };
