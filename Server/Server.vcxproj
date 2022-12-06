@@ -129,7 +129,6 @@
   <ItemGroup>
     <ClInclude Include="include\Entities\Cell.hpp" />
     <ClInclude Include="include\Entities\Game.hpp" />
-    <ClInclude Include="include\Entities\GenerateDateAndTime.hpp" />
     <ClInclude Include="include\Entities\Map.hpp" />
     <ClInclude Include="include\Entities\Match.hpp" />
     <ClInclude Include="include\Entities\Player.hpp" />
@@ -146,7 +145,6 @@
     <ClCompile Include="src\Database\Database.cpp" />
     <ClCompile Include="src\Entities\Cell.cpp" />
     <ClCompile Include="src\Entities\Game.cpp" />
-    <ClCompile Include="src\Entities\GenerateDateAndTime.cpp" />
     <ClCompile Include="src\Entities\Map.cpp" />
     <ClCompile Include="src\Entities\Match.cpp" />
     <ClCompile Include="src\Entities\Player.cpp" />
