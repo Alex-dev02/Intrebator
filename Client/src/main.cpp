@@ -58,9 +58,6 @@ int main() {
 			case sf::Event::KeyPressed:
 				break;
 
-			case sf::Event::TextEntered:
-				break;
-
 			default:
 				break;
 			}
