@@ -68,34 +68,34 @@ void UI::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 	m_registerMenu = tgui::Group::create();
 
 	tgui::EditBox::Ptr editBoxUsername = tgui::EditBox::create();
-	editBoxUsername->setSize(windowWidth * 2 / 3, windowHeight / 8);
-	editBoxUsername->setPosition(windowWidth / 6, windowHeight / 6);
+	editBoxUsername->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
+	editBoxUsername->setPosition(windowWidth * 422 / 1270, windowHeight * 169 / 720);
 	editBoxUsername->setDefaultText("Username");
 	m_registerMenu->add(editBoxUsername, "Username");
 
 	tgui::EditBox::Ptr editBoxPassword = tgui::EditBox::create();
-	editBoxPassword->setSize(windowWidth * 2 / 3, windowHeight / 8);
-	editBoxPassword->setPosition(windowWidth / 6, windowHeight * 5 / 12);
+	editBoxPassword->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
+	editBoxPassword->setPosition(windowWidth * 422 / 1270, windowHeight * 284 / 720);
 	editBoxPassword->setPasswordCharacter('*');
 	editBoxPassword->setDefaultText("Password");
 	m_registerMenu->add(editBoxPassword, "Password");
 
 	tgui::EditBox::Ptr editBoxRepeatPassword = tgui::EditBox::create();
-	editBoxRepeatPassword->setSize(windowWidth * 2 / 3, windowHeight / 8);
-	editBoxRepeatPassword->setPosition(windowWidth / 6, windowHeight * 5 / 12);
+	editBoxRepeatPassword->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
+	editBoxRepeatPassword->setPosition(windowWidth * 422 / 1270, windowHeight * 399 / 720);
 	editBoxRepeatPassword->setPasswordCharacter('*');
 	editBoxRepeatPassword->setDefaultText("Repeat password");
 	m_registerMenu->add(editBoxRepeatPassword, "Repeatpassword");
 
 	tgui::Button::Ptr registerButton = tgui::Button::create();
-	registerButton->setSize(windowWidth / 4, windowHeight / 6);
-	registerButton->setPosition(windowWidth / 4, windowHeight * 7 / 10);
+	registerButton->setSize(windowWidth * 204 / 1270, windowHeight * 36.48 / 720);
+	registerButton->setPosition(windowWidth * 643 / 1270, windowHeight * 513.75 / 720);
 	registerButton->setText("Register");
 	m_registerMenu->add(registerButton);
 
 	tgui::Button::Ptr loginButton = tgui::Button::create();
-	loginButton->setSize(windowWidth / 4, windowHeight / 6);
-	loginButton->setPosition(windowWidth / 4, windowHeight * 7 / 10);
+	loginButton->setSize(windowWidth * 204 / 1270, windowHeight * 36.48 / 720);
+	loginButton->setPosition(windowWidth * 422 / 1270, windowHeight * 513.75 / 720);
 	loginButton->setText("login");
 	m_registerMenu->add(loginButton);
 
@@ -123,20 +123,20 @@ void UI::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 	m_mainMenu = tgui::Group::create();
 
 	tgui::Button::Ptr playButton = tgui::Button::create();
-	playButton->setSize(windowWidth / 2, windowHeight / 6);
-	playButton->setPosition(windowWidth / 4, windowHeight * 1 / 10);
+	playButton->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
+	playButton->setPosition(windowWidth * 73 / 1270, windowHeight * 420 / 720);
 	playButton->setText("Play");
 	m_mainMenu->add(playButton);
 
 	tgui::Button::Ptr optionsButton = tgui::Button::create();
-	optionsButton->setSize(windowWidth / 2, windowHeight / 6);
-	optionsButton->setPosition(windowWidth / 4, windowHeight * 4 / 10);
+	optionsButton->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
+	optionsButton->setPosition(windowWidth * 73 / 1270, windowHeight * 507.56 / 720);
 	optionsButton->setText("Options");
 	m_mainMenu->add(optionsButton);
 
 	tgui::Button::Ptr exitButton = tgui::Button::create();
-	exitButton->setSize(windowWidth / 2, windowHeight / 6);
-	exitButton->setPosition(windowWidth / 4, windowHeight * 7 / 10);
+	exitButton->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
+	exitButton->setPosition(windowWidth * 73 / 1270, windowHeight * 595.09 / 720);
 	exitButton->setText("Exit");
 	m_mainMenu->add(exitButton);
 
@@ -157,13 +157,23 @@ void UI::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 }
 
 void UI::CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password) {
-	std::cout << "Username: " << username->getText().toStdString() << std::endl;
-	std::cout << "Password: " << password->getText().toStdString() << std::endl;
+	Debug::Log("Registered man");
+	Debug::Log("Username: " + username->getText().toStdString());
+	Debug::Log("Password: " + password->getText().toStdString());
+
+	if (true) { // daca are net si reuseste sa-si faca cont
+		// connect sau cv
+		m_registerMenu->setVisible(false);
+		m_mainMenu->setVisible(true);
+	}
+	else {
+		//zi-le ca nu se poate accesa serveru din cine stie ce motiv
+	}
 }
 
 void UI::Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password) {
-	std::cout << "Username: " << username->getText().toStdString() << std::endl;
-	std::cout << "Password: " << password->getText().toStdString() << std::endl;
+	Debug::Log("Username: " + username->getText().toStdString());
+	Debug::Log("Password: " + password->getText().toStdString());
 
 	if (true) { // adica daca il gasesti in baza de date sau nu
 		// connect sau cv
