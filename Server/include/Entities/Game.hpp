@@ -8,6 +8,7 @@
 
 #include <memory>
 #include <vector>
+#include <random>
 
 class Game {
 public:
@@ -34,6 +35,8 @@ public:
 			}
 		}
 	}
+
+	int GetRandomValueFrom0UpUntilN(int n);
 
 private:
 	std::vector<Player> m_players;
