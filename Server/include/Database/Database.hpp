@@ -44,19 +44,12 @@ class Database {
 public:
 	using Storage = decltype(InitDB::CreateStorage(""));
 public:
-	Database(const std::string& database_name)
-		: m_database_name(database_name),
-		m_storage(InitDB::CreateStorage(m_database_name))
-	{}
+	Database() = default;
+	Database(const std::string& database_name);
 	Database(const Database&) = delete;
 
-	Storage& GetStorage() {
-		return m_storage;
-	}
-	const std::string& GetDatabaseName() {
-		return m_database_name;
-	}
-
+	Storage& GetStorage();
+	const std::string& GetDatabaseName();
 private:
 	const std::string m_database_name;
 	Storage m_storage;

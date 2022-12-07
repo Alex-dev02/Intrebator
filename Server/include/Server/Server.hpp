@@ -2,13 +2,14 @@
 
 #include "crow.h"
 #include "../Entities/Game.hpp"
+#include "../Database/Database.hpp"
 
 #include <vector>
 
 class Server {
 public:
 
-	Server() = default;
+	Server(std::shared_ptr<Database> database);
 	Server(Server&) = delete;
 	Server(Server&&) = delete;
 	~Server() = default;
@@ -22,4 +23,5 @@ public:
 private:
 	crow::SimpleApp m_app;
 	std::vector<Game> m_games;
+	std::shared_ptr<Database> m_database;
 };

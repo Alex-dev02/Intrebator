@@ -1,13 +1,13 @@
-#include "crow.h"
 #include <memory>
+#include <string>
 
 #include "../include/Server/Server.hpp"
-#include "../include/Database/Database.hpp"
 
 int main() {
-	std::shared_ptr<Database::Storage> storage =
-		std::make_shared<Database::Storage>(InitDB::CreateStorage("intrebator_db.sqlite"));
-	std::shared_ptr<Server> server = std::make_shared<Server>();
+	const std::string db_name = "intrebator_db.sqlite";
+	auto storage =
+		std::make_shared<Database>(db_name);
+	auto server = std::make_shared<Server>(storage);
 
 	auto& app = server->GetApp();
 
