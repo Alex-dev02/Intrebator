@@ -1,6 +1,7 @@
 #include "../include/UI.hpp"
 
 UI::UI(sf::RenderWindow& window) {
+	m_window = &window;
 	m_gui.setTarget(window);
 
 	auto windowWidth = tgui::bindWidth(m_gui);
@@ -22,8 +23,7 @@ UI::UI(sf::RenderWindow& window) {
 	m_mainMenu->setVisible(false);
 }
 
-void UI::CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
-{
+void UI::CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	m_loginMenu = tgui::Group::create();
 
 	tgui::EditBox::Ptr editBoxUsername = tgui::EditBox::create();
@@ -63,8 +63,7 @@ void UI::CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 	m_gui.add(m_loginMenu, "LoginMenu");
 }
 
-void UI::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
-{
+void UI::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	m_registerMenu = tgui::Group::create();
 
 	tgui::EditBox::Ptr editBoxUsername = tgui::EditBox::create();
@@ -118,8 +117,7 @@ void UI::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 	m_gui.add(m_registerMenu, "RegisterMenu");
 }
 
-void UI::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
-{
+void UI::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	m_mainMenu = tgui::Group::create();
 
 	tgui::Button::Ptr playButton = tgui::Button::create();
@@ -148,10 +146,11 @@ void UI::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 		Debug::Log("Options");
 		});
 
-	exitButton->onClick([]() {
-		Debug::Log("Exit");
-		});
 
+	exitButton->onClick([this]() {
+		Debug::Log("Exit");
+	m_window->close();
+		});
 
 	m_gui.add(m_mainMenu, "MainMenu");
 }
