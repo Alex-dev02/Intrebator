@@ -13,7 +13,7 @@ void Server::Start() {
 }
 
 void Server::CreateGame(){
-	/*CROW_ROUTE(m_app, "/create_game/<int>")([](std::uint32_t id){
-
-	});*/
+	CROW_ROUTE(m_app, "/create_game/<int>")([](std::uint32_t user_id) {
+		return crow::response(200);
+	});
 };
