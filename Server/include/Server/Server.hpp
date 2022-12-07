@@ -17,10 +17,10 @@ public:
 	crow::SimpleApp& GetApp();
 
 	void Start();
-
-	void CreateGame();
-
 private:
+	void CreateGame();
+private:
+
 	crow::SimpleApp m_app;
 	std::vector<Game> m_games;
 	std::shared_ptr<Database> m_database;

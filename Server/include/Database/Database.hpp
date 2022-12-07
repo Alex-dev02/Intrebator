@@ -8,7 +8,7 @@
 
 namespace sql = sqlite_orm;
 
-namespace InitDB{
+namespace InitDB {
 	inline auto CreateStorage(const std::string& filename) {
 		auto storage = sql::make_storage(filename,
 			sql::make_table("user",
