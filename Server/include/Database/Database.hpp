@@ -40,17 +40,4 @@ namespace InitDB{
 	}
 };
 
-class Database {
-public:
-	using Storage = decltype(InitDB::CreateStorage(""));
-public:
-	Database() = default;
-	Database(const std::string& database_name);
-	Database(const Database&) = delete;
-
-	Storage& GetStorage();
-	const std::string& GetDatabaseName();
-private:
-	const std::string m_database_name;
-	Storage m_storage;
-};
+using Database = decltype(InitDB::CreateStorage(""));
