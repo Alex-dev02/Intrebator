@@ -13,13 +13,13 @@ public:
 	Server(Server&&) = delete;
 	~Server() = default;
 
-	crow::SimpleApp& GetApp() const;
+	crow::SimpleApp& GetApp();
 
 	void Start();
 
 	void CreateGame();
 
 private:
-	static crow::SimpleApp m_app;
+	crow::SimpleApp m_app;
 	std::vector<Game> m_games;
 };
