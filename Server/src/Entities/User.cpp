@@ -1,5 +1,10 @@
 #include "../../include/Entities/User.hpp"
 
+User::User(const std::string& name)
+	: m_id(-1),
+	m_name(name)
+{}
+
 User::User(std::uint32_t id, const std::string& name)
 	: m_id(id),
 	m_name(name)
