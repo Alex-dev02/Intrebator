@@ -9,7 +9,7 @@
 class UserServices {
 public:
 	UserServices(std::shared_ptr<Database> database);
-	std::optional<std::unique_ptr<User>> GetUserById(uint32_t id);
+	std::unique_ptr<User> GetUserById(uint32_t id);
 
 private:
 	std::shared_ptr<Database> m_database;

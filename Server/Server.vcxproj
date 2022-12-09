@@ -147,6 +147,7 @@
     <ClInclude Include="include\Entities\User.hpp" />
     <ClInclude Include="include\Inutils\GenerateDateAndTime.hpp" />
     <ClInclude Include="include\Server\Server.hpp" />
+    <ClInclude Include="include\Services\BasicDatabaseCRUD.hpp" />
     <ClInclude Include="include\Services\UserServices.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +165,7 @@
     <ClCompile Include="src\Entities\User.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Server\Server.cpp" />
+    <ClCompile Include="src\Services\BasicDatabaseCRUD.cpp" />
     <ClCompile Include="src\Services\UserServices.cpp" />
     <ClCompile Include="src\Utils\GenerateDateAndTime.cpp" />
   </ItemGroup>
