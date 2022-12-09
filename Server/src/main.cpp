@@ -9,6 +9,6 @@ int main() {
 	auto storage =
 		std::make_shared<Database>(InitDB::CreateStorage(db_name));
 	auto server = std::make_shared<Server>(storage);
-
+	server->InitRoutes(server);
 	server->Start();
 }

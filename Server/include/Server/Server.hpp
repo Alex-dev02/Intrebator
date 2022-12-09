@@ -8,7 +8,6 @@
 
 class Server {
 public:
-
 	Server(std::shared_ptr<Database> database);
 	Server(Server&) = delete;
 	Server(Server&&) = delete;
@@ -17,6 +16,8 @@ public:
 	crow::SimpleApp& GetApp();
 
 	void Start();
+public:
+	void InitRoutes(std::shared_ptr<Server> server);
 private:
 	void CreateGame();
 private:
