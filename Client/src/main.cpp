@@ -8,7 +8,21 @@
 
 #include "../../Logger/Debug.hpp"
 
+#include <cpr/cpr.h>
+
 int main() {
+
+
+	// cpr
+	cpr::Response r = cpr::Get(cpr::Url{ "https://api.github.com/repos/whoshuu/cpr/contributors" },
+		cpr::Authentication{ "user", "pass", cpr::AuthMode::BASIC },
+		cpr::Parameters{ {"anon", "true"}, {"key", "value"} });
+	Debug::Log(r.status_code);
+	Debug::Log(r.header["content-type"]);
+	Debug::Log(r.text);
+
+
+
 	// Window
 	sf::RenderWindow window(sf::VideoMode(1270, 720), "Triviador");
 
@@ -72,6 +86,9 @@ int main() {
 
 		window.display(); // Tell the app that the window is done drawing
 	}
+
+
+
 
 	// End of the application
 	return 0;

@@ -30,25 +30,26 @@ void UI::CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	editBoxUsername->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
 	editBoxUsername->setPosition(windowWidth * 422 / 1270, windowHeight * 214 / 720);
 	editBoxUsername->setDefaultText("Username");
-	m_loginMenu->add(editBoxUsername, "Username");
 
 	tgui::EditBox::Ptr editBoxPassword = tgui::EditBox::create();
 	editBoxPassword->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
 	editBoxPassword->setPosition(windowWidth * 422 / 1270, windowHeight * 329 / 720);
 	editBoxPassword->setPasswordCharacter('*');
 	editBoxPassword->setDefaultText("Password");
-	m_loginMenu->add(editBoxPassword, "Password");
 
 	tgui::Button::Ptr loginButton = tgui::Button::create();
 	loginButton->setSize(windowWidth * 204 / 1270, windowHeight * 36.48 / 720);
 	loginButton->setPosition(windowWidth * 422 / 1270, windowHeight * 443.75 / 720);
 	loginButton->setText("Login");
-	m_loginMenu->add(loginButton);
 
 	tgui::Button::Ptr registerButton = tgui::Button::create();
 	registerButton->setSize(windowWidth * 204 / 1270, windowHeight * 36.48 / 720);
 	registerButton->setPosition(windowWidth * 643 / 1270, windowHeight * 443.75 / 720);
 	registerButton->setText("Register");
+
+	m_loginMenu->add(editBoxUsername);
+	m_loginMenu->add(editBoxPassword);
+	m_loginMenu->add(loginButton);
 	m_loginMenu->add(registerButton);
 
 	loginButton->onClick([editBoxUsername, editBoxPassword, this]() {
@@ -70,36 +71,36 @@ void UI::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 	editBoxUsername->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
 	editBoxUsername->setPosition(windowWidth * 422 / 1270, windowHeight * 169 / 720);
 	editBoxUsername->setDefaultText("Username");
-	m_registerMenu->add(editBoxUsername, "Username");
 
 	tgui::EditBox::Ptr editBoxPassword = tgui::EditBox::create();
 	editBoxPassword->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
 	editBoxPassword->setPosition(windowWidth * 422 / 1270, windowHeight * 284 / 720);
 	editBoxPassword->setPasswordCharacter('*');
 	editBoxPassword->setDefaultText("Password");
-	m_registerMenu->add(editBoxPassword, "Password");
 
 	tgui::EditBox::Ptr editBoxRepeatPassword = tgui::EditBox::create();
 	editBoxRepeatPassword->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
 	editBoxRepeatPassword->setPosition(windowWidth * 422 / 1270, windowHeight * 399 / 720);
 	editBoxRepeatPassword->setPasswordCharacter('*');
 	editBoxRepeatPassword->setDefaultText("Repeat password");
-	m_registerMenu->add(editBoxRepeatPassword, "Repeatpassword");
 
 	tgui::Button::Ptr registerButton = tgui::Button::create();
 	registerButton->setSize(windowWidth * 204 / 1270, windowHeight * 36.48 / 720);
 	registerButton->setPosition(windowWidth * 643 / 1270, windowHeight * 513.75 / 720);
 	registerButton->setText("Register");
+
+	tgui::Button::Ptr backButton = tgui::Button::create();
+	backButton->setSize(windowWidth * 204 / 1270, windowHeight * 36.48 / 720);
+	backButton->setPosition(windowWidth * 422 / 1270, windowHeight * 513.75 / 720);
+	backButton->setText("Back");
+
+	m_registerMenu->add(editBoxUsername);
+	m_registerMenu->add(editBoxPassword);
+	m_registerMenu->add(editBoxRepeatPassword);
 	m_registerMenu->add(registerButton);
+	m_registerMenu->add(backButton);
 
-	tgui::Button::Ptr loginButton = tgui::Button::create();
-	loginButton->setSize(windowWidth * 204 / 1270, windowHeight * 36.48 / 720);
-	loginButton->setPosition(windowWidth * 422 / 1270, windowHeight * 513.75 / 720);
-	loginButton->setText("login");
-	m_registerMenu->add(loginButton);
-
-
-	loginButton->onClick([editBoxUsername, editBoxPassword, this]() {
+	backButton->onClick([editBoxUsername, editBoxPassword, this]() {
 		m_registerMenu->setVisible(false);
 	m_loginMenu->setVisible(true);
 		});
@@ -124,18 +125,19 @@ void UI::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	playButton->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
 	playButton->setPosition(windowWidth * 73 / 1270, windowHeight * 420 / 720);
 	playButton->setText("Play");
-	m_mainMenu->add(playButton);
 
 	tgui::Button::Ptr optionsButton = tgui::Button::create();
 	optionsButton->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
 	optionsButton->setPosition(windowWidth * 73 / 1270, windowHeight * 507.56 / 720);
 	optionsButton->setText("Options");
-	m_mainMenu->add(optionsButton);
 
 	tgui::Button::Ptr exitButton = tgui::Button::create();
 	exitButton->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
 	exitButton->setPosition(windowWidth * 73 / 1270, windowHeight * 595.09 / 720);
 	exitButton->setText("Exit");
+
+	m_mainMenu->add(playButton);
+	m_mainMenu->add(optionsButton);
 	m_mainMenu->add(exitButton);
 
 	playButton->onClick([]() {
