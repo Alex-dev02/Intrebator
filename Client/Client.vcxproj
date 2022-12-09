@@ -127,10 +127,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\Network.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Game.hpp" />
+    <ClInclude Include="include\Network.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="TGUI\AbsoluteOrRelativeValue.hpp" />
     <ClInclude Include="TGUI\AllWidgets.hpp" />
