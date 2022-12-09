@@ -14,6 +14,10 @@ public:
 
 public:
 	void InitRoutes(std::shared_ptr<Server> server);
+
+private:
+	crow::json::wvalue UserRegister(std::unique_ptr<crow::request> req);
+
 private:
 	std::shared_ptr<Database> m_database;
 };
