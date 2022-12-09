@@ -9,7 +9,7 @@ public:
 
 public:
 	const std::string& GetName() const;
-	int GetId() const;
+	uint32_t GetId() const;
 
 	void SetId(std::uint32_t id);
 	void SetName(const std::string& name);

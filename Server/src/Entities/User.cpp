@@ -14,7 +14,7 @@ const std::string& User::GetName() const {
 	return m_name;
 }
 
-unsigned int User::GetId() const {
+uint32_t User::GetId() const {
 	return m_id;
 }
 
