@@ -17,16 +17,30 @@ crow::json::wvalue UserServices::UserRegister(std::unique_ptr<crow::request> req
 	};
 }
 
+crow::json::wvalue UserServices::UserLogIn(std::unique_ptr<crow::request> req) {
+
+}
+
 void UserServices::InitRoutes(std::shared_ptr<Server> server) {
-	CROW_ROUTE(server->GetApp(), "/params")
-		([this](const crow::request& req){
+	auto& app = server->GetApp();
+	// /user/register?name=foo&password=pass&repeat_password=pass
+	CROW_ROUTE(app, "/user/register")
+		([this](crow::request& req){
 	try{
 		UserRegister(std::make_unique<crow::request>(std::move(req)));
 	}
-	catch(const std::exception& e){
-		return crow::response(e.what());
+	catch(const std::exception& e) {
+		try {
+			return crow::response(std::stoi(e.what()));
+		}
+		catch (const std::exception&){
+			return crow::response(505); // internal server error
+		}
 	}
 	});
+
+	CROW_ROUTE(app, "/user/register");
+
 }
 
 
