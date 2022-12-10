@@ -9,6 +9,14 @@ UI::UI(sf::RenderWindow& window) {
 
 	m_gui.setTextSize(20);
 
+	tgui::Picture::Ptr background = tgui::Picture::create("assets/images/background.png");
+
+	//put the image in the center of the screen
+	background->setSize(windowWidth, windowHeight);
+	background->setPosition(windowWidth / 1270, windowHeight / 720);
+
+	m_gui.add(background);
+
 	// Login Menu
 	CreateLoginMenu(windowWidth, windowHeight);
 
