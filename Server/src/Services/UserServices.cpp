@@ -85,13 +85,7 @@ void UserServices::InitRoutes(std::shared_ptr<Server> server) {
 			return UserLogIn(req);
 		}
 		catch (const std::exception& e) {
-			try{
-				return crow::json::wvalue({ "404" });
-			}
-			catch (const std::exception&)
-			{
-				return crow::json::wvalue({ "505" });
-			}
+			return crow::json::wvalue({ e.what()});
 		}
 	});
 
