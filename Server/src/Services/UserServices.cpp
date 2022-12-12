@@ -8,33 +8,33 @@ const crow::json::wvalue& UserServices::CrowResponseStatusAndMessage(int status,
 	};
 }
 
+void registerUser(const std::string& user_name, const std::string& password){
+
+}
+
 const crow::json::wvalue& UserServices::UserRegister(const crow::request& req) {
 	// request type: /user/register?name=joe&password=pass&repeat_password=pass
 	using namespace sqlite_orm;
 	auto name = req.url_params.get("name");
-	// if name doesnt exist return status ```idk``` and message "no user_name field found"
+	if(!name)
+		throw std::exception("404");
+	std::string str_name{name};
 
-
-	std::string name2{name};
-
-	auto findUser = m_database->get_all<User>(where(c(&User::GetName) == name2), limit(1));
-		// m_database->prepare(select(&User::GetId, where(c(&User::GetName) == (name2))));uy
+	auto findUser = m_database->get_all<User>(where(c(&User::GetName) == str_name), limit(1));      // make it a function
+		// m_database->prepare(select(&User::GetId, where(c(&User::GetName) == (str_name))));
 	if(findUser.size() != 1){
-		// if findUser is found return status ```idk``` and message "user already exists"
+		throw std::exception("404");
 	}
 
 	// request password
 	auto password = req.url_params.get("password");
 	if(!password)
-		// if password not found return status ```idk``` and message "no password field found"
+		throw std::exception("404");
+	std::string str_password{password};
 	
-	// function for registering the user
+	registerUser(str_name, str_password);
 
-	// return status ```100 or 200 idk``` and message "user succesfully registered"
-	return crow::json::wvalue{
-		{"status", ""},
-		{"message", ""}
-	};
+	return CrowResponseStatusAndMessage(0, "Success");
 }
 
 const crow::json::wvalue& UserServices::UserLogIn(const crow::request& req) {
