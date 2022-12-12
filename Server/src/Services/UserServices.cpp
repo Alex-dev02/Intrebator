@@ -12,22 +12,23 @@ const crow::json::wvalue& UserServices::UserRegister(const crow::request& req) {
 	// request type: /user/register?name=joe&password=pass&repeat_password=pass
 	using namespace sqlite_orm;
 	auto name = req.url_params.get("name");
-	// to be verified if exists
+	// if name doesnt exist return status ```idk``` and message "no user_name field found"
+
+
 	std::string name2{name};
 
 	auto findUser = m_database->get_all<User>(where(c(&User::GetName) == name2), limit(1));
-		// m_database->prepare(select(&User::GetId, where(c(&User::GetName) == (name2))));
-	if(findUser.size() == 0){
+		// m_database->prepare(select(&User::GetId, where(c(&User::GetName) == (name2))));uy
+	if(findUser.size() != 1){
 		// if findUser is found return status ```idk``` and message "user already exists"
 	}
 
-	// request password and and repeat_password from url parameters
-	auto pass = req.url_params.get("password");
-	auto pass2 = req.url_params.get("repeat_password");
-
-	if(pass != pass2){
-		// if passwords do not match return status ```idk``` and message "the passwords do not match"
-	}
+	// request password
+	auto password = req.url_params.get("password");
+	if(!password)
+		// if password not found return status ```idk``` and message "no password field found"
+	
+	// function for registering the user
 
 	// return status ```100 or 200 idk``` and message "user succesfully registered"
 	return crow::json::wvalue{
