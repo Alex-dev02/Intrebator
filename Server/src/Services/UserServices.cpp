@@ -8,19 +8,33 @@ const crow::json::wvalue& UserServices::CrowResponseStatusAndMessage(int status,
 	};
 }
 
+void registerUser(const std::string& user_name, const std::string& password){
+
+}
+
 const crow::json::wvalue& UserServices::UserRegister(const crow::request& req) {
-	// request type: /user/register?name=joe&password=pass&repeat_pass=pass
+	// request type: /user/register?name=joe&password=pass&repeat_password=pass
 	using namespace sqlite_orm;
 	auto name = req.url_params.get("name");
-	// to be verified if exists
-	std::string name2{name};
+	if(!name)
+		throw std::exception("404");
+	std::string str_name{name};
 
-	auto findUser =
-		m_database->prepare(select(&User::GetId, where(c(&User::GetName) != (name2))));
-	return crow::json::wvalue{
-		{"status", ""},
-		{"message", ""}
-	};
+	auto findUser = m_database->get_all<User>(where(c(&User::GetName) == str_name), limit(1));      // make it a function
+		// m_database->prepare(select(&User::GetId, where(c(&User::GetName) == (str_name))));
+	if(findUser.size() != 1){
+		throw std::exception("404");
+	}
+
+	// request password
+	auto password = req.url_params.get("password");
+	if(!password)
+		throw std::exception("404");
+	std::string str_password{password};
+	
+	registerUser(str_name, str_password);
+
+	return CrowResponseStatusAndMessage(0, "Success");
 }
 
 const crow::json::wvalue& UserServices::UserLogIn(const crow::request& req) {
@@ -32,8 +46,7 @@ const crow::json::wvalue& UserServices::UserLogIn(const crow::request& req) {
 	auto password = req.url_params.get("password");
 	if (!password)
 		throw std::exception("404");
-	try
-	{
+	try{
 		std::string name_str{ name };
 		auto user =
 			m_database->get_all<User>(where(c(&User::GetName) == name_str));
