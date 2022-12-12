@@ -20,8 +20,8 @@ public:
 	void InitRoutes(std::shared_ptr<Server> server);
 private:
 	void CreateGame();
-private:
 
+private:
 	crow::SimpleApp m_app;
 	std::vector<Game> m_games;
 	std::shared_ptr<Database> m_database;

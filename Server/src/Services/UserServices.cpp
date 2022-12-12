@@ -1,8 +1,95 @@
 #include "../../include/Services/UserServices.hpp"
 
+
+const crow::json::wvalue& UserServices::CrowResponseStatusAndMessage(int status, const std::string& message) {
+	return crow::json::wvalue{
+		{"status", std::to_string(status)},
+		{"message", message}
+	};
+}
+
+const crow::json::wvalue& UserServices::UserRegister(const crow::request& req) {
+	// request type: /user/register?name=joe&password=pass&repeat_pass=pass
+	using namespace sqlite_orm;
+	auto name = req.url_params.get("name");
+	// to be verified if exists
+	std::string name2{name};
+
+	auto findUser = 42069;
+		// m_database.get_all<User>(where(c(&User::GetName) == name2), limit(1));
+		// m_database->prepare(select(&User::GetId, where(c(&User::GetName) == (name2))));
+	// if findUser is found return status ```idk``` and message "user already exists"
+
+	// request password and and repeat_password from url parameters
+
+	// if passwords do not match return status ```idk``` and message "the passwords do not match"
+
+	// return status ```100 or 200 idk``` and message "user succesfully registered"
+
+	return crow::json::wvalue{
+		{"status", ""},
+		{"message", ""}
+	};
+}
+
+const crow::json::wvalue& UserServices::UserLogIn(const crow::request& req) {
+	using namespace sqlite_orm;
+	auto name = req.url_params.get("name");
+	if (!name)
+		throw std::exception("404");
+
+	auto password = req.url_params.get("password");
+	if (!password)
+		throw std::exception("404");
+	try{
+		std::string name_str{ name };
+		auto user =
+			m_database->get_all<User>(where(c(&User::GetName) == name_str));
+		if (user.size() == 1 && password == user.front().GetPassword())
+			return CrowResponseStatusAndMessage(0, "Success");
+	}
+	catch (const std::exception&)
+	{}
+
+	return CrowResponseStatusAndMessage(1, "Invalid credentials!");
+}
+
 void UserServices::InitRoutes(std::shared_ptr<Server> server) {
+	auto& app = server->GetApp();
+	// /user/register?name=foo&password=pass&repeat_password=pass
+	CROW_ROUTE(app, "/user/register")([this](const crow::request& req){
+		try{
+			UserRegister(req);
+		}
+		catch(const std::exception& e) {
+			try {
+				return crow::response(std::stoi(e.what()));
+			}
+			catch (const std::exception&){
+				return crow::response(505); // internal server error
+			}
+		}
+	});
+
+	// /user/login?name=foo&password=pass
+	CROW_ROUTE(app, "/user/login")([this](const crow::request& req) {
+		
+		try {
+			UserLogIn(req);
+		}
+		catch (const std::exception& e) {
+			try{
+				return crow::response(std::stoi(e.what()));
+			}
+			catch (const std::exception&)
+			{
+				return crow::response(505);
+			}
+		}
+	});
 
 }
+
 
 UserServices::UserServices(std::shared_ptr<Database> database)
 	: m_database(database)

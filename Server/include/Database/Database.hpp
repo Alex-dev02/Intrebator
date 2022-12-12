@@ -13,7 +13,8 @@ namespace InitDB {
 		auto storage = sql::make_storage(filename,
 			sql::make_table("user",
 				sql::make_column("id", &User::GetId, &User::SetId, sql::autoincrement(), sql::primary_key()),
-				sql::make_column("name", &User::GetName, &User::SetName, sql::unique())
+				sql::make_column("name", &User::GetName, &User::SetName, sql::unique()),
+				sql::make_column("password", &User::GetPassword, &User::SetPassword)
 			),
 			sql::make_table("numeric_question",
 				sql::make_column("id", &NumericQuestion::GetId, &NumericQuestion::SetId, sql::autoincrement(), sql::primary_key()),
