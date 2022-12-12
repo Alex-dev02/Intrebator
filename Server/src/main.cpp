@@ -10,5 +10,6 @@ int main() {
 		std::make_shared<Database>(InitDB::CreateStorage(db_name));
 	auto server = std::make_shared<Server>(storage);
 	server->InitRoutes(server);
+	//storage->replace(User(-1,"Alex", "pass"));
 	server->Start();
 }
