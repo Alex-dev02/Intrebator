@@ -1,9 +1,10 @@
 #include "../../include/Services/UserServices.hpp"
 
+#include <sstream>
 
 const crow::json::wvalue& UserServices::CrowResponseStatusAndMessage(int status, const std::string& message) {
 	return crow::json::wvalue{
-		{"status", std::to_string(status)},
+		{"status", status},
 		{"message", message}
 	};
 }
@@ -33,7 +34,8 @@ const crow::json::wvalue& UserServices::UserRegister(const crow::request& req) {
 	
 	SaveUser(User(str_name, str_password));
 
-	return CrowResponseStatusAndMessage(0, "Success");
+	const auto& res = CrowResponseStatusAndMessage(0, "Success");
+	return res;
 }
 
 const crow::json::wvalue& UserServices::UserLogin(const crow::request& req) {
@@ -48,7 +50,7 @@ const crow::json::wvalue& UserServices::UserLogin(const crow::request& req) {
 	try{
 		std::string name_str{ name };
 		auto user =
-			m_database->get_all<User>(where(c(&User::GetName) == name_str));
+			m_database->get_all<User>(where(c(&User::GetName) == name_str), limit(1));
 		if (user.size() == 1 && password == user.front().GetPassword())
 			return CrowResponseStatusAndMessage(0, "Success");
 	}
@@ -77,18 +79,12 @@ void UserServices::InitRoutes(std::shared_ptr<Server> server) {
 
 	// /user/login?name=foo&password=pass
 	CROW_ROUTE(app, "/user/login")([this](const crow::request& req) {
-		
+		std::ostringstream os;
 		try {
-			UserLogin(req);
+			return UserLogIn(req);
 		}
 		catch (const std::exception& e) {
-			try{
-				return crow::response(std::stoi(e.what()));
-			}
-			catch (const std::exception&)
-			{
-				return crow::response(505);
-			}
+			return crow::json::wvalue({ e.what()});
 		}
 	});
 
