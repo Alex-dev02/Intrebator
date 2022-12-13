@@ -6,7 +6,8 @@ Server::Server(std::shared_ptr<Database> database)
 {}
 
 void Server::InitRoutes(std::shared_ptr<Server> server) {
-	UserServices(m_database).InitRoutes(server);
+	UserServices us{ m_database };
+	us.InitRoutes(server);
 }
 
 crow::SimpleApp& Server::GetApp() {
