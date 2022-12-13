@@ -9,8 +9,13 @@ const crow::json::wvalue& UserServices::CrowResponseStatusAndMessage(int status,
 	};
 }
 
-void UserServices::SaveUser(const User& user){
-
+std::optional<int> UserServices::SaveUser(const User& user){
+	try{
+		return m_database->insert(user);
+	}
+	catch(const std::exception& e){
+		return std::nullopt;
+	}
 }
 
 const crow::json::wvalue& UserServices::UserRegister(const crow::request& req) {
@@ -81,7 +86,7 @@ void UserServices::InitRoutes(std::shared_ptr<Server> server) {
 	CROW_ROUTE(app, "/user/login")([this](const crow::request& req) {
 		std::ostringstream os;
 		try {
-			return UserLogIn(req);
+			return UserLogin(req);
 		}
 		catch (const std::exception& e) {
 			return crow::json::wvalue({ e.what()});
