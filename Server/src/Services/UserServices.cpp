@@ -2,6 +2,16 @@
 
 #include <sstream>
 
+std::unique_ptr<User> UserServices::GetUserByName(const std::string& name){
+	using namespace sqlite_orm;
+	for(auto& user : m_database->iterate<User>()){
+		if(user.GetName() == name)
+			return std::make_unique<User>(user);
+	}
+
+	return nullptr;
+}
+
 const crow::json::wvalue& UserServices::CrowResponseStatusAndMessage(int status, const std::string& message) {
 	return crow::json::wvalue{
 		{"status", status},
@@ -26,10 +36,9 @@ const crow::json::wvalue& UserServices::UserRegister(const crow::request& req) {
 		throw std::exception("404");
 	std::string str_name{name};
 
-	auto findUser = m_database->get_all<User>(where(c(&User::GetName) == str_name), limit(1));      // make it a function
-		// m_database->prepare(select(&User::GetId, where(c(&User::GetName) == (str_name))));
-	if(findUser.size() != 1)
-		throw std::exception("404");
+	auto findUser = GetUserByName(str_name);
+	if(findUser)
+		throw std::exception("404");    // change error code accordingly
 
 	// request password
 	auto password = req.url_params.get("password");
@@ -53,10 +62,9 @@ const crow::json::wvalue& UserServices::UserLogin(const crow::request& req) {
 	if (!password)
 		throw std::exception("404");
 	try{
-		std::string name_str{ name };
-		auto user =
-			m_database->get_all<User>(where(c(&User::GetName) == name_str), limit(1));
-		if (user.size() == 1 && password == user.front().GetPassword())
+		std::string str_name{ name };
+		auto user = GetUserByName(str_name);
+		if (user && password == user->GetPassword())
 			return CrowResponseStatusAndMessage(0, "Success");
 	}
 	catch (const std::exception&)
