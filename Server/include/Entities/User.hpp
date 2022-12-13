@@ -7,7 +7,8 @@ public:
 	User(const std::string& name);
 	User(std::uint32_t id, const std::string& name);
 	User(std::uint32_t id, const std::string& name, const std::string& password);
-	
+	User(const std::string& name, const std::string& password);
+
 public:
 	uint32_t GetId() const;
 	const std::string& GetName() const;

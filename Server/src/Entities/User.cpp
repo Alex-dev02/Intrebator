@@ -16,6 +16,12 @@ User::User(std::uint32_t id, const std::string & name, const std::string & passw
 	m_password(password)
 {}
 
+User::User(const std::string& name, const std::string& password)
+	: m_id(-1), 
+	m_name(name), 
+	m_password(password)
+{}
+
 uint32_t User::GetId() const {
 	return m_id;
 }

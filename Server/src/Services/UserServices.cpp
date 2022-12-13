@@ -8,7 +8,7 @@ const crow::json::wvalue& UserServices::CrowResponseStatusAndMessage(int status,
 	};
 }
 
-void registerUser(const std::string& user_name, const std::string& password){
+void UserServices::SaveUser(const User& user){
 
 }
 
@@ -22,9 +22,8 @@ const crow::json::wvalue& UserServices::UserRegister(const crow::request& req) {
 
 	auto findUser = m_database->get_all<User>(where(c(&User::GetName) == str_name), limit(1));      // make it a function
 		// m_database->prepare(select(&User::GetId, where(c(&User::GetName) == (str_name))));
-	if(findUser.size() != 1){
+	if(findUser.size() != 1)
 		throw std::exception("404");
-	}
 
 	// request password
 	auto password = req.url_params.get("password");
@@ -32,12 +31,12 @@ const crow::json::wvalue& UserServices::UserRegister(const crow::request& req) {
 		throw std::exception("404");
 	std::string str_password{password};
 	
-	registerUser(str_name, str_password);
+	SaveUser(User(str_name, str_password));
 
 	return CrowResponseStatusAndMessage(0, "Success");
 }
 
-const crow::json::wvalue& UserServices::UserLogIn(const crow::request& req) {
+const crow::json::wvalue& UserServices::UserLogin(const crow::request& req) {
 	using namespace sqlite_orm;
 	auto name = req.url_params.get("name");
 	if (!name)
@@ -80,7 +79,7 @@ void UserServices::InitRoutes(std::shared_ptr<Server> server) {
 	CROW_ROUTE(app, "/user/login")([this](const crow::request& req) {
 		
 		try {
-			UserLogIn(req);
+			UserLogin(req);
 		}
 		catch (const std::exception& e) {
 			try{
