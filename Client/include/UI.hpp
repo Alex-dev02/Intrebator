@@ -17,6 +17,7 @@ private:
 	void CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
 	void CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
 	void CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
+	void CreateMatchSelectorMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
 
 	void CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password);
 	void Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password);
@@ -29,4 +30,5 @@ private:
 	tgui::Group::Ptr m_loginMenu;
 	tgui::Group::Ptr m_registerMenu;
 	tgui::Group::Ptr m_mainMenu;
+	tgui::Group::Ptr m_matchSelectorMenu;
 };
