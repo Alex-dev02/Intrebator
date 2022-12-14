@@ -19,8 +19,6 @@ public:
 
 public:
 	void InitRoutes(std::shared_ptr<Server> server);
-private:
-	void CreateGame();
 
 private:
 	crow::SimpleApp m_app;

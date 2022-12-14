@@ -17,9 +17,3 @@ crow::SimpleApp& Server::GetApp() {
 void Server::Start() {
 	m_app.port(8080).multithreaded().run();
 }
-
-void Server::CreateGame() {
-	CROW_ROUTE(m_app, "/create_game/<int>")([](std::uint32_t user_id) {
-		return crow::response(200);
-		});
-};
