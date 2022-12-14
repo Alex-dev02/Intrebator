@@ -145,7 +145,7 @@
     <ClInclude Include="include\Entities\Questions\Question.hpp" />
     <ClInclude Include="include\Entities\Questions\QuestionPowerUp.hpp" />
     <ClInclude Include="include\Entities\User.hpp" />
-    <ClInclude Include="include\Inutils\GenerateDateAndTime.hpp" />
+    <ClInclude Include="include\Utils\GenerateDateAndTime.hpp" />
     <ClInclude Include="include\Server\Server.hpp" />
     <ClInclude Include="include\Services\BasicDatabaseCRUD.hpp" />
     <ClInclude Include="include\Services\UserServices.hpp" />

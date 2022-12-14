@@ -75,7 +75,7 @@ const crow::json::wvalue& UserServices::UserLogin(const crow::request& req) {
 
 void UserServices::InitRoutes(std::shared_ptr<Server> server) {
 	auto& app = server->GetApp();
-	// /user/register?name=foo&password=pass&repeat_password=pass
+	// request type: /user/register?name=foo&password=pass&repeat_password=pass
 	CROW_ROUTE(app, "/user/register")([this](const crow::request& req){
 		try{
 			UserRegister(req);

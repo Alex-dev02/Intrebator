@@ -16,6 +16,7 @@ public:
 	crow::SimpleApp& GetApp();
 
 	void Start();
+
 public:
 	void InitRoutes(std::shared_ptr<Server> server);
 private:

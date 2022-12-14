@@ -48,7 +48,7 @@
     <ClInclude Include="include\Entities\Game.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Inutils\GenerateDateAndTime.hpp">
+    <ClInclude Include="include\Utils\GenerateDateAndTime.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Services\UserServices.hpp">
