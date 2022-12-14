@@ -1,7 +1,7 @@
 #include "../../include/Utils/CrowResponse.hpp"
 
 		
-const std::string& Response::ToString(Code code) {
+const std::string& CrowResponse::ToString(Code code) {
 	if (code == Code::OK)
 		return "200";
 	else if (code == Code::INVALID)
@@ -10,7 +10,7 @@ const std::string& Response::ToString(Code code) {
 		return "500";
 }
 
-const crow::json::wvalue& Response::Json(Code code, const std::string& message, const crow::json::wvalue& data) {
+const crow::json::wvalue& CrowResponse::Json(Code code, const std::string& message, const crow::json::wvalue& data) {
 	return crow::json::wvalue{
 		{"code", ToString(code)},
 		{"message", message},

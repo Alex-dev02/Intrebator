@@ -1,7 +1,7 @@
 #include <crow.h>
 #include <string>
 
-class Response {
+class CrowResponse {
 public:
 	enum class Code {
 		OK = 200,
@@ -11,5 +11,4 @@ public:
 		
 	static const std::string& ToString(Code code);
 	static const crow::json::wvalue& Json(Code code, const std::string& message, const crow::json::wvalue& data);
-
 };

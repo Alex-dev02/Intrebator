@@ -145,6 +145,7 @@
     <ClInclude Include="include\Entities\Questions\Question.hpp" />
     <ClInclude Include="include\Entities\Questions\QuestionPowerUp.hpp" />
     <ClInclude Include="include\Entities\User.hpp" />
+    <ClInclude Include="include\Utils\CrowResponse.hpp" />
     <ClInclude Include="include\Utils\GenerateDateAndTime.hpp" />
     <ClInclude Include="include\Server\Server.hpp" />
     <ClInclude Include="include\Services\BasicDatabaseCRUD.hpp" />
@@ -167,6 +168,7 @@
     <ClCompile Include="src\Server\Server.cpp" />
     <ClCompile Include="src\Services\BasicDatabaseCRUD.cpp" />
     <ClCompile Include="src\Services\UserServices.cpp" />
+    <ClCompile Include="src\Utils\CrowResponse.cpp" />
     <ClCompile Include="src\Utils\GenerateDateAndTime.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
