@@ -5,7 +5,7 @@ GameServices::GameServices(std::shared_ptr<Database> database)
 {}
 
 const crow::json::wvalue& GameServices::CreateGame(uint32_t user_id) {
-
+	return {};
 }
 
 void GameServices::InitRoutes(std::shared_ptr<Server> server) {

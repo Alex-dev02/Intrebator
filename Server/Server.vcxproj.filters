@@ -60,6 +60,9 @@
     <ClInclude Include="include\Utils\CrowResponse.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Services\GameServices.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Entities\Cell.cpp">
@@ -114,6 +117,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Utils\CrowResponse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Services\GameServices.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
