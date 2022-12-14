@@ -1,6 +1,5 @@
 #include "../../include/Services/UserServices.hpp"
-
-#include <sstream>
+#include "../../include/Utils/CrowResponse.hpp"
 
 std::unique_ptr<User> UserServices::GetUserByName(const std::string& name){
 	using namespace sqlite_orm;
@@ -10,13 +9,6 @@ std::unique_ptr<User> UserServices::GetUserByName(const std::string& name){
 	}
 
 	return nullptr;
-}
-
-const crow::json::wvalue& UserServices::CrowResponseStatusAndMessage(int status, const std::string& message) {
-	return crow::json::wvalue{
-		{"status", status},
-		{"message", message}
-	};
 }
 
 std::optional<int> UserServices::SaveUser(const User& user){
@@ -33,72 +25,52 @@ const crow::json::wvalue& UserServices::UserRegister(const crow::request& req) {
 	using namespace sqlite_orm;
 	auto name = req.url_params.get("name");
 	if(!name)
-		throw std::exception("404");
-	std::string str_name{name};
-
-	auto findUser = GetUserByName(str_name);
-	if(findUser)
-		throw std::exception("404");    // change error code accordingly
+		return CrowResponse::Json(CrowResponse::Code::INVALID, "No name filed provided!");
 
 	// request password
 	auto password = req.url_params.get("password");
 	if(!password)
-		throw std::exception("404");
-	std::string str_password{password};
+		return CrowResponse::Json(CrowResponse::Code::INVALID, "No password filed provided!");
 	
+	std::string str_name{ name };
+	auto user = GetUserByName(str_name);
+	if (user)
+		return CrowResponse::Json(CrowResponse::Code::INVALID, "Username already taken");
+	
+	std::string str_password{ password };
 	SaveUser(User(str_name, str_password));
 
-	const auto& res = CrowResponseStatusAndMessage(0, "Success");
-	return res;
+	 return CrowResponse::Json(CrowResponse::Code::OK);
 }
 
 const crow::json::wvalue& UserServices::UserLogin(const crow::request& req) {
 	using namespace sqlite_orm;
 	auto name = req.url_params.get("name");
 	if (!name)
-		throw std::exception("404");
+		return CrowResponse::Json(CrowResponse::Code::INVALID, "No name filed provided!");
 
 	auto password = req.url_params.get("password");
 	if (!password)
-		throw std::exception("404");
-	try{
-		std::string str_name{ name };
-		auto user = GetUserByName(str_name);
-		if (user && password == user->GetPassword())
-			return CrowResponseStatusAndMessage(0, "Success");
-	}
-	catch (const std::exception&)
-	{}
+		return CrowResponse::Json(CrowResponse::Code::INVALID, "No password filed provided!");
 
-	return CrowResponseStatusAndMessage(1, "Invalid credentials!");
+	std::string str_name{ name };
+	auto user = GetUserByName(str_name);
+	if (user && password == user->GetPassword())
+		return CrowResponse::Json(CrowResponse::Code::OK);
+
+	return CrowResponse::Json(CrowResponse::Code::INVALID, "Invalid credentials!");
 }
 
 void UserServices::InitRoutes(std::shared_ptr<Server> server) {
 	auto& app = server->GetApp();
 	// request type: /user/register?name=foo&password=pass&repeat_password=pass
 	CROW_ROUTE(app, "/user/register")([this](const crow::request& req){
-		try{
-			UserRegister(req);
-		}
-		catch(const std::exception& e) {
-			try {
-				return crow::response(std::stoi(e.what()));
-			}
-			catch (const std::exception&){
-				return crow::response(505); // internal server error
-			}
-		}
+		UserRegister(req);
 	});
 
 	// /user/login?name=foo&password=pass
 	CROW_ROUTE(app, "/user/login")([this](const crow::request& req) {
-		std::ostringstream os;
-		try {
-			return UserLogin(req);
-		}
-		catch (const std::exception& e) {
-			return crow::json::wvalue({ e.what()});
-		}
+		UserLogin(req);
 	});
 
 }

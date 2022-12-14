@@ -21,8 +21,6 @@ private:
 	const crow::json::wvalue& UserRegister(const crow::request& req);
 	const crow::json::wvalue& UserLogin(const crow::request& req);
 	
-	const crow::json::wvalue& CrowResponseStatusAndMessage(int status, const std::string& message);
-
 private:
 	std::shared_ptr<Database> m_database;
 };

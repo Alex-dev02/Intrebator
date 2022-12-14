@@ -10,5 +10,5 @@ public:
 	};
 		
 	static const std::string& ToString(Code code);
-	static const crow::json::wvalue& Json(Code code, const std::string& message, const crow::json::wvalue& data);
+	static const crow::json::wvalue& Json(Code code, const std::string& message = "", const crow::json::wvalue& data = {});
 };

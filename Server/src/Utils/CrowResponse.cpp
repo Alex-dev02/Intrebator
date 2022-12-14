@@ -10,7 +10,7 @@ const std::string& CrowResponse::ToString(Code code) {
 		return "500";
 }
 
-const crow::json::wvalue& CrowResponse::Json(Code code, const std::string& message, const crow::json::wvalue& data) {
+const crow::json::wvalue& CrowResponse::Json(Code code, const std::string& message = "", const crow::json::wvalue& data = {}) {
 	return crow::json::wvalue{
 		{"code", ToString(code)},
 		{"message", message},
