@@ -38,6 +38,7 @@ const crow::json::wvalue& UserServices::UserRegister(const crow::request& req) {
 		return CrowResponse::Json(CrowResponse::Code::INVALID, "Username already taken");
 	
 	std::string str_password{ password };
+
 	SaveUser(User(str_name, str_password));
 
 	 return CrowResponse::Json(CrowResponse::Code::OK);
@@ -65,12 +66,12 @@ void UserServices::InitRoutes(std::shared_ptr<Server> server) {
 	auto& app = server->GetApp();
 	// request type: /user/register?name=foo&password=pass&repeat_password=pass
 	CROW_ROUTE(app, "/user/register")([this](const crow::request& req){
-		UserRegister(req);
+		return UserRegister(req);
 	});
 
 	// /user/login?name=foo&password=pass
 	CROW_ROUTE(app, "/user/login")([this](const crow::request& req) {
-		UserLogin(req);
+		return UserLogin(req);
 	});
 
 }
