@@ -11,8 +11,8 @@ void Server::InitRoutes(std::shared_ptr<Server> server) {
 	UserServices user_services{ m_database };
 	user_services.InitRoutes(server);
 
-	GameServices game_services{ m_database };
-	game_services.InitRoutes(server);
+	GameServices game_services{ m_database, server };
+	game_services.InitRoutes();
 }
 
 crow::SimpleApp& Server::GetApp() {
@@ -21,6 +21,14 @@ crow::SimpleApp& Server::GetApp() {
 
 void Server::StartGame() {
 	m_game_running = true;
+}
+
+std::shared_ptr<Game> Server::GetGame() const {
+	return m_game;
+}
+
+bool Server::GameIsRunning() const {
+	return m_game_running;
 }
 
 void Server::StartServer() {

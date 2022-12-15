@@ -5,13 +5,15 @@
 
 class GameServices {
 public:
-	GameServices(std::shared_ptr<Database> database);
+	GameServices(std::shared_ptr<Database> database, std::shared_ptr<Server> server);
 	
-	void InitRoutes(std::shared_ptr<Server> server);
+	void InitRoutes();
 
 private:
-	const std::pair<bool, const crow::json::wvalue&>& CreateGame(uint32_t user_id);
+	const crow::json::wvalue& JoinGame(uint32_t user_id, uint8_t room_size);
 
 private:
+	std::shared_ptr<Server> m_server;
 	std::shared_ptr<Database> m_database;
+	std::shared_ptr<Game> m_game;
 };

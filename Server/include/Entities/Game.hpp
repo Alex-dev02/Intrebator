@@ -12,40 +12,29 @@
 
 class Game {
 public:
-	Game() {
-		//m_players = aici punem clientii, ar trebui sa facem toti playerii ca si clienti
-		m_map = Map(5, 3);
-
-		m_rounds.resize(m_players.size() * 2);
-
-		for (auto& round : m_rounds) {
-			round.resize(m_players.size());
-			for (auto& turn : round) {
-				turn = std::make_unique<Player>(m_players[rand() % m_players.size()]);
-			}
-		}
-	}
-
+	Game();
 	~Game() = default;
 
-	void Run() {
-		for (auto& round : m_rounds) {
-			for (auto& turn : round) {
-
-			}
-		}
-	}
+	void Run();
 
 	int GetRandomValueFrom0UpUntilN(int n);
 
+public:
+	bool AddPlayer(std::shared_ptr<Player> player);
+	void SetRoomSize(uint8_t room_size);
+	
+	const std::vector<std::shared_ptr<Player>>& GetPlayers() const;
 private:
-	std::vector<Player> m_players;
+	using Turn = std::shared_ptr<Player>;
+	using Round = std::vector<Turn>;
+
+private:
 	Map m_map;
+	uint8_t m_room_size;
 
-	using turn = std::unique_ptr<Player>;
-	using round = std::vector<turn>;
-
-	std::vector<round> m_rounds;
+private:
+	std::vector<std::shared_ptr<Player>> m_players;
+	std::vector<Round> m_rounds;
 	std::vector<MultipleAnswerQuestion> m_multi_question;
 	std::vector<NumericQuestion> m_numeric_question;
 };

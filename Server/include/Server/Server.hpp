@@ -16,13 +16,18 @@ public:
 	crow::SimpleApp& GetApp();
 
 	void StartServer();
+	
+public:
 	void StartGame();
+	std::shared_ptr<Game> GetGame() const;
+	bool GameIsRunning() const;
+
 public:
 	void InitRoutes(std::shared_ptr<Server> server);
 
 private:
 	crow::SimpleApp m_app;
-	Game m_game;
+	std::shared_ptr<Game> m_game;
 	std::shared_ptr<Database> m_database;
 
 	bool m_game_running;
