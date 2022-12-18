@@ -22,11 +22,15 @@ public:
 
 public:
 	bool AddPlayer(std::shared_ptr<Player> player);
-	void RemovePlayer(std::shared_ptr<Player> player);
+	bool RemovePlayer(std::shared_ptr<Player> player);
 	std::optional<std::shared_ptr<Player>> GetPlayer(uint32_t id);
 	void SetRoomSize(uint8_t room_size);
 	
 	const std::vector<std::shared_ptr<Player>>& GetPlayers() const;
+
+private:
+	Player::Color GetColorToAssignToPlayer();
+
 private:
 	using Turn = std::shared_ptr<Player>;
 	using Round = std::vector<Turn>;
@@ -40,4 +44,5 @@ private:
 	std::vector<Round> m_rounds;
 	std::vector<MultipleAnswerQuestion> m_multi_question;
 	std::vector<NumericQuestion> m_numeric_question;
+	std::vector<Player::Color> m_available_player_colors;
 };

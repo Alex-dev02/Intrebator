@@ -4,7 +4,8 @@
 
 Game::Game()
 	: m_map(Map(5,3)),
-	m_room_size(0)
+	m_room_size(0),
+	m_available_player_colors(Player::GetAllColors())
 {
 	/*m_rounds.resize(m_players.size() * 2);
 
@@ -35,14 +36,22 @@ int Game::GetRandomValueFrom0UpUntilN(int n){
 
 bool Game::AddPlayer(std::shared_ptr<Player> player) {
 	if (m_players.size() < m_room_size) {
+		player->SetColor(GetColorToAssignToPlayer());
 		m_players.push_back(player);
 		return true;
 	}
 	return false;
 }
 
-void Game::RemovePlayer(std::shared_ptr<Player> player) {
-	player->SetInactive();
+bool Game::RemovePlayer(std::shared_ptr<Player> player) {
+	// player->SetInactive(); ??
+	auto player_to_remove = std::find(m_players.begin(), m_players.end(), player);
+	if (player_to_remove != m_players.end()) {
+		m_available_player_colors.push_back(player->GetColor());
+		m_players.erase(player_to_remove);
+		return true;
+	}
+	return false;
 }
 
 void Game::SetRoomSize(uint8_t room_size) {
@@ -61,4 +70,10 @@ std::optional<std::shared_ptr<Player>> Game::GetPlayer(uint32_t id) {
 
 const std::vector<std::shared_ptr<Player>>& Game::GetPlayers() const {
 	return m_players;
+}
+
+Player::Color Game::GetColorToAssignToPlayer() {
+	const auto& color = m_available_player_colors.front();
+	m_available_player_colors.erase(m_available_player_colors.begin());
+	return color;
 }

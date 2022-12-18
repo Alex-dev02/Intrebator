@@ -13,6 +13,15 @@ const std::string& Player::ColorToString(Color color) const{
 		return "NONE";
 }
 
+const std::vector<Player::Color>& Player::GetAllColors() {
+	return {
+		Color::RED,
+		Color::GREEN,
+		Color::YELLOW,
+		Color::BLUE
+	};
+}
+
 Player::Player(std::unique_ptr<User> user)
 	: User(user->GetId(), user->GetName(), user->GetPassword()),
 	m_color(Color::NONE),

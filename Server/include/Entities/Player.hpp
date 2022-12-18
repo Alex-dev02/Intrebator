@@ -17,6 +17,7 @@ public:
 		NONE
 	};
 	const std::string& ColorToString(Color color) const;
+	static const std::vector<Color>& GetAllColors();
 public:
 	Player(std::unique_ptr<User> user);
 	// Player(uint32_t id, const std::string& name, Colour color, uint32_t score);

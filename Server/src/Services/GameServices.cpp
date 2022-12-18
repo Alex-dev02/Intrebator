@@ -43,11 +43,15 @@ const crow::json::wvalue& GameServices::LeaveGame(uint32_t user_id) {
 		return CrowResponse::Json(CrowResponse::Code::INVALID, "Invalid user id!");
 
 	auto player_to_remove = m_game->GetPlayer(user->GetId());
-	if (player_to_remove.has_value()) {
-		m_game->RemovePlayer(player_to_remove.value());
+	if (player_to_remove.has_value() && m_game->RemovePlayer(player_to_remove.value())) {
 		return CrowResponse::Json(CrowResponse::Code::OK);
 	}
 	return CrowResponse::Json(CrowResponse::Code::INVALID, "Player not found!");
+}
+
+const crow::json::wvalue& GameServices::StartGame() {
+	m_server->StartGame();
+	return CrowResponse::Json(CrowResponse::Code::OK);
 }
 
 void GameServices::InitRoutes() {
@@ -59,5 +63,8 @@ void GameServices::InitRoutes() {
 	
 	CROW_ROUTE(app, "/leave_game/<int>")([this](std::uint32_t user_id) {
 		return LeaveGame(user_id);
+	});
+	CROW_ROUTE(app, "/start_game")([this]() {
+		return StartGame();
 	});
 }
