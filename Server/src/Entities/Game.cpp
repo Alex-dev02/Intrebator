@@ -2,30 +2,59 @@
 
 #include <algorithm> 
 
+const std::string& Game::StatusToString(Status status) {
+	if (status == Status::WAITING_FOR_PLAYERS)
+		return "WAITING_FOR_PLAYERS";
+	else if (status == Status::PICKING_CELLS)
+		return "PICKING_CELLS";
+	else if (status == Status::DUELLING)
+		return "DUELLING";
+	else if (status == Status::FINISHED)
+		return "FINISHED";
+	return "ERROR";
+}
+
 Game::Game()
-	: m_map(Map(5,3)),
-	m_room_size(0),
-	m_available_player_colors(Player::GetAllColors())
-{
-	/*m_rounds.resize(m_players.size() * 2);
+	: m_room_size(0),
+	m_available_player_colors(Player::GetAllColors()),
+	m_status(Status::WAITING_FOR_PLAYERS)
+{}
+
+
+void Game::Run() {
+	InitialiseGame();
+	// while true???
+	// trebuiesc luate intrebarile pentru picking cells
+	// dupa pentru dueling
+	// ar trebui si o stare de waiting, in care poate se intampla cv (de ex: mai sunt playeri care raspund la intreabri)
+	// si daca e waiting atunci nu se intampla nimic
+	// trebuie gandita asta
+}
+
+void Game::InitialiseGame() {
+	SetMap();
+
+}
+
+void Game::SetMap() {
+	m_room_size = m_players.size();
+
+	if (m_room_size == 2)
+		m_map = Map(3, 3);
+	else if (m_room_size == 3)
+		m_map = Map(5, 3);
+	else if (m_room_size == 4)
+		m_map = Map(6, 4);
+
+	m_rounds.resize(m_players.size() * 2);
 
 	for (auto& round : m_rounds) {
 		round.resize(m_players.size());
 		for (auto& turn : round) {
-			turn = std::make_unique<Player>(m_players[rand() % m_players.size()]);
+			turn = m_players[rand() % m_players.size()];
 		}
-	}*/ // trebuie facuta asta abia cand au intrat toti playerii si s a dat start joc
+	} // probabil trebuie putin revizuita alocarea rundelor etc, nush acum
 }
-
-
-void Game::Run() {
-	for (auto& round : m_rounds) {
-		for (auto& turn : round) {
-
-		}
-	}
-}
-
 
 int Game::GetRandomValueFrom0UpUntilN(int n){
 	std::random_device rnd;
@@ -66,6 +95,10 @@ std::optional<std::shared_ptr<Player>> Game::GetPlayer(uint32_t id) {
 	if (player_to_remove != m_players.end())
 		return { *player_to_remove };
 	return { std::nullopt };
+}
+
+Game::Status Game::GetStatus() const {
+	return m_status;
 }
 
 const std::vector<std::shared_ptr<Player>>& Game::GetPlayers() const {

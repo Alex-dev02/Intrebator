@@ -54,17 +54,23 @@ const crow::json::wvalue& GameServices::StartGame() {
 	return CrowResponse::Json(CrowResponse::Code::OK);
 }
 
+const crow::json::wvalue& GameServices::CheckGameStatus() {
+	return CrowResponse::Json(CrowResponse::Code::OK, Game::StatusToString(m_game->GetStatus()));
+}
+
 void GameServices::InitRoutes() {
 	auto& app = m_server->GetApp();
 
 	CROW_ROUTE(app, "/join_game/<int>/<int>")([this](std::uint32_t user_id, std::uint8_t room_size) {
 		return JoinGame(user_id, room_size);
 	});
-	
 	CROW_ROUTE(app, "/leave_game/<int>")([this](std::uint32_t user_id) {
 		return LeaveGame(user_id);
 	});
 	CROW_ROUTE(app, "/start_game")([this]() {
 		return StartGame();
+	});
+	CROW_ROUTE(app, "/check_game_status")([this]() {
+		return CheckGameStatus();
 	});
 }

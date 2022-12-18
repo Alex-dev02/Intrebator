@@ -12,6 +12,14 @@
 
 class Game {
 public:
+	enum class Status {
+		WAITING_FOR_PLAYERS,
+		PICKING_CELLS,
+		DUELLING,
+		FINISHED
+	};
+	static const std::string& StatusToString(Status status);
+public:
 	Game();
 	Game(const Game&) = delete;
 	~Game() = default;
@@ -27,10 +35,11 @@ public:
 	void SetRoomSize(uint8_t room_size);
 	
 	const std::vector<std::shared_ptr<Player>>& GetPlayers() const;
-
+	Status GetStatus() const;
 private:
 	Player::Color GetColorToAssignToPlayer();
-
+	void InitialiseGame();
+	void SetMap();
 private:
 	using Turn = std::shared_ptr<Player>;
 	using Round = std::vector<Turn>;
@@ -38,7 +47,7 @@ private:
 private:
 	Map m_map;
 	uint8_t m_room_size;
-
+	Status m_status;
 private:
 	std::vector<std::shared_ptr<Player>> m_players;
 	std::vector<Round> m_rounds;
