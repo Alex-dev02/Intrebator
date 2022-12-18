@@ -5,16 +5,15 @@
 GameServices::GameServices(std::shared_ptr<Database> database, std::shared_ptr<Server> server)
 	: m_database(database),
 	m_server(server),
-	m_game(server->GetGame())
+	m_game(server->GetGame()),
+	m_user_services(std::make_shared<UserServices>(UserServices(database)))
 {}
 
 const crow::json::wvalue& GameServices::JoinGame(uint32_t user_id, uint8_t room_size) {
 	if (m_server->GameIsRunning())
 		CrowResponse::Json(CrowResponse::Code::INVALID, "The game is already running!");
 	
-	UserServices user_services{ m_database };
-
-	auto user = user_services.GetUserById(user_id);
+	auto user = m_user_services->GetUserById(user_id);
 
 	if (!user)
 		return CrowResponse::Json(CrowResponse::Code::INVALID, "Invalid user id!");
@@ -37,10 +36,28 @@ const crow::json::wvalue& GameServices::JoinGame(uint32_t user_id, uint8_t room_
 	return CrowResponse::Json(CrowResponse::Code::INVALID, "Room is full!");
 }
 
+const crow::json::wvalue& GameServices::LeaveGame(uint32_t user_id) {
+	auto user = m_user_services->GetUserById(user_id);
+	
+	if (!user)
+		return CrowResponse::Json(CrowResponse::Code::INVALID, "Invalid user id!");
+
+	auto player_to_remove = m_game->GetPlayer(user->GetId());
+	if (player_to_remove.has_value()) {
+		m_game->RemovePlayer(player_to_remove.value());
+		return CrowResponse::Json(CrowResponse::Code::OK);
+	}
+	return CrowResponse::Json(CrowResponse::Code::INVALID, "Player not found!");
+}
+
 void GameServices::InitRoutes() {
 	auto& app = m_server->GetApp();
 
 	CROW_ROUTE(app, "/join_game/<int>/<int>")([this](std::uint32_t user_id, std::uint8_t room_size) {
 		return JoinGame(user_id, room_size);
+	});
+	
+	CROW_ROUTE(app, "/leave_game/<int>")([this](std::uint32_t user_id) {
+		return LeaveGame(user_id);
 	});
 }

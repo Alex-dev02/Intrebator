@@ -2,6 +2,7 @@
 
 #include "../Database/Database.hpp"
 #include "../Server/Server.hpp"
+#include "../Services/UserServices.hpp"
 
 class GameServices {
 public:
@@ -11,9 +12,10 @@ public:
 
 private:
 	const crow::json::wvalue& JoinGame(uint32_t user_id, uint8_t room_size);
-
+	const crow::json::wvalue& LeaveGame(uint32_t user_id);
 private:
 	std::shared_ptr<Server> m_server;
 	std::shared_ptr<Database> m_database;
+	std::shared_ptr<UserServices> m_user_services;
 	std::shared_ptr<Game> m_game;
 };

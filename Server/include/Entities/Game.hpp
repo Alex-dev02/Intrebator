@@ -13,6 +13,7 @@
 class Game {
 public:
 	Game();
+	Game(const Game&) = delete;
 	~Game() = default;
 
 	void Run();
@@ -21,6 +22,8 @@ public:
 
 public:
 	bool AddPlayer(std::shared_ptr<Player> player);
+	void RemovePlayer(std::shared_ptr<Player> player);
+	std::optional<std::shared_ptr<Player>> GetPlayer(uint32_t id);
 	void SetRoomSize(uint8_t room_size);
 	
 	const std::vector<std::shared_ptr<Player>>& GetPlayers() const;

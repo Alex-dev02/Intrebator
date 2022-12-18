@@ -1,5 +1,7 @@
 #include "../../include/Entities/Game.hpp"
 
+#include <algorithm> 
+
 Game::Game()
 	: m_map(Map(5,3)),
 	m_room_size(0)
@@ -31,7 +33,6 @@ int Game::GetRandomValueFrom0UpUntilN(int n){
 	return uniform(random);
 }
 
-
 bool Game::AddPlayer(std::shared_ptr<Player> player) {
 	if (m_players.size() < m_room_size) {
 		m_players.push_back(player);
@@ -40,9 +41,22 @@ bool Game::AddPlayer(std::shared_ptr<Player> player) {
 	return false;
 }
 
+void Game::RemovePlayer(std::shared_ptr<Player> player) {
+	player->SetInactive();
+}
+
 void Game::SetRoomSize(uint8_t room_size) {
 	if (m_room_size == 0)
 		m_room_size = room_size;
+}
+
+std::optional<std::shared_ptr<Player>> Game::GetPlayer(uint32_t id) {
+	auto player_to_remove = std::find_if(m_players.begin(), m_players.end(), [id](std::shared_ptr<Player> player) {
+		return player->GetId() == id;
+	});
+	if (player_to_remove != m_players.end())
+		return { *player_to_remove };
+	return { std::nullopt };
 }
 
 const std::vector<std::shared_ptr<Player>>& Game::GetPlayers() const {
