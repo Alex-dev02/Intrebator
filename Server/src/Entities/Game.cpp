@@ -5,6 +5,8 @@
 const std::string& Game::StatusToString(Status status) {
 	if (status == Status::WAITING_FOR_PLAYERS)
 		return "WAITING_FOR_PLAYERS";
+	else if (status == Status::PICKING_BASE)
+		return "WAITING_FOR_PLAYERS";
 	else if (status == Status::PICKING_CELLS)
 		return "PICKING_CELLS";
 	else if (status == Status::DUELLING)
@@ -23,12 +25,6 @@ Game::Game()
 
 void Game::Run() {
 	InitialiseGame();
-	// while true???
-	// trebuiesc luate intrebarile pentru picking cells
-	// dupa pentru dueling
-	// ar trebui si o stare de waiting, in care poate se intampla cv (de ex: mai sunt playeri care raspund la intreabri)
-	// si daca e waiting atunci nu se intampla nimic
-	// trebuie gandita asta
 }
 
 void Game::InitialiseGame() {

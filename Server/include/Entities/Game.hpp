@@ -14,6 +14,7 @@ class Game {
 public:
 	enum class Status {
 		WAITING_FOR_PLAYERS,
+		PICKING_BASE,
 		PICKING_CELLS,
 		DUELLING,
 		FINISHED
@@ -32,10 +33,11 @@ public:
 	bool AddPlayer(std::shared_ptr<Player> player);
 	bool RemovePlayer(std::shared_ptr<Player> player);
 	std::optional<std::shared_ptr<Player>> GetPlayer(uint32_t id);
-	void SetRoomSize(uint8_t room_size);
-	
 	const std::vector<std::shared_ptr<Player>>& GetPlayers() const;
+
 	Status GetStatus() const;
+	void SetRoomSize(uint8_t room_size);
+
 private:
 	Player::Color GetColorToAssignToPlayer();
 	void InitialiseGame();
