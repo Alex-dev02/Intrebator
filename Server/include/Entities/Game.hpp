@@ -38,6 +38,8 @@ public:
 	Status GetStatus() const;
 	void SetRoomSize(uint8_t room_size);
 
+
+
 private:
 	Player::Color GetColorToAssignToPlayer();
 	void InitialiseGame();
@@ -48,6 +50,7 @@ private:
 
 private:
 	Map m_map;
+
 	uint8_t m_room_size;
 	Status m_status;
 private:
