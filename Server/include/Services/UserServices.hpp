@@ -18,8 +18,8 @@ public:
 	std::optional<int> SaveUser(const User& user);
 
 private:
-	const crow::json::wvalue& UserRegister(const crow::request& req);
-	const crow::json::wvalue& UserLogin(const crow::request& req);
+	crow::json::wvalue UserRegister(const crow::request& req);
+	crow::json::wvalue UserLogin(const crow::request& req);
 	
 private:
 	std::shared_ptr<Database> m_database;

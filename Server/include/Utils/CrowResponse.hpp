@@ -11,5 +11,5 @@ public:
 		SERVER_ERROR = 500
 	};
 		
-	static const crow::json::wvalue& Json(Code code, const std::string& message = "", const crow::json::wvalue& data = {});
+	static crow::json::wvalue Json(Code code, const std::string& message = "", const crow::json::wvalue& data = {});
 };

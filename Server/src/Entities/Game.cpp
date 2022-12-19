@@ -25,6 +25,7 @@ Game::Game()
 
 void Game::Run() {
 	InitialiseGame();
+	m_status = Status::PICKING_BASE;
 }
 
 void Game::InitialiseGame() {

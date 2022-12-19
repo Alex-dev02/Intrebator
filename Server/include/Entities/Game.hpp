@@ -5,6 +5,7 @@
 #include "Questions/MultipleAnswerQuestion.hpp"
 #include "Questions/NumericQuestion.hpp"
 #include "Map.hpp"
+#include "../Utils/Contest.hpp"
 
 #include <memory>
 #include <vector>
@@ -50,6 +51,7 @@ private:
 
 private:
 	Map m_map;
+	Contest m_contest;
 
 	uint8_t m_room_size;
 	Status m_status;

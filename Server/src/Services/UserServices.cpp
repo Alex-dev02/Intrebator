@@ -3,11 +3,17 @@
 
 std::unique_ptr<User> UserServices::GetUserByName(const std::string& name){
 	using namespace sqlite_orm;
-	for(auto& user : m_database->iterate<User>()){
-		if(user.GetName() == name)
-			return std::make_unique<User>(user);
-	}
+	try
+	{
+		auto selectStatement = m_database->prepare(select(&User::GetId, &User::GetName, where(length(&User::GetName) == name)));
+		auto rows = m_database->execute(selectStatement);
+		std::cout << typeid(rows).name();
 
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what();
+	}
 	return nullptr;
 }
 
@@ -20,7 +26,7 @@ std::optional<int> UserServices::SaveUser(const User& user){
 	}
 }
 
-const crow::json::wvalue& UserServices::UserRegister(const crow::request& req) {
+crow::json::wvalue UserServices::UserRegister(const crow::request& req) {
 	// request type: /user/register?name=joe&password=pass&repeat_password=pass
 	using namespace sqlite_orm;
 	auto name = req.url_params.get("name");
@@ -44,12 +50,12 @@ const crow::json::wvalue& UserServices::UserRegister(const crow::request& req) {
 	 return CrowResponse::Json(CrowResponse::Code::OK);
 }
 
-const crow::json::wvalue& UserServices::UserLogin(const crow::request& req) {
+crow::json::wvalue UserServices::UserLogin(const crow::request& req) {
 	using namespace sqlite_orm;
 	auto name = req.url_params.get("name");
-	if (!name)
+	if (!name) {
 		return CrowResponse::Json(CrowResponse::Code::INVALID, "No name filed provided!");
-
+	}
 	auto password = req.url_params.get("password");
 	if (!password)
 		return CrowResponse::Json(CrowResponse::Code::INVALID, "No password filed provided!");

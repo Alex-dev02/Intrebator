@@ -17,11 +17,14 @@ public:
 
 	uint16_t GetScore() const;
 	BaseType GetBaseType() const;
+	std::optional<std::shared_ptr<Player>> GetPlayer() const;
+
 	void SetScore(uint16_t score);
 	void SetBaseType(BaseType base_type);
+	void SetPlayer(std::shared_ptr<Player> player);
 
 private:
-	std::unique_ptr<Player> m_player;		// what're we going to do with this
+	std::optional<std::shared_ptr<Player>> m_player;
 	uint16_t m_score;
 	BaseType m_base_type;
 };
