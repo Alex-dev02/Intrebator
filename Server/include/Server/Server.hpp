@@ -22,9 +22,6 @@ public:
 	std::shared_ptr<Game> GetGame() const;
 	bool GameIsRunning() const;
 
-public:
-	void InitRoutes(std::shared_ptr<Server> server);
-
 private:
 	crow::SimpleApp m_app;
 	std::shared_ptr<Game> m_game;

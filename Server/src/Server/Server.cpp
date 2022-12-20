@@ -7,14 +7,6 @@ Server::Server(std::shared_ptr<Database> database)
 	m_game_running(false)
 {}
 
-void Server::InitRoutes(std::shared_ptr<Server> server) {
-	UserServices user_services{ m_database };
-	user_services.InitRoutes(server);
-
-	GameServices game_services{ m_database, server };
-	game_services.InitRoutes();
-}
-
 crow::SimpleApp& Server::GetApp() {
 	return m_app;
 }

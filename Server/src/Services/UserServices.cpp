@@ -3,16 +3,9 @@
 
 std::unique_ptr<User> UserServices::GetUserByName(const std::string& name){
 	using namespace sqlite_orm;
-	try
-	{
-		auto selectStatement = m_database->prepare(select(&User::GetId, &User::GetName, where(length(&User::GetName) == name)));
-		auto rows = m_database->execute(selectStatement);
-		std::cout << typeid(rows).name();
-
-	}
-	catch (const std::exception& e)
-	{
-		std::cerr << e.what();
+	for (auto& user : m_database->iterate<User>()) {
+		if (user.GetName() == name)
+			return std::make_unique<User>(user);
 	}
 	return nullptr;
 }
