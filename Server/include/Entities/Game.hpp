@@ -20,6 +20,7 @@ public:
 		DUELLING,
 		FINISHED
 	};
+
 	static const std::string& StatusToString(Status status);
 public:
 	Game();
@@ -45,6 +46,8 @@ private:
 	Player::Color GetColorToAssignToPlayer();
 	void InitialiseGame();
 	void SetMap();
+	void ShuffleRounds();
+
 private:
 	using Turn = std::shared_ptr<Player>;
 	using Round = std::vector<Turn>;

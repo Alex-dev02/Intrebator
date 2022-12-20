@@ -6,26 +6,27 @@
 
 class Cell {
 public:
-	enum class BaseType {
+	enum class Type {
 		Base,
-		AnnexedTerritory
+		AnnexedTerritory,
+		NONE
 	};
 
 public:
-	Cell() = default;
-	Cell(uint16_t score, BaseType base_type);
+	Cell();
+	Cell(uint16_t score, Type base_type);
 
 	uint16_t GetScore() const;
-	BaseType GetBaseType() const;
+	Type GetType() const;
 	std::optional<std::shared_ptr<Player>> GetPlayer() const;
 
 	void SetScore(uint16_t score);
-	void SetBaseType(BaseType base_type);
+	void SetType(Type base_type);
 	void SetPlayer(std::shared_ptr<Player> player);
 
 private:
 	std::optional<std::shared_ptr<Player>> m_player;
 	uint16_t m_score;
-	BaseType m_base_type;
+	Type m_type;
 };
 

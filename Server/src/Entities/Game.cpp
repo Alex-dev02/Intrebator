@@ -1,6 +1,7 @@
 #include "../../include/Entities/Game.hpp"
 
 #include <algorithm> 
+#include <random>
 
 const std::string& Game::StatusToString(Status status) {
 	if (status == Status::WAITING_FOR_PLAYERS)
@@ -30,27 +31,31 @@ void Game::Run() {
 
 void Game::InitialiseGame() {
 	SetMap();
-
+	ShuffleRounds();
 }
 
 void Game::SetMap() {
 	m_room_size = m_players.size();
 
-	if (m_room_size == 2)
+	if (m_room_size == 2) {
 		m_map = Map(3, 3);
-	else if (m_room_size == 3)
+		m_rounds = std::vector<Round>(5, m_players);
+	}
+	else if (m_room_size == 3) {
 		m_map = Map(5, 3);
-	else if (m_room_size == 4)
+		m_rounds = std::vector<Round>(4, m_players);
+	}
+	else if (m_room_size == 4) {
 		m_map = Map(6, 4);
+		m_rounds = std::vector<Round>(5, m_players);
+	}
+}
 
-	m_rounds.resize(m_players.size() * 2);
-
+void Game::ShuffleRounds() {
+	auto rng = std::default_random_engine{};
 	for (auto& round : m_rounds) {
-		round.resize(m_players.size());
-		for (auto& turn : round) {
-			turn = m_players[rand() % m_players.size()];
-		}
-	} // probabil trebuie putin revizuita alocarea rundelor etc, nush acum
+		std::shuffle(round.begin(), round.end(), rng);
+	}
 }
 
 int Game::GetRandomValueFrom0UpUntilN(int n){
