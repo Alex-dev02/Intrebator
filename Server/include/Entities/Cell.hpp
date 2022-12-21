@@ -21,7 +21,7 @@ public:
 	void SetBaseType(BaseType base_type);
 
 private:
-	std::unique_ptr<Player> m_player;		// what're we going to do with this
+	std::unique_ptr<Player> m_player;
 	uint16_t m_score;
 	BaseType m_base_type;
 };

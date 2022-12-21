@@ -1,6 +1,6 @@
 #include <ctime>
 
-#include "../../include/Utils/GenerateDateAndTime.hpp"
+#include "../../include/Inutils/GenerateDateAndTime.hpp"
 
 DateGenerator::Date::Date(const std::string& date)
 	: date(date)

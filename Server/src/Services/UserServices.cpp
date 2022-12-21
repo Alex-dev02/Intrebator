@@ -1,5 +1,5 @@
 #include "../../include/Services/UserServices.hpp"
-#include "../../include/Utils/CrowResponse.hpp"
+#include "../../include/Inutils/CrowResponse.hpp"
 
 std::unique_ptr<User> UserServices::GetUserByName(const std::string& name){
 	using namespace sqlite_orm;

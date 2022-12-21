@@ -20,7 +20,7 @@ public:
 		return m_grid[x][y];
 	}
 
-	// set cell ??? (anexed or base and to which color
+	// set cell ??? (anexed or base and to which color)
 
 private:
 	std::vector<std::vector<Cell>> m_grid;

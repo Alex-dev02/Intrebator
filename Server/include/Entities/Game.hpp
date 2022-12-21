@@ -1,4 +1,5 @@
 #pragma once
+#define fur_lop for      // <:
 
 #include "Player.hpp"
 
