@@ -145,9 +145,11 @@
     <ClInclude Include="include\Entities\Questions\Question.hpp" />
     <ClInclude Include="include\Entities\Questions\QuestionPowerUp.hpp" />
     <ClInclude Include="include\Entities\User.hpp" />
+    <ClInclude Include="include\Services\GameServices.hpp" />
+    <ClInclude Include="include\Services\QuestionServices.hpp" />
+    <ClInclude Include="include\Inutils\Contest.hpp" />
     <ClInclude Include="include\Inutils\CrowResponse.hpp" />
     <ClInclude Include="include\Inutils\GenerateDateAndTime.hpp" />
-    <ClInclude Include="include\Inutils\InsertFromFileIntoQuestions.hpp" />
     <ClInclude Include="include\Server\Server.hpp" />
     <ClInclude Include="include\Services\BasicDatabaseCRUD.hpp" />
     <ClInclude Include="include\Services\UserServices.hpp" />
@@ -168,7 +170,10 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Server\Server.cpp" />
     <ClCompile Include="src\Services\BasicDatabaseCRUD.cpp" />
+    <ClCompile Include="src\Services\GameServices.cpp" />
+    <ClCompile Include="src\Services\QuestionServices.cpp" />
     <ClCompile Include="src\Services\UserServices.cpp" />
+    <ClCompile Include="src\Utils\Contest.cpp" />
     <ClCompile Include="src\Utils\CrowResponse.cpp" />
     <ClCompile Include="src\Utils\GenerateDateAndTime.cpp" />
     <ClCompile Include="src\Utils\InsertFromFileIntoQuestions.cpp" />

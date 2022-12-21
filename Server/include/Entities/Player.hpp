@@ -3,28 +3,40 @@
 #include "User.hpp"
 
 #include <string>
+#include <memory>
+#include <crow.h>
 
 
 class Player : public User{
 public:
-	enum Colour{
+	enum class Color{
 		RED,
 		GREEN,
 		YELLOW,
-		BLUE
+		BLUE,
+		NONE
 	};
+	const std::string& ColorToString(Color color) const;
+	static std::vector<Color> GetAllColors();
+public:
+	Player(std::unique_ptr<User> user);
+	// Player(uint32_t id, const std::string& name, Colour color, uint32_t score);
 
-	Player(uint32_t id, const std::string& name, Colour color, uint32_t score);
 
-
-	const Colour& GetColor() const;
+	const Color& GetColor() const;
 	uint32_t GetScore() const;
+	const std::string& GetPassword() const = delete;
 
-	void SetColor(Colour color);
+	void SetInactive();
+	void SetColor(Color color);
 	void SetScore(uint32_t score);
+	void SetPassword(const std::string&) const = delete;
 
+public:
+	operator crow::json::wvalue() const;
+	bool operator==(const Player& player);
 private:
-	Colour m_color;
+	Color m_color;
 	uint32_t m_score;
 	bool m_isActive = true;
 };

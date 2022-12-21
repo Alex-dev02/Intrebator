@@ -6,47 +6,72 @@
 #include "Questions/MultipleAnswerQuestion.hpp"
 #include "Questions/NumericQuestion.hpp"
 #include "Map.hpp"
+#include "../Utils/Contest.hpp"
 
+#include <mutex>
 #include <memory>
 #include <vector>
 #include <random>
 
 class Game {
 public:
-	Game() {
-		//m_players = aici punem clientii, ar trebui sa facem toti playerii ca si clienti
-		m_map = Map(5, 3);
+	enum class Status {
+		WAITING_FOR_PLAYERS,
+		SHOW_MAP,
+		ANSWERING_QUESTION,
+		SHOW_RESULTS,
+		PICKING_BASE,
+		PICKING_CELLS,
+		DUELLING,
+		FINISHED
+	};
 
-		m_rounds.resize(m_players.size() * 2);
-
-		for (auto& round : m_rounds) {
-			round.resize(m_players.size());
-			for (auto& turn : round) {
-				turn = std::make_unique<Player>(m_players[rand() % m_players.size()]);
-			}
-		}
-	}
-
+	std::string StatusToString(Status status);
+public:
+	Game();
+	Game(const Game&) = delete;
 	~Game() = default;
 
-	void Run() {
-		for (auto& round : m_rounds) {
-			for (auto& turn : round) {
-
-			}
-		}
-	}
+	void Run();
 
 	int GetRandomValueFrom0UpUntilN(int n);
 
+public:
+	bool AddPlayer(std::shared_ptr<Player> player);
+	bool RemovePlayer(std::shared_ptr<Player> player);
+	std::optional<std::shared_ptr<Player>> GetPlayer(uint32_t id);
+	const std::vector<std::shared_ptr<Player>>& GetPlayers() const;
+
+	Status GetStatus() const;
+	void SetRoomSize(uint8_t room_size);
+
 private:
-	std::vector<Player> m_players;
+	Player::Color GetColorToAssignToPlayer();
+	void InitialiseGame();
+	void SetMap();
+	void ShuffleRounds();
+
+	// threading
+private:
+	void GameLoop();
+	void WaitForAnswers(uint8_t seconds_to_wait);
+
+private:
+	std::mutex m_mutex;
+
+private:
+	using Turn = std::shared_ptr<Player>;
+	using Round = std::vector<Turn>;
+
+private:
 	Map m_map;
+	Contest m_contest;
 
-	using turn = std::unique_ptr<Player>;
-	using round = std::vector<turn>;
-
-	std::vector<round> m_rounds;
-	std::vector<MultipleAnswerQuestion> m_multi_question;
-	std::vector<NumericQuestion> m_numeric_question;
+	uint8_t m_room_size;
+	Status m_status;
+private:
+	std::vector<std::shared_ptr<Player>> m_players;
+	std::vector<Round> m_rounds;
+	std::vector<std::unique_ptr<Question>> m_questions;
+	std::vector<Player::Color> m_available_player_colors;
 };

@@ -13,7 +13,6 @@ UI::UI(sf::RenderWindow& window) {
 
 	//put the image in the center of the screen
 	background->setSize(windowWidth, windowHeight);
-	background->setPosition(windowWidth / 1270, windowHeight / 720);
 
 	m_gui.add(background);
 
@@ -26,9 +25,13 @@ UI::UI(sf::RenderWindow& window) {
 	// Main menu
 	CreateMainMenu(windowWidth, windowHeight);
 
+	// Match Selector Menu
+	CreateMatchSelectorMenu(windowWidth, windowHeight);
+
 	m_loginMenu->setVisible(true);
 	m_registerMenu->setVisible(false);
 	m_mainMenu->setVisible(false);
+	m_matchSelectorMenu->setVisible(false);
 }
 
 void UI::CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
@@ -148,14 +151,15 @@ void UI::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	m_mainMenu->add(optionsButton);
 	m_mainMenu->add(exitButton);
 
-	playButton->onClick([]() {
+	playButton->onClick([this]() {
 		Debug::Log("Play");
+	m_mainMenu->setVisible(false);
+	m_matchSelectorMenu->setVisible(true);
 		});
 
 	optionsButton->onClick([]() {
 		Debug::Log("Options");
 		});
-
 
 	exitButton->onClick([this]() {
 		Debug::Log("Exit");
@@ -163,6 +167,55 @@ void UI::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 		});
 
 	m_gui.add(m_mainMenu, "MainMenu");
+}
+
+void UI::CreateMatchSelectorMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
+	m_matchSelectorMenu = tgui::Group::create();
+
+	tgui::Button::Ptr twoPlayerButton = tgui::Button::create();
+	twoPlayerButton->setSize(windowWidth * 218 / 1270, windowHeight * 281 / 720);
+	twoPlayerButton->setPosition(windowWidth * 256 / 1270, windowHeight * 219.5 / 720);
+	twoPlayerButton->setText("2 players");
+
+	tgui::Button::Ptr threePlayerButton = tgui::Button::create();
+	threePlayerButton->setSize(windowWidth * 218 / 1270, windowHeight * 281 / 720);
+	threePlayerButton->setPosition(windowWidth * 526 / 1270, windowHeight * 219.5 / 720);
+	threePlayerButton->setText("3 players");
+
+	tgui::Button::Ptr fourPlayerButton = tgui::Button::create();
+	fourPlayerButton->setSize(windowWidth * 218 / 1270, windowHeight * 281 / 720);
+	fourPlayerButton->setPosition(windowWidth * 796 / 1270, windowHeight * 219.5 / 720);
+	fourPlayerButton->setText("4 players");
+
+	tgui::Button::Ptr backButton = tgui::Button::create();
+	backButton->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
+	backButton->setPosition(windowWidth * 73 / 1270, windowHeight * 595.09 / 720);
+	backButton->setText("Back");
+
+	m_matchSelectorMenu->add(twoPlayerButton);
+	m_matchSelectorMenu->add(threePlayerButton);
+	m_matchSelectorMenu->add(fourPlayerButton);
+	m_matchSelectorMenu->add(backButton);
+
+	twoPlayerButton->onClick([]() {
+		Debug::Log("2 players");
+		});
+
+	threePlayerButton->onClick([]() {
+		Debug::Log("3 players");
+		});
+
+	fourPlayerButton->onClick([]() {
+		Debug::Log("4 players");
+		});
+
+	backButton->onClick([this]() {
+		Debug::Log("Back");
+	m_mainMenu->setVisible(true);
+	m_matchSelectorMenu->setVisible(false);
+		});
+
+	m_gui.add(m_matchSelectorMenu, "MatchSelectorMenu");
 }
 
 void UI::CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password) {

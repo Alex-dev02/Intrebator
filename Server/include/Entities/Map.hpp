@@ -9,16 +9,9 @@ class Map {
 public:
 	Map() = default;
 
-	Map(int width, int height) {
-		m_grid.resize(width);
-		for (auto& row : m_grid) {
-			row.resize(height);
-		}
-	}
+	Map(uint8_t width, uint8_t height);
 
-	const Cell& GetCell(int x, int y) const {
-		return m_grid[x][y];
-	}
+	const Cell& GetCell(uint8_t x, uint8_t y) const;
 
 	// set cell ??? (anexed or base and to which color)
 
