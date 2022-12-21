@@ -9,7 +9,7 @@ GameServices::GameServices(std::shared_ptr<Database> database, std::shared_ptr<S
 	m_user_services(std::make_shared<UserServices>(UserServices(database)))
 {}
 
-const crow::json::wvalue& GameServices::JoinGame(uint32_t user_id, uint8_t room_size) {
+crow::json::wvalue GameServices::JoinGame(uint32_t user_id, uint8_t room_size) {
 	if (m_server->GameIsRunning())
 		CrowResponse::Json(CrowResponse::Code::INVALID, "The game is already running!");
 	
@@ -27,7 +27,7 @@ const crow::json::wvalue& GameServices::JoinGame(uint32_t user_id, uint8_t room_
 		std::vector<crow::json::wvalue> json_players;
 		
 		for (const auto& p : players) {
-			json_players.push_back(p.get());
+			json_players.push_back(static_cast<crow::json::wvalue>(*p.get()));
 		}
 
 		return CrowResponse::Json(CrowResponse::Code::OK, "", crow::json::wvalue{json_players});
@@ -36,7 +36,7 @@ const crow::json::wvalue& GameServices::JoinGame(uint32_t user_id, uint8_t room_
 	return CrowResponse::Json(CrowResponse::Code::INVALID, "Room is full!");
 }
 
-const crow::json::wvalue& GameServices::LeaveGame(uint32_t user_id) {
+crow::json::wvalue GameServices::LeaveGame(uint32_t user_id) {
 	auto user = m_user_services->GetUserById(user_id);
 	
 	if (!user)
@@ -49,13 +49,14 @@ const crow::json::wvalue& GameServices::LeaveGame(uint32_t user_id) {
 	return CrowResponse::Json(CrowResponse::Code::INVALID, "Player not found!");
 }
 
-const crow::json::wvalue& GameServices::StartGame() {
+crow::json::wvalue GameServices::StartGame() {
 	m_server->StartGame();
 	return CrowResponse::Json(CrowResponse::Code::OK);
 }
 
-const crow::json::wvalue& GameServices::CheckGameStatus() {
-	return CrowResponse::Json(CrowResponse::Code::OK, Game::StatusToString(m_game->GetStatus()));
+crow::json::wvalue GameServices::CheckGameStatus() {
+	auto status = m_game->StatusToString(m_game->GetStatus());
+	return CrowResponse::Json(CrowResponse::Code::OK, status);
 }
 
 void GameServices::InitRoutes() {

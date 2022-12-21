@@ -2,10 +2,16 @@
 
 #include <algorithm> 
 #include <random>
+#include <chrono>
+#include <thread>
 
-const std::string& Game::StatusToString(Status status) {
+std::string Game::StatusToString(Status status) {
 	if (status == Status::WAITING_FOR_PLAYERS)
 		return "WAITING_FOR_PLAYERS";
+	else if (status == Status::SHOW_MAP)
+		return  "SHOW_MAP";
+	else if (status == Status::ANSWERING_QUESTION)
+		return "ANSWERING_QUESTION";
 	else if (status == Status::PICKING_BASE)
 		return "WAITING_FOR_PLAYERS";
 	else if (status == Status::PICKING_CELLS)
@@ -23,16 +29,53 @@ Game::Game()
 	m_status(Status::WAITING_FOR_PLAYERS)
 {}
 
+void Game::WaitForAnswers(uint8_t seconds_to_wait) {
+	using namespace std::chrono_literals;
+
+	uint8_t seconds_waited = 0;
+	while (true) {
+		if (m_contest.GetAnswersSize() == m_contest.GetParticipantsSize() || seconds_waited == seconds_to_wait)
+			break;
+		std::this_thread::sleep_for(1s);
+		seconds_waited++;
+	}
+}
+
+void Game::GameLoop() {
+	using namespace std::chrono_literals;
+
+	m_mutex.lock();
+	m_status = Status::SHOW_MAP;
+	m_mutex.unlock();
+	std::this_thread::sleep_for(5s);
+
+	// first fase, answering numeric question for picking the base
+	m_mutex.lock();
+	m_contest.SetQuestion(std::move(m_questions.front()));
+	m_questions.erase(m_questions.begin());
+	m_contest.SetParticipants(m_players);
+	m_contest.StartTimer();
+	m_status = Status::ANSWERING_QUESTION;
+	m_mutex.unlock();
+	WaitForAnswers(15);
+
+	m_mutex.lock();
+	m_status = Status::SHOW_RESULTS;
+	m_mutex.unlock();
+	std::this_thread::sleep_for(5s);
+}
 
 void Game::Run() {
 	InitialiseGame();
-	m_status = Status::PICKING_BASE;
+	std::thread gl(&Game::GameLoop, this);
+	gl.detach();
 }
 
 void Game::InitialiseGame() {
 	SetMap();
 	ShuffleRounds();
 }
+
 
 void Game::SetMap() {
 	m_room_size = m_players.size();

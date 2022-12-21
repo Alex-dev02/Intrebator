@@ -7,6 +7,7 @@
 #include "Map.hpp"
 #include "../Utils/Contest.hpp"
 
+#include <mutex>
 #include <memory>
 #include <vector>
 #include <random>
@@ -15,13 +16,16 @@ class Game {
 public:
 	enum class Status {
 		WAITING_FOR_PLAYERS,
+		SHOW_MAP,
+		ANSWERING_QUESTION,
+		SHOW_RESULTS,
 		PICKING_BASE,
 		PICKING_CELLS,
 		DUELLING,
 		FINISHED
 	};
 
-	static const std::string& StatusToString(Status status);
+	std::string StatusToString(Status status);
 public:
 	Game();
 	Game(const Game&) = delete;
@@ -40,13 +44,19 @@ public:
 	Status GetStatus() const;
 	void SetRoomSize(uint8_t room_size);
 
-
-
 private:
 	Player::Color GetColorToAssignToPlayer();
 	void InitialiseGame();
 	void SetMap();
 	void ShuffleRounds();
+
+	// threading
+private:
+	void GameLoop();
+	void WaitForAnswers(uint8_t seconds_to_wait);
+
+private:
+	std::mutex m_mutex;
 
 private:
 	using Turn = std::shared_ptr<Player>;
@@ -61,7 +71,6 @@ private:
 private:
 	std::vector<std::shared_ptr<Player>> m_players;
 	std::vector<Round> m_rounds;
-	std::vector<MultipleAnswerQuestion> m_multi_question;
-	std::vector<NumericQuestion> m_numeric_question;
+	std::vector<std::unique_ptr<Question>> m_questions;
 	std::vector<Player::Color> m_available_player_colors;
 };

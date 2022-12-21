@@ -11,10 +11,10 @@ public:
 	void InitRoutes();
 
 private:
-	const crow::json::wvalue& JoinGame(uint32_t user_id, uint8_t room_size);
-	const crow::json::wvalue& LeaveGame(uint32_t user_id);
-	const crow::json::wvalue& StartGame();
-	const crow::json::wvalue& CheckGameStatus();
+	crow::json::wvalue JoinGame(uint32_t user_id, uint8_t room_size);
+	crow::json::wvalue LeaveGame(uint32_t user_id);
+	crow::json::wvalue StartGame();
+	crow::json::wvalue CheckGameStatus();
 private:
 	std::shared_ptr<Server> m_server;
 	std::shared_ptr<Database> m_database;

@@ -13,7 +13,7 @@ const std::string& Player::ColorToString(Color color) const{
 		return "NONE";
 }
 
-const std::vector<Player::Color>& Player::GetAllColors() {
+std::vector<Player::Color> Player::GetAllColors() {
 	return {
 		Color::RED,
 		Color::GREEN,

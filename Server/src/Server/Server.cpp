@@ -4,7 +4,8 @@
 
 Server::Server(std::shared_ptr<Database> database)
 	: m_database(database),
-	m_game_running(false)
+	m_game_running(false),
+	m_game(std::make_shared<Game>())
 {}
 
 crow::SimpleApp& Server::GetApp() {
@@ -13,6 +14,7 @@ crow::SimpleApp& Server::GetApp() {
 
 void Server::StartGame() {
 	m_game_running = true;
+	m_game->Run();
 }
 
 std::shared_ptr<Game> Server::GetGame() const {
