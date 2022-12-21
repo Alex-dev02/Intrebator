@@ -145,6 +145,7 @@
     <ClInclude Include="include\Entities\Questions\Question.hpp" />
     <ClInclude Include="include\Entities\Questions\QuestionPowerUp.hpp" />
     <ClInclude Include="include\Entities\User.hpp" />
+    <ClInclude Include="include\Inutils\InsertFromFileIntoQuestions.hpp" />
     <ClInclude Include="include\Services\GameServices.hpp" />
     <ClInclude Include="include\Services\QuestionServices.hpp" />
     <ClInclude Include="include\Inutils\Contest.hpp" />

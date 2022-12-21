@@ -60,16 +60,16 @@
     <ClInclude Include="include\Inutils\GenerateDateAndTime.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Inutils\InsertFromFileIntoQuestions.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Services\GameServices.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Services\QuestionServices.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Utils\Contest.hpp">
+    <ClInclude Include="include\Inutils\Contest.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Inutils\InsertFromFileIntoQuestions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,19 +116,10 @@
     <ClCompile Include="src\Entities\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Inutils\GenerateDateAndTime.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Services\UserServices.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Services\BasicDatabaseCRUD.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Inutils\CrowResponse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Inutils\InsertFromFileIntoQuestions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Services\GameServices.cpp">
@@ -137,7 +128,16 @@
     <ClCompile Include="src\Services\QuestionServices.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Inutils\Contest.cpp">
+    <ClCompile Include="src\Utils\Contest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\CrowResponse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\GenerateDateAndTime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\InsertFromFileIntoQuestions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
