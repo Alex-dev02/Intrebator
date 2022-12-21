@@ -147,10 +147,10 @@
     <ClInclude Include="include\Entities\User.hpp" />
     <ClInclude Include="include\Inutils\CrowResponse.hpp" />
     <ClInclude Include="include\Inutils\GenerateDateAndTime.hpp" />
+    <ClInclude Include="include\Inutils\InsertFromFileIntoQuestions.hpp" />
     <ClInclude Include="include\Server\Server.hpp" />
     <ClInclude Include="include\Services\BasicDatabaseCRUD.hpp" />
     <ClInclude Include="include\Services\UserServices.hpp" />
-    <ClInclude Include="include\Inutils\InsertFromFileIntoQuestions.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\Database\Database.hpp" />
