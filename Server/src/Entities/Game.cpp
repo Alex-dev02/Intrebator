@@ -192,7 +192,7 @@ void Game::SetDatabase(std::shared_ptr<Database> database) {
 	m_database = database;
 }
 
-void Game::SubmitContestAnswer(const std::string& answer, std::shared_ptr<Player> player) {
-	m_contest.SubmitAnswer(answer, player);
-}
+//void Game::SubmitContestAnswer(const std::string& answer, std::shared_ptr<Player> player) {
+//	m_contest.SubmitAnswer(answer, player);
+//}
 
