@@ -3,7 +3,7 @@
 std::vector<Question*> InsertFromFileIntoQuestionsNum(){
 	std::vector<Question*> questionsArray;
 	NumericQuestion numQuestion;
-	std::ifstream file1("multiple answer questions.txt");
+	std::ifstream file1("multiple_answer_questions.txt");
 	if(not file1.is_open()){
 		std::printf("the file hasnt been found..");
 	}
@@ -32,7 +32,7 @@ std::vector<Question*> InsertFromFileIntoQuestionsNum(){
 std::vector<Question*> InsertFromFileIntoQuestionsMultip(){
 	std::vector<Question*> questionsArray;
 	MultipleAnswerQuestion multipQuestion;
-	std::ifstream file1("numeric questions.txt");
+	std::ifstream file1("numeric_questions.txt");
 	if(not file1.is_open()){
 		std::printf("the file hasnt been found..");
 	}
