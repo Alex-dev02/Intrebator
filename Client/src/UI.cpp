@@ -1,19 +1,18 @@
 #include "../include/UI.hpp"
+#include "../include/Network.hpp"
 
 UI::UI(sf::RenderWindow& window) {
 	m_window = &window;
-	m_gui.setTarget(window);
 
 	auto windowWidth = tgui::bindWidth(m_gui);
 	auto windowHeight = tgui::bindHeight(m_gui);
 
-	m_gui.setTextSize(20);
-
 	tgui::Picture::Ptr background = tgui::Picture::create("assets/images/background.png");
-
-	//put the image in the center of the screen
 	background->setSize(windowWidth, windowHeight);
 
+	m_gui.setTarget(window);
+	m_gui.setFont(tgui::Font("assets/fonts/Inter-Medium.ttf"));
+	m_gui.setTextSize(20);
 	m_gui.add(background);
 
 	// Login Menu
@@ -28,10 +27,14 @@ UI::UI(sf::RenderWindow& window) {
 	// Match Selector Menu
 	CreateMatchSelectorMenu(windowWidth, windowHeight);
 
+	// Options Menu
+	CreateOptionsMenu(windowWidth, windowHeight);
+
 	m_loginMenu->setVisible(true);
 	m_registerMenu->setVisible(false);
 	m_mainMenu->setVisible(false);
 	m_matchSelectorMenu->setVisible(false);
+	m_optionsMenu->setVisible(false);
 }
 
 void UI::CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
@@ -72,7 +75,7 @@ void UI::CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	m_registerMenu->setVisible(true);
 		});
 
-	m_gui.add(m_loginMenu, "LoginMenu");
+	m_gui.add(m_loginMenu);
 }
 
 void UI::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
@@ -122,15 +125,20 @@ void UI::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 			CreateAccount(editBoxUsername, editBoxPassword);
 		}
 		else {
-			//afiseaza cv mesaj de oroare
+			// TODO : afiseaza cv mesaj de oroare
 		}
 		});
 
-	m_gui.add(m_registerMenu, "RegisterMenu");
+	m_gui.add(m_registerMenu);
 }
 
 void UI::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	m_mainMenu = tgui::Group::create();
+
+	tgui::Label::Ptr usernameLabel = tgui::Label::create();
+	usernameLabel->setTextSize(80);
+	usernameLabel->setPosition(windowWidth * 73 / 1270, windowHeight * 100 / 720);
+	usernameLabel->setText("Username");
 
 	tgui::Button::Ptr playButton = tgui::Button::create();
 	playButton->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
@@ -147,6 +155,7 @@ void UI::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	exitButton->setPosition(windowWidth * 73 / 1270, windowHeight * 595.09 / 720);
 	exitButton->setText("Exit");
 
+	m_mainMenu->add(usernameLabel);
 	m_mainMenu->add(playButton);
 	m_mainMenu->add(optionsButton);
 	m_mainMenu->add(exitButton);
@@ -157,8 +166,10 @@ void UI::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	m_matchSelectorMenu->setVisible(true);
 		});
 
-	optionsButton->onClick([]() {
+	optionsButton->onClick([this]() {
 		Debug::Log("Options");
+	m_mainMenu->setVisible(false);
+	m_optionsMenu->setVisible(true);
 		});
 
 	exitButton->onClick([this]() {
@@ -166,7 +177,7 @@ void UI::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	m_window->close();
 		});
 
-	m_gui.add(m_mainMenu, "MainMenu");
+	m_gui.add(m_mainMenu);
 }
 
 void UI::CreateMatchSelectorMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
@@ -215,7 +226,27 @@ void UI::CreateMatchSelectorMenu(tgui::Layout windowWidth, tgui::Layout windowHe
 	m_matchSelectorMenu->setVisible(false);
 		});
 
-	m_gui.add(m_matchSelectorMenu, "MatchSelectorMenu");
+	m_gui.add(m_matchSelectorMenu);
+}
+
+void UI::CreateOptionsMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
+{
+	m_optionsMenu = tgui::Group::create();
+
+	tgui::Button::Ptr backButton = tgui::Button::create();
+	backButton->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
+	backButton->setPosition(windowWidth * 73 / 1270, windowHeight * 595.09 / 720);
+	backButton->setText("Back");
+
+	m_optionsMenu->add(backButton);
+
+	backButton->onClick([this]() {
+		Debug::Log("Back");
+	m_mainMenu->setVisible(true);
+	m_optionsMenu->setVisible(false);
+		});
+
+	m_gui.add(m_optionsMenu);
 }
 
 void UI::CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password) {
@@ -227,6 +258,7 @@ void UI::CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password)
 		// connect sau cv
 		m_registerMenu->setVisible(false);
 		m_mainMenu->setVisible(true);
+		//Network::localPlayer.SetUsername(username->getText().toStdString());
 	}
 	else {
 		//zi-le ca nu se poate accesa serveru din cine stie ce motiv
@@ -241,6 +273,7 @@ void UI::Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password) {
 		// connect sau cv
 		m_loginMenu->setVisible(false);
 		m_mainMenu->setVisible(true);
+		//Network::localPlayer.SetUsername(username->getText().toStdString());
 	}
 	else {
 		//zi-le ca nu ii boon
