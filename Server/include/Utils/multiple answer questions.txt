@@ -4,7 +4,7 @@ Answer2
 Answer3
 CorrectAnswer
 
-Ce planeta are cea mai mare forta gravitationala:
+Care dintre planetele următoare are cea mai mare forță gravitațională:
 Marte 
 Saturn 
 Uranus
@@ -21,3 +21,9 @@ Deoxyribonuclear Acid
 Duoribonuclear Acid
 Duoxyribonucleic Acid
 Deoxyribonucleic Acid
+
+În ce țară este situată Praga?
+Spania
+Brazilia
+Belarus
+Republica Cehă

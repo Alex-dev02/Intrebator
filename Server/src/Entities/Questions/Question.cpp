@@ -1,12 +1,17 @@
 #include "../../../include/Entities/Questions/Question.hpp"
 
+Question::Question()
+	:m_id(-1)
+{}
+
 Question::Question(std::uint32_t id, const std::string& question)
 	: m_id(id),
 	m_question(question)
 {}
 
 Question::Question(const std::string& question)
-	: m_question(question)
+	: m_id(-1),
+	m_question(question)
 {}
 
 const std::string& Question::GetQuestion() const {

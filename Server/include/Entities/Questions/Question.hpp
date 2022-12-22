@@ -4,7 +4,7 @@
 
 class Question {
 public:
-	Question() = default;
+	Question();
 	Question(std::uint32_t id, const std::string& question);
 	Question(const std::string& question);
 
