@@ -30,6 +30,8 @@ public:
 
 	uint8_t GetAnswersSize();
 	uint8_t GetParticipantsSize();
+	
+	void SubmitAnswer(const std::string& answer, std::shared_ptr<Player> player);
 private:
 	std::time_t m_time;
 	std::vector<std::shared_ptr<Player>> m_participants;
