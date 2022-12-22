@@ -4,8 +4,15 @@ std::vector<Question*> InsertFromFileIntoQuestionsNum(){
 	std::vector<Question*> questionsArray;
 	NumericQuestion numQuestion;
 	std::ifstream file1("multiple answer questions.txt");
+	if(not file1.is_open()){
+		std::printf("the file hasnt been found..");
+	}
 	std::string line;
 	int lineNb = 0;
+	while(lineNb < 3){   // ignore introductory lines
+		std::getline(file1, line);
+		lineNb++;
+	}
 
 	while(std::getline(file1, line)){
 		if(lineNb % 3 == 0){
@@ -26,8 +33,15 @@ std::vector<Question*> InsertFromFileIntoQuestionsMultip(){
 	std::vector<Question*> questionsArray;
 	MultipleAnswerQuestion multipQuestion;
 	std::ifstream file1("numeric questions.txt");
+	if(not file1.is_open()){
+		std::printf("the file hasnt been found..");
+	}
 	std::string line;
 	int lineNb = 0;
+	while(lineNb < 6){    // ignore introductory lines
+		std::getline(file1, line);
+		lineNb++;
+	}
 
 	while(std::getline(file1, line)){
 		if(lineNb % 6 == 0){
