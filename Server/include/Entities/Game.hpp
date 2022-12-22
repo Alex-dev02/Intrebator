@@ -62,6 +62,7 @@ private:
 	void GameLoop();
 	void WaitForAnswers(uint8_t seconds_to_wait);
 	void PickFreeCells();
+	void ShowResults();
 
 private:
 	std::mutex m_mutex;

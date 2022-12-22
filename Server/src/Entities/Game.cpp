@@ -42,15 +42,23 @@ void Game::WaitForAnswers(uint8_t seconds_to_wait) {
 	}
 }
 
+void Game::ShowResults() {
+	using namespace std::chrono_literals;
+	m_mutex.lock();
+	m_status = Status::SHOW_RESULTS;
+	m_mutex.unlock();
+	std::this_thread::sleep_for(3s);
+}
+
 void Game::PickFreeCells() {
 	auto free_cells = m_map.FreeCells();
 	do {
 
 		m_mutex.lock();
-		Status::ANSWERING_QUESTION;
+		m_status = Status::ANSWERING_QUESTION;
 		m_mutex.unlock();
-
-
+		WaitForAnswers(15);
+		ShowResults();
 
 	} while (true);
 }
@@ -72,11 +80,8 @@ void Game::GameLoop() {
 	m_status = Status::ANSWERING_QUESTION;
 	m_mutex.unlock();
 	WaitForAnswers(15);
-
-	m_mutex.lock();
-	m_status = Status::SHOW_RESULTS;
-	m_mutex.unlock();
-	std::this_thread::sleep_for(3s);
+	
+	ShowResults();
 }
 
 void Game::Run() {
