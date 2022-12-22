@@ -13,7 +13,7 @@ std::vector<Question*> InsertFromFileIntoQuestionsNum(){
 		}
 		else if(lineNb % 3 == 1){
 			numQuestion.SetAnswer(std::stoi(line));
-			questionsArray.emplace_back(numQuestion);
+			questionsArray.emplace_back(&numQuestion);
 		}
 		lineNb++;
 	}
@@ -44,7 +44,7 @@ std::vector<Question*> InsertFromFileIntoQuestionsMultip(){
 		}
 		if(lineNb % 6 == 4){
 			multipQuestion.SetCorrectAnswer(line);
-			questionsArray.emplace_back(multipQuestion);
+			questionsArray.emplace_back(&multipQuestion);
 		}
 		lineNb++;
 	}
