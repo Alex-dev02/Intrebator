@@ -15,6 +15,7 @@ private:
 	crow::json::wvalue LeaveGame(uint32_t user_id);
 	crow::json::wvalue StartGame();
 	crow::json::wvalue CheckGameStatus();
+	crow::json::wvalue SubmitAnswerForCurrentQuestion(const crow::request& req);
 private:
 	std::shared_ptr<Server> m_server;
 	std::shared_ptr<Database> m_database;

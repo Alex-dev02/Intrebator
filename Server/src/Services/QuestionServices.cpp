@@ -21,5 +21,10 @@ std::vector<std::shared_ptr<Question>> QuestionServices::FetchQuestionForGame(ui
 	for (auto& question : m_database->iterate<NumericQuestion>(order_by(sqlite_orm::random()), limit(number_of_numeric_questions))) {
 		questions.push_back(std::make_shared<NumericQuestion>(question));
 	}
+
+	for (auto& question : m_database->iterate<MultipleAnswerQuestion>(order_by(sqlite_orm::random()), limit(number_of_numeric_questions))) {
+		questions.push_back(std::make_shared<MultipleAnswerQuestion>(question));
+	}
+
 	return questions;
 }

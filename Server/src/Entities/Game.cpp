@@ -1,4 +1,5 @@
 #include "../../include/Entities/Game.hpp"
+#include "../../include/Services/QuestionServices.hpp"
 
 #include <algorithm> 
 #include <random>
@@ -41,6 +42,19 @@ void Game::WaitForAnswers(uint8_t seconds_to_wait) {
 	}
 }
 
+void Game::PickFreeCells() {
+	auto free_cells = m_map.FreeCells();
+	do {
+
+		m_mutex.lock();
+		Status::ANSWERING_QUESTION;
+		m_mutex.unlock();
+
+
+
+	} while (true);
+}
+
 void Game::GameLoop() {
 	using namespace std::chrono_literals;
 
@@ -51,7 +65,7 @@ void Game::GameLoop() {
 
 	// first fase, answering numeric question for picking the base
 	m_mutex.lock();
-	m_contest.SetQuestion(std::move(m_questions.front()));
+	m_contest.SetQuestion(m_questions.front());
 	m_questions.erase(m_questions.begin());
 	m_contest.SetParticipants(m_players);
 	m_contest.StartTimer();
@@ -62,14 +76,11 @@ void Game::GameLoop() {
 	m_mutex.lock();
 	m_status = Status::SHOW_RESULTS;
 	m_mutex.unlock();
-	std::this_thread::sleep_for(5s);
+	std::this_thread::sleep_for(3s);
 }
 
 void Game::Run() {
 	InitialiseGame();
-
-
-
 	std::thread gl(&Game::GameLoop, this);
 	gl.detach();
 }
@@ -84,8 +95,11 @@ uint16_t Game::GetNumberOfQuestionsToPrepare() {
 }
 
 void Game::InitialiseGame() {
+	QuestionServices question_services{ m_database };
+	m_questions = question_services.FetchQuestionForGame(GetNumberOfQuestionsToPrepare());
 	SetMap();
 	ShuffleRounds();
+	ShuffleQuestions();
 }
 
 
@@ -111,6 +125,12 @@ void Game::ShuffleRounds() {
 	for (auto& round : m_rounds) {
 		std::shuffle(round.begin(), round.end(), rng);
 	}
+}
+
+void Game::ShuffleQuestions() {
+	auto rng = std::default_random_engine{};
+	std::shuffle(m_questions.begin() + 1, m_questions.end(), rng);
+	// .begin + 1 so the first question is a numeric one
 }
 
 int Game::GetRandomValueFrom0UpUntilN(int n){
@@ -167,3 +187,12 @@ Player::Color Game::GetColorToAssignToPlayer() {
 	m_available_player_colors.erase(m_available_player_colors.begin());
 	return color;
 }
+
+void Game::SetDatabase(std::shared_ptr<Database> database) {
+	m_database = database;
+}
+
+void Game::SubmitContestAnswer(const std::string& answer, std::shared_ptr<Player> player) {
+	m_contest.SubmitAnswer(answer, player);
+}
+

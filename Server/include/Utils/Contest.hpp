@@ -22,7 +22,7 @@ public:
 	Contest(const Contest&) = delete;
 
 	// set playerssss
-	void SetQuestion(std::unique_ptr<Question> question);
+	void SetQuestion(std::shared_ptr<Question> question);
 	void AddParticipant(std::shared_ptr<Player> player);
 	void SetParticipants(const std::vector<std::shared_ptr<Player>>& players);
 	void ClearParticipants();
@@ -33,6 +33,7 @@ public:
 private:
 	std::time_t m_time;
 	std::vector<std::shared_ptr<Player>> m_participants;
-	std::unique_ptr<Question> m_question;
+	std::shared_ptr<Question> m_question;
 	std::vector<Answer> m_answers;
+
 };

@@ -14,6 +14,7 @@ crow::SimpleApp& Server::GetApp() {
 
 void Server::StartGame() {
 	m_game_running = true;
+	m_game->SetDatabase(m_database);
 	m_game->Run();
 }
 
