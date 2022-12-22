@@ -8,6 +8,9 @@ public:
 
 	void InitRoutes();
 
+public:
+	std::vector<std::shared_ptr<NumericQuestion>> FetchQuestionForGame(uint16_t number_of_questions_to_fetch);
+
 private:
 	std::shared_ptr<Database> m_database;
 

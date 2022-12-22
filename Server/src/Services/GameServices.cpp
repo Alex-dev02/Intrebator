@@ -1,6 +1,6 @@
 #include "../../include/Services/GameServices.hpp"
 #include "../../include/Services/UserServices.hpp"
-#include "../../include/Inutils/CrowResponse.hpp"
+#include "../../include/Utils/CrowResponse.hpp"
 
 GameServices::GameServices(std::shared_ptr<Database> database, std::shared_ptr<Server> server)
 	: m_database(database),

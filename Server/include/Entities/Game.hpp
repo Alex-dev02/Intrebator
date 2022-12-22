@@ -50,7 +50,7 @@ private:
 	void InitialiseGame();
 	void SetMap();
 	void ShuffleRounds();
-
+	uint16_t GetNumberOfQuestionsToPrepare();
 	// threading
 private:
 	void GameLoop();

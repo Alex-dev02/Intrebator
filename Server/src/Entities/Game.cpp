@@ -67,8 +67,20 @@ void Game::GameLoop() {
 
 void Game::Run() {
 	InitialiseGame();
+
+
+
 	std::thread gl(&Game::GameLoop, this);
 	gl.detach();
+}
+
+uint16_t Game::GetNumberOfQuestionsToPrepare() {
+	uint16_t number_of_questions_to_prepare = 0;
+	for (const auto& round : m_rounds) {
+		number_of_questions_to_prepare += round.size();
+	}
+
+	return number_of_questions_to_prepare;
 }
 
 void Game::InitialiseGame() {
