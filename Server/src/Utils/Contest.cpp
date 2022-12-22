@@ -40,6 +40,6 @@ uint8_t Contest::GetParticipantsSize() {
 	return m_participants.size();
 }
 
-//void Contest::SubmitAnswer(const std::string& answer, std::shared_ptr<Player> player) {
-//	m_answers.push_back(Answer(player, m_time - time(nullptr), answer));
-//}
+void Contest::SubmitAnswer(const std::string& answer, std::shared_ptr<Player> player) {
+	m_answers.push_back(Answer(player, m_time - time(nullptr), answer));
+}
