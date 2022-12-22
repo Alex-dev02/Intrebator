@@ -59,6 +59,22 @@ crow::json::wvalue GameServices::CheckGameStatus() {
 	return CrowResponse::Json(CrowResponse::Code::OK, status);
 }
 
+crow::json::wvalue GameServices::SubmitAnswerForCurrentQuestion(const crow::request& req) {
+
+	auto body = crow::json::load(req.body);
+
+	if (!body)
+		return CrowResponse::Json(CrowResponse::Code::INVALID, "No request body found");
+	try{
+		std::string test = body["y"].s();
+
+	}
+	catch (const std::exception&){
+
+	}
+	
+}
+
 void GameServices::InitRoutes() {
 	auto& app = m_server->GetApp();
 
@@ -73,5 +89,9 @@ void GameServices::InitRoutes() {
 	});
 	CROW_ROUTE(app, "/check_game_status")([this]() {
 		return CheckGameStatus();
+	});
+	CROW_ROUTE(app, "/submit_answer_for_current_question").methods("POST"_method)
+	([this](const crow::request& req) {
+		return SubmitAnswerForCurrentQuestion(req);
 	});
 }

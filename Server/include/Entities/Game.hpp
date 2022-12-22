@@ -7,6 +7,7 @@
 #include "Questions/NumericQuestion.hpp"
 #include "Map.hpp"
 #include "../Utils/Contest.hpp"
+#include "../Database/Database.hpp"
 
 #include <mutex>
 #include <memory>
@@ -44,17 +45,23 @@ public:
 
 	Status GetStatus() const;
 	void SetRoomSize(uint8_t room_size);
+	void SetDatabase(std::shared_ptr<Database> database);
+
+public:
+	void SubmitContestAnswer(const std::string& answer, std::shared_ptr<Player> player);
 
 private:
 	Player::Color GetColorToAssignToPlayer();
 	void InitialiseGame();
 	void SetMap();
 	void ShuffleRounds();
+	void ShuffleQuestions();
 	uint16_t GetNumberOfQuestionsToPrepare();
 	// threading
 private:
 	void GameLoop();
 	void WaitForAnswers(uint8_t seconds_to_wait);
+	void PickFreeCells();
 
 private:
 	std::mutex m_mutex;
@@ -72,6 +79,10 @@ private:
 private:
 	std::vector<std::shared_ptr<Player>> m_players;
 	std::vector<Round> m_rounds;
-	std::vector<std::unique_ptr<Question>> m_questions;
+	std::vector<std::shared_ptr<Question>> m_questions;
 	std::vector<Player::Color> m_available_player_colors;
+
+private:
+	std::shared_ptr<Database> m_database;
+
 };

@@ -14,6 +14,8 @@ public:
 	const Cell& GetCell(uint8_t x, uint8_t y) const;
 
 	// set cell ??? (anexed or base and to which color)
+public:
+	uint16_t FreeCells();
 
 private:
 	std::vector<std::vector<Cell>> m_grid;

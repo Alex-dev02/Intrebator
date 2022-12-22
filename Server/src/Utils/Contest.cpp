@@ -1,7 +1,7 @@
 #include "../../include/Utils/Contest.hpp"
 
-void Contest::SetQuestion(std::unique_ptr<Question> question) {
-	m_question = std::move(question);
+void Contest::SetQuestion(std::shared_ptr<Question> question) {
+	m_question = question;
 }
 
 void Contest::AddParticipant(std::shared_ptr<Player> player) {
@@ -38,4 +38,8 @@ uint8_t Contest::GetAnswersSize() {
 
 uint8_t Contest::GetParticipantsSize() {
 	return m_participants.size();
+}
+
+void Contest::SubmitAnswer(const std::string& answer, std::shared_ptr<Player> player) {
+	m_answers.push_back(Answer(player, m_time - time(nullptr), answer));
 }
