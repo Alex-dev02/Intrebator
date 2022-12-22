@@ -16,12 +16,12 @@ namespace InitDB {
 				sql::make_column("name", &User::GetName, &User::SetName, sql::unique()),
 				sql::make_column("password", &User::GetPassword, &User::SetPassword)
 			),
-			sql::make_table("numeric_question",
+			sql::make_table<NumericQuestion>("numeric_question",
 				sql::make_column("id", &NumericQuestion::GetId, &NumericQuestion::SetId, sql::autoincrement(), sql::primary_key()),
 				sql::make_column("question", &NumericQuestion::GetQuestion, &NumericQuestion::SetQuestion),
 				sql::make_column("answer", &NumericQuestion::GetAnswer, &NumericQuestion::SetAnswer)
 			),
-			sql::make_table("multiple_answer_question",
+			sql::make_table<MultipleAnswerQuestion>("multiple_answer_question",
 				sql::make_column("id", &MultipleAnswerQuestion::GetId, &MultipleAnswerQuestion::SetId, sql::autoincrement(), sql::primary_key()),
 				sql::make_column("question", &MultipleAnswerQuestion::GetQuestion, &MultipleAnswerQuestion::SetQuestion),
 				sql::make_column("first_answer", &MultipleAnswerQuestion::GetFirstAnswer, &MultipleAnswerQuestion::SetFirstAnswer),

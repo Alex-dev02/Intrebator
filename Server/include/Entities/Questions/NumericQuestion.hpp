@@ -4,6 +4,7 @@
 
 class NumericQuestion final : public Question {
 public:
+	NumericQuestion() = default;
 	NumericQuestion(const std::string& question, int answer);
 
 	int GetAnswer() const;
