@@ -6,7 +6,7 @@
 #include "Questions/MultipleAnswerQuestion.hpp"
 #include "Questions/NumericQuestion.hpp"
 #include "Map.hpp"
-#include "../Inutils/Contest.hpp"
+#include "../Utils/Contest.hpp"
 
 #include <mutex>
 #include <memory>

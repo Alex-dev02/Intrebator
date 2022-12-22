@@ -1,4 +1,4 @@
-#include "../../include/Inutils/Contest.hpp"
+#include "../../include/Utils/Contest.hpp"
 
 void Contest::SetQuestion(std::unique_ptr<Question> question) {
 	m_question = std::move(question);

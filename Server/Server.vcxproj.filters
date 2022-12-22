@@ -54,10 +54,10 @@
     <ClInclude Include="include\Services\BasicDatabaseCRUD.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Inutils\CrowResponse.hpp">
+    <ClInclude Include="include\Utils\CrowResponse.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Inutils\GenerateDateAndTime.hpp">
+    <ClInclude Include="include\Utils\GenerateDateAndTime.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Services\GameServices.hpp">
@@ -66,10 +66,10 @@
     <ClInclude Include="include\Services\QuestionServices.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Inutils\Contest.hpp">
+    <ClInclude Include="include\Utils\Contest.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Inutils\InsertFromFileIntoQuestions.hpp">
+    <ClInclude Include="include\Utils\InsertFromFileIntoQuestions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
