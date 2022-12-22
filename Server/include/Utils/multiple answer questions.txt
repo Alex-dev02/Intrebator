@@ -1,28 +1,24 @@
 0. Question
 a) Answer1
 b) Answer2
-c) Answer3
-d) Answer4
-d) CorrectAnswer
+d) Answer3
+c) CorrectAnswer
 
 1. Ce planeta are cea mai mare forta gravitationala:
 a) Marte 
-b) Jupiter 
 c) Saturn 
 d) Uranus
-b)
+b) Jupiter 
 
 2. Ce țară nu are propriul ei imn national:
-a) Cipru 
 b) Guatemala 
 c) Uruguay 
 d) Ecuador
-a)
+a) Cipru 
 
 3. De la ce vine acronimul DNA?
 a) Deoxyribonuclear Acid 
 b) Duoribonuclear Acid
 c) Duoxyribonucleic Acid
 d) Deoxyribonucleic Acid
-d)
 
