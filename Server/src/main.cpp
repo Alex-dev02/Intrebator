@@ -12,8 +12,13 @@ int main() {
 	const std::string db_name = "intrebator_db.sqlite";
 	auto storage =
 		std::make_shared<Database>(InitDB::CreateStorage(db_name));
-	
-	PopulateDatabase(storage);
+	try {
+		PopulateDatabase(storage);
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what();
+	}
 
 	auto server = std::make_shared<Server>(storage);
 
@@ -38,6 +43,6 @@ void PopulateDatabase(std::shared_ptr<Database> database) {
 	}
 	catch (const std::exception& e){
 		std::cerr << e.what() << '\n';
-		std::cerr << "Failed to populate database\n";
+		throw std::exception("Failed to populate the database\n");
 	}
 }
