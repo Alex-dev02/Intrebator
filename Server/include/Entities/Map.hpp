@@ -19,6 +19,9 @@ public:
 	bool TryPickCell(uint8_t x, uint8_t y, std::shared_ptr<Player> player);
 
 private:
+	bool CellIsInPlayerReach(uint8_t x, uint8_t, std::shared_ptr<Player> player);
+
+private:
 	uint8_t m_width;
 	uint8_t m_height;
 	std::vector<std::vector<Cell>> m_grid;
