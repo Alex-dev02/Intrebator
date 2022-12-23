@@ -5,15 +5,18 @@
 
 #include <vector>
 #include <ctime>
+#include <crow.h>
 
 class Contest {
 public:
 	struct Answer {
 		Answer();
-		Answer(std::shared_ptr<Player> player, uint16_t answering_time_ms, const std::string& answer);
+		Answer(std::shared_ptr<Player> player, uint16_t answering_time_s, const std::string& answer);
 		std::shared_ptr<Player> m_player;
-		uint16_t m_answering_time_ms;
+		uint16_t m_answering_time_s;
 		std::string m_answer;
+
+		operator crow::json::wvalue() const;
 	};
 
 public:
@@ -32,6 +35,7 @@ public:
 	uint8_t GetParticipantsSize();
 	
 	void SubmitAnswer(const std::string& answer, std::shared_ptr<Player> player);
+	std::vector<Contest::Answer> GetAnswers();
 private:
 	std::time_t m_time;
 	std::vector<std::shared_ptr<Player>> m_participants;

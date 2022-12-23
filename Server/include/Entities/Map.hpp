@@ -11,12 +11,15 @@ public:
 
 	Map(uint8_t width, uint8_t height);
 
-	const Cell& GetCell(uint8_t x, uint8_t y) const;
+	Cell& GetCell(uint8_t x, uint8_t y);
 
 	// set cell ??? (anexed or base and to which color)
 public:
 	uint16_t FreeCells();
+	bool TryPickCell(uint8_t x, uint8_t y, std::shared_ptr<Player> player);
 
 private:
+	uint8_t m_width;
+	uint8_t m_height;
 	std::vector<std::vector<Cell>> m_grid;
 };

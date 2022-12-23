@@ -16,6 +16,8 @@ private:
 	crow::json::wvalue StartGame();
 	crow::json::wvalue CheckGameStatus();
 	crow::json::wvalue SubmitAnswerForCurrentQuestion(const crow::request& req);
+	crow::json::wvalue GetPoolResults();
+	crow::json::wvalue TryPickCell(uint8_t x, uint8_t y, uint32_t player_id);
 private:
 	std::shared_ptr<Server> m_server;
 	std::shared_ptr<Database> m_database;

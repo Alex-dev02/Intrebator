@@ -49,7 +49,8 @@ public:
 
 public:
 	void SubmitContestAnswer(const std::string& answer, std::shared_ptr<Player> player);
-
+	std::vector<Contest::Answer> GetContestResults();
+	bool TryPickCell(uint8_t x, uint8_t y, uint32_t player_id);
 private:
 	Player::Color GetColorToAssignToPlayer();
 	void InitialiseGame();
@@ -63,7 +64,7 @@ private:
 	void WaitForAnswers(uint8_t seconds_to_wait);
 	void PickFreeCells();
 	void ShowResults();
-	
+	void PickBase();
 
 private:
 	std::mutex m_mutex;

@@ -50,17 +50,32 @@ void Game::ShowResults() {
 	std::this_thread::sleep_for(3s);
 }
 
-void Game::PickFreeCells() {
-	auto free_cells = m_map.FreeCells();
-	do {
+void Game::PickBase() {
+	m_mutex.lock();
+	m_contest.SetQuestion(m_questions.front());
+	m_questions.erase(m_questions.begin());
+	m_contest.SetParticipants(m_players);
+	m_contest.StartTimer();
+	m_status = Status::ANSWERING_QUESTION;
+	m_mutex.unlock();
+}
 
+
+void Game::PickFreeCells() {
+	using namespace std::chrono_literals;
+	auto free_cells = m_map.FreeCells();
+	while (free_cells > 0) {
 		m_mutex.lock();
 		m_status = Status::ANSWERING_QUESTION;
 		m_mutex.unlock();
 		WaitForAnswers(15);
 		ShowResults();
-
-	} while (true);
+		m_mutex.lock();
+		m_status = Status::PICKING_CELLS;
+		m_mutex.unlock();
+		std::this_thread::sleep_for(6s);
+		free_cells = m_map.FreeCells();
+	}
 }
 
 void Game::GameLoop() {
@@ -72,16 +87,12 @@ void Game::GameLoop() {
 	std::this_thread::sleep_for(5s);
 
 	// first fase, answering numeric question for picking the base
-	m_mutex.lock();
-	m_contest.SetQuestion(m_questions.front());
-	m_questions.erase(m_questions.begin());
-	m_contest.SetParticipants(m_players);
-	m_contest.StartTimer();
-	m_status = Status::ANSWERING_QUESTION;
-	m_mutex.unlock();
+	PickBase();
 	WaitForAnswers(15);
-	
 	ShowResults();
+
+	PickFreeCells();
+	// wait for answers in PickFreeCells, maybe remodel it
 }
 
 void Game::Run() {
@@ -201,3 +212,15 @@ void Game::SubmitContestAnswer(const std::string& answer, std::shared_ptr<Player
 	m_contest.SubmitAnswer(answer, player);
 }
 
+std::vector<Contest::Answer> Game::GetContestResults() {
+	return m_contest.GetAnswers();
+}
+
+bool Game::TryPickCell(uint8_t x, uint8_t y, uint32_t player_id) {
+	auto player = std::find_if(m_players.begin(), m_players.end(), [player_id](std::shared_ptr<Player> player) {
+		return player->GetId() == player_id;
+	});
+	if (player != m_players.end())
+		return m_map.TryPickCell(x, y, *player);
+	return false;
+}
