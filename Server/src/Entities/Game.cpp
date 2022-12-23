@@ -63,10 +63,6 @@ void Game::PickFreeCells() {
 	} while (true);
 }
 
-void Game::ShowResults() {
-
-}
-
 void Game::GameLoop() {
 	using namespace std::chrono_literals;
 

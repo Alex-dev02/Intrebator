@@ -1,11 +1,11 @@
 #include "../../include/Utils/InsertFromFileIntoQuestions.hpp"
 
-std::vector<Question*> InsertFromFileIntoQuestionsNum(){
-	std::vector<Question*> questionsArray;
+std::vector<NumericQuestion> ReadNumericQuestionsFromFile(){
+	std::vector<NumericQuestion> questionsArray;
 	NumericQuestion numQuestion;
-	std::ifstream file1("multiple_answer_questions.txt");
-	if(not file1.is_open()){
-		std::printf("the file hasnt been found..");
+	std::ifstream file1("numeric_questions.txt");
+	if(!file1.is_open()){
+		throw std::exception("Could not open file numeric_questions.txt");
 	}
 	std::string line;
 	int lineNb = 0;
@@ -20,7 +20,7 @@ std::vector<Question*> InsertFromFileIntoQuestionsNum(){
 		}
 		else if(lineNb % 3 == 1){
 			numQuestion.SetAnswer(std::stoi(line));
-			questionsArray.emplace_back(&numQuestion);
+			questionsArray.emplace_back(numQuestion);
 		}
 		lineNb++;
 	}
@@ -29,12 +29,12 @@ std::vector<Question*> InsertFromFileIntoQuestionsNum(){
 	return questionsArray;
 }
 
-std::vector<Question*> InsertFromFileIntoQuestionsMultip(){
-	std::vector<Question*> questionsArray;
+std::vector<MultipleAnswerQuestion> ReadMultipleAnswerQuestionsFromFile(){
+	std::vector<MultipleAnswerQuestion> questionsArray;
 	MultipleAnswerQuestion multipQuestion;
-	std::ifstream file1("numeric_questions.txt");
-	if(not file1.is_open()){
-		std::printf("the file hasnt been found..");
+	std::ifstream file1("multiple_answer_questions.txt");
+	if(!file1.is_open()){
+		throw std::exception("Could not open file multiple_answer_questions.txt");
 	}
 	std::string line;
 	int lineNb = 0;
@@ -58,7 +58,7 @@ std::vector<Question*> InsertFromFileIntoQuestionsMultip(){
 		}
 		if(lineNb % 6 == 4){
 			multipQuestion.SetCorrectAnswer(line);
-			questionsArray.emplace_back(&multipQuestion);
+			questionsArray.emplace_back(multipQuestion);
 		}
 		lineNb++;
 	}

@@ -7,6 +7,6 @@
 #include <fstream>
 #include <vector>
 
-std::vector<Question*> InsertFromFileIntoQuestionsNum();
+std::vector<NumericQuestion> ReadNumericQuestionsFromFile();
 
-std::vector<Question*> InsertFromFileIntoQuestionsMultip();
+std::vector<MultipleAnswerQuestion> ReadMultipleAnswerQuestionsFromFile();
