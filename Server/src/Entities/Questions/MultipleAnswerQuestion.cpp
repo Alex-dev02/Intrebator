@@ -1,5 +1,8 @@
 #include "../../../include/Entities/Questions/MultipleAnswerQuestion.hpp"
 
+#include <algorithm>
+#include <random>
+
 MultipleAnswerQuestion::MultipleAnswerQuestion(const std::string& question, const std::array<std::string, 4>& answers)
 	: Question(question), m_answers(answers)
 {}
@@ -29,3 +32,21 @@ void MultipleAnswerQuestion::SetThirdAnswer(const std::string& third_answer){
 void MultipleAnswerQuestion::SetCorrectAnswer(const std::string& correct_answer){
 	m_answers[3] = correct_answer;
 }
+
+MultipleAnswerQuestion::operator crow::json::wvalue() const {
+	std::vector<crow::json::wvalue> answers = {
+		crow::json::wvalue{GetFirstAnswer()},
+		crow::json::wvalue{GetSecondAnswer()},
+		crow::json::wvalue{GetThirdAnswer()},
+		crow::json::wvalue{GetCorrectAnswer()}
+	};
+
+	auto rng = std::default_random_engine{};
+	std::shuffle(answers.begin(), answers.end(), rng);
+
+	return crow::json::wvalue{
+		{"question", GetQuestion()},
+		{"answers", answers}
+	};
+}
+

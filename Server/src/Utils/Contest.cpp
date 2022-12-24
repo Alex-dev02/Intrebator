@@ -58,3 +58,6 @@ std::vector<Contest::Answer> Contest::GetAnswers() {
 	return {};
 }
 
+std::shared_ptr<Question> Contest::CurrentQuestion() {
+	return m_question;
+}

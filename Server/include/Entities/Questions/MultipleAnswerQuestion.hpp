@@ -4,6 +4,8 @@
 
 #include <array>
 #include <string>
+#include <vector>
+#include <crow/json.h>
 
 class MultipleAnswerQuestion final : public Question {
 public:
@@ -19,6 +21,8 @@ public:
 	void SetSecondAnswer(const std::string& second_answer);
 	void SetThirdAnswer(const std::string& third_answer);
 	void SetCorrectAnswer(const std::string& correct_answer);
+
+	operator crow::json::wvalue() const;
 
 private:
 	std::array<std::string, 4> m_answers;

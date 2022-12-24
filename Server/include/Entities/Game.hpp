@@ -51,6 +51,8 @@ public:
 	void SubmitContestAnswer(const std::string& answer, std::shared_ptr<Player> player);
 	std::vector<Contest::Answer> GetContestResults();
 	bool TryPickCell(uint8_t x, uint8_t y, uint32_t player_id);
+	std::shared_ptr<Question> CurrentQuestion();
+
 private:
 	Player::Color GetColorToAssignToPlayer();
 	void InitialiseGame();

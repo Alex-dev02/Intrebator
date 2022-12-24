@@ -224,3 +224,7 @@ bool Game::TryPickCell(uint8_t x, uint8_t y, uint32_t player_id) {
 		return m_map.TryPickCell(x, y, *player);
 	return false;
 }
+
+std::shared_ptr<Question> Game::CurrentQuestion() {
+	return m_contest.CurrentQuestion();
+}

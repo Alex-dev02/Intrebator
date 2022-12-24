@@ -92,6 +92,28 @@ crow::json::wvalue GameServices::TryPickCell(uint8_t x, uint8_t y, uint32_t play
 	);
 }
 
+crow::json::wvalue GameServices::GetCurrentQuestion() {
+	auto question = m_game->CurrentQuestion();
+	auto nq = std::dynamic_pointer_cast<NumericQuestion>(question);
+	auto mq = std::make_shared<MultipleAnswerQuestion>(dynamic_cast<MultipleAnswerQuestion&>(*question));
+
+	if (nq)
+		return CrowResponse::Json(CrowResponse::Code::OK, "",
+			crow::json::wvalue{
+				{"question", nq->GetQuestion()}
+			}
+	);
+	else if (mq)
+		return CrowResponse::Json(CrowResponse::Code::OK, "",
+			crow::json::wvalue{
+				{"question", mq->GetQuestion()},
+				{"answers", static_cast<crow::json::wvalue>(*mq.get())}
+			}
+		);
+
+	return CrowResponse::Json(CrowResponse::Code::SERVER_ERROR);
+}
+
 void GameServices::InitRoutes() {
 	auto& app = m_server->GetApp();
 
@@ -104,7 +126,7 @@ void GameServices::InitRoutes() {
 	CROW_ROUTE(app, "/start_game")([this]() {
 		return StartGame();
 	});
-	CROW_ROUTE(app, "/check_game_status")([this]() {
+	CROW_ROUTE(app, "/game_status")([this]() {
 		return CheckGameStatus();
 	});
 	CROW_ROUTE(app, "/submit_answer_for_current_question").methods("POST"_method)
@@ -116,5 +138,8 @@ void GameServices::InitRoutes() {
 	});
 	CROW_ROUTE(app, "/pick_cell/<int>/<int>/<int>")([this](uint8_t x, uint8_t y, uint32_t player_id) {
 		return TryPickCell(x, y, player_id);
+	});
+	CROW_ROUTE(app, "/current_question")([this]() {
+		return GetCurrentQuestion();
 	});
 }

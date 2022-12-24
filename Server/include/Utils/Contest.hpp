@@ -33,7 +33,8 @@ public:
 
 	uint8_t GetAnswersSize();
 	uint8_t GetParticipantsSize();
-	
+	std::shared_ptr<Question> CurrentQuestion();
+
 	void SubmitAnswer(const std::string& answer, std::shared_ptr<Player> player);
 	std::vector<Contest::Answer> GetAnswers();
 private:
