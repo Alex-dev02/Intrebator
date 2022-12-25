@@ -65,12 +65,22 @@ crow::json::wvalue GameServices::SubmitAnswerForCurrentQuestion(const crow::requ
 
 	if (!body)
 		return CrowResponse::Json(CrowResponse::Code::INVALID, "No request body found");
-	try{
-		std::string test = body["y"].s();
 
+	try{
+		if (m_game->GetStatus() != Game::Status::ANSWERING_QUESTION)
+			return CrowResponse::Json(CrowResponse::Code::INVALID, "Could not submit answer in this fase!");
+		
+		auto player = m_game->GetPlayer(body["player_id"].i());
+		
+		if (!player.has_value())
+			return CrowResponse::Json(CrowResponse::Code::INVALID, "Invalid user");
+
+		m_game->SubmitContestAnswer(body["answer"].s(), player.value());
+		
+		return CrowResponse::Json(CrowResponse::Code::OK);
 	}
 	catch (const std::exception&){
-
+		return CrowResponse::Json(CrowResponse::Code::SERVER_ERROR);
 	}
 	
 }
@@ -94,20 +104,20 @@ crow::json::wvalue GameServices::TryPickCell(uint8_t x, uint8_t y, uint32_t play
 
 crow::json::wvalue GameServices::GetCurrentQuestion() {
 	auto question = m_game->CurrentQuestion();
-	auto nq = std::dynamic_pointer_cast<NumericQuestion>(question);
-	auto mq = std::make_shared<MultipleAnswerQuestion>(dynamic_cast<MultipleAnswerQuestion&>(*question));
+	auto numeric_question = std::dynamic_pointer_cast<NumericQuestion>(question);
+	auto multiple_answer_question = std::make_shared<MultipleAnswerQuestion>(dynamic_cast<MultipleAnswerQuestion&>(*question));
 
-	if (nq)
+	if (numeric_question)
 		return CrowResponse::Json(CrowResponse::Code::OK, "",
 			crow::json::wvalue{
-				{"question", nq->GetQuestion()}
+				{"question", numeric_question->GetQuestion()}
 			}
 	);
-	else if (mq)
+	else if (multiple_answer_question)
 		return CrowResponse::Json(CrowResponse::Code::OK, "",
 			crow::json::wvalue{
-				{"question", mq->GetQuestion()},
-				{"answers", static_cast<crow::json::wvalue>(*mq.get())}
+				{"question", multiple_answer_question->GetQuestion()},
+				{"answers", static_cast<crow::json::wvalue>(*multiple_answer_question.get())}
 			}
 		);
 
