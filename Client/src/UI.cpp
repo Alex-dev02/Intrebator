@@ -1,5 +1,6 @@
 #include "../include/UI.hpp"
 #include "../include/Network.hpp"
+#include <cpr/cpr.h>
 
 UI::UI(sf::RenderWindow& window) {
 	m_window = &window;
@@ -254,6 +255,10 @@ void UI::CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password)
 	Debug::Log("Username: " + username->getText().toStdString());
 	Debug::Log("Password: " + password->getText().toStdString());
 
+	cpr::Response r = cpr::Post(cpr::Url{ "http://localhost:8080/user/register" },
+		cpr::Body{ "name=" + username->getText().toStdString() + "&password=" + password->getText().toStdString() },
+		cpr::Header{ { "Content-Type", "application/x-www-form-urlencoded" } });
+
 	if (true) { // daca are net si reuseste sa-si faca cont
 		// connect sau cv
 		m_registerMenu->setVisible(false);
@@ -268,6 +273,10 @@ void UI::CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password)
 void UI::Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password) {
 	Debug::Log("Username: " + username->getText().toStdString());
 	Debug::Log("Password: " + password->getText().toStdString());
+
+	cpr::Response r = cpr::Post(cpr::Url{ "http://localhost:8080/user/login" },
+		cpr::Body{ "name=" + username->getText().toStdString() + "&password=" + password->getText().toStdString() },
+		cpr::Header{ { "Content-Type", "application/x-www-form-urlencoded" } });
 
 	if (true) { // adica daca il gasesti in baza de date sau nu
 		// connect sau cv
