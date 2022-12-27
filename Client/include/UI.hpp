@@ -20,6 +20,12 @@ private:
 	void CreateMatchSelectorMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
 	void CreateOptionsMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
 
+private:
+	void CreateMapMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
+	void CreateNumberQuestionMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
+	void CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
+
+private:
 	void CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password);
 	void Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password);
 
@@ -33,4 +39,8 @@ private:
 	tgui::Group::Ptr m_mainMenu;
 	tgui::Group::Ptr m_matchSelectorMenu;
 	tgui::Group::Ptr m_optionsMenu;
+
+	tgui::Group::Ptr m_mapMenu;
+	tgui::Group::Ptr m_numberQuestionMenu;
+	tgui::Group::Ptr m_multipleAnswerQuestionMenu;
 };
