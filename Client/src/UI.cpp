@@ -258,9 +258,10 @@ void UI::CreateOptionsMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 
 	// more buttons for music and stuff like that go here
 	tgui::CheckBox::Ptr musicCheckbox = tgui::CheckBox::create();
-	musicCheckbox->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
+	musicCheckbox->setSize(windowWidth * 56.9 / 1270, windowHeight * 56.9 / 720);
 	musicCheckbox->setPosition(windowWidth * 73 / 1270, windowHeight * 420 / 720);
 	musicCheckbox->setText("Music");
+	musicCheckbox->setChecked(true);
 
 	m_optionsMenu->add(backButton);
 	m_optionsMenu->add(musicCheckbox);
@@ -271,8 +272,12 @@ void UI::CreateOptionsMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 	m_optionsMenu->setVisible(false);
 		});
 
-	musicCheckbox->onCheck([this, musicCheckbox]() {
+	musicCheckbox->onCheck([this]() {
 		Debug::Log("Music on");
+		});
+
+	musicCheckbox->onUncheck([this]() {
+		Debug::Log("Music off");
 		});
 
 	// click events 4 each button goes here
