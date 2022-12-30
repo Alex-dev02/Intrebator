@@ -57,11 +57,13 @@ void UI::CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	tgui::EditBox::Ptr editBoxUsername = tgui::EditBox::create();
 	editBoxUsername->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
 	editBoxUsername->setPosition(windowWidth * 422 / 1270, windowHeight * 214 / 720);
+	editBoxUsername->setInputValidator("[^ ]*");
 	editBoxUsername->setDefaultText("Username");
 
 	tgui::EditBox::Ptr editBoxPassword = tgui::EditBox::create();
 	editBoxPassword->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
 	editBoxPassword->setPosition(windowWidth * 422 / 1270, windowHeight * 329 / 720);
+	editBoxPassword->setInputValidator("[^ ]*");
 	editBoxPassword->setPasswordCharacter('*');
 	editBoxPassword->setDefaultText("Password");
 
@@ -79,6 +81,14 @@ void UI::CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	m_loginMenu->add(editBoxPassword);
 	m_loginMenu->add(loginButton);
 	m_loginMenu->add(registerButton);
+
+	editBoxUsername->onReturnKeyPress([editBoxPassword] {
+		editBoxPassword->setFocused(true);
+		});
+
+	editBoxPassword->onReturnKeyPress([editBoxUsername, editBoxPassword, this] {
+		Login(editBoxUsername, editBoxPassword);
+		});
 
 	loginButton->onClick([editBoxUsername, editBoxPassword, this]() {
 		Login(editBoxUsername, editBoxPassword);
@@ -128,6 +138,23 @@ void UI::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 	m_registerMenu->add(editBoxRepeatPassword);
 	m_registerMenu->add(registerButton);
 	m_registerMenu->add(backButton);
+
+	editBoxUsername->onReturnKeyPress([editBoxPassword] {
+		editBoxPassword->setFocused(true);
+		});
+
+	editBoxPassword->onReturnKeyPress([editBoxRepeatPassword] {
+		editBoxRepeatPassword->setFocused(true);
+		});
+
+	editBoxRepeatPassword->onReturnKeyPress([editBoxUsername, editBoxPassword, editBoxRepeatPassword, this] {
+		if (editBoxPassword->getText().toStdString() == editBoxRepeatPassword->getText().toStdString()) {
+			CreateAccount(editBoxUsername, editBoxPassword);
+		}
+		else {
+			// TODO : afiseaza cv mesaj de oroare
+		}
+		});
 
 	backButton->onClick([editBoxUsername, editBoxPassword, this]() {
 		m_registerMenu->setVisible(false);
@@ -314,6 +341,8 @@ void UI::CreateNumberQuestionMenu(tgui::Layout windowWidth, tgui::Layout windowH
 	submitButton->setPosition(windowWidth * 452 / 1270, windowHeight * 435 / 720);
 	submitButton->setText("Submit");
 	submitButton->setTextSize(20);
+
+	// ik it looks ass but idk what else to do
 
 	tgui::Button::Ptr number0Button = tgui::Button::create();
 	number0Button->setSize(windowWidth * 80 / 1270, windowHeight * 80 / 720);
