@@ -183,7 +183,7 @@ void UI::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 
 	tgui::Label::Ptr usernameLabel = tgui::Label::create();
 	usernameLabel->setTextSize(80);
-	usernameLabel->setPosition(windowWidth * 73 / 1270, windowHeight * 100 / 720);
+	usernameLabel->setPosition(windowWidth * 73 / 1270, windowHeight * 80 / 720);
 	usernameLabel->setText("Username");
 
 	tgui::Button::Ptr playButton = tgui::Button::create();
