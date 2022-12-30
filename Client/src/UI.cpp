@@ -109,17 +109,20 @@ void UI::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 	tgui::EditBox::Ptr editBoxUsername = tgui::EditBox::create();
 	editBoxUsername->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
 	editBoxUsername->setPosition(windowWidth * 422 / 1270, windowHeight * 169 / 720);
+	editBoxUsername->setInputValidator("[^ ]*");
 	editBoxUsername->setDefaultText("Username");
 
 	tgui::EditBox::Ptr editBoxPassword = tgui::EditBox::create();
 	editBoxPassword->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
 	editBoxPassword->setPosition(windowWidth * 422 / 1270, windowHeight * 284 / 720);
+	editBoxUsername->setInputValidator("[^ ]*");
 	editBoxPassword->setPasswordCharacter('*');
 	editBoxPassword->setDefaultText("Password");
 
 	tgui::EditBox::Ptr editBoxRepeatPassword = tgui::EditBox::create();
 	editBoxRepeatPassword->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
 	editBoxRepeatPassword->setPosition(windowWidth * 422 / 1270, windowHeight * 399 / 720);
+	editBoxUsername->setInputValidator("[^ ]*");
 	editBoxRepeatPassword->setPasswordCharacter('*');
 	editBoxRepeatPassword->setDefaultText("Repeat password");
 
