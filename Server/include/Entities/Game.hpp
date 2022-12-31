@@ -52,6 +52,7 @@ public:
 	std::vector<Contest::Answer> GetContestResults();
 	bool TryPickCell(uint8_t x, uint8_t y, uint32_t player_id);
 	std::shared_ptr<Question> CurrentQuestion();
+	const Map& GetMap();
 
 private:
 	Player::Color GetColorToAssignToPlayer();

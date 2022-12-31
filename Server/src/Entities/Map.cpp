@@ -74,3 +74,17 @@ bool Map::CellIsInPlayerReach(uint8_t x, uint8_t y, std::shared_ptr<Player> play
 
 	return false;
 }
+
+Map::operator crow::json::wvalue() const {
+	std::vector<crow::json::wvalue> map;
+	std::vector<crow::json::wvalue> cells;
+	for (const auto& row : m_grid) {
+		cells.clear();
+		for (const auto& cell : row) {
+			cells.push_back(static_cast<crow::json::wvalue>(cell));
+		}
+		map.push_back(crow::json::wvalue{cells});
+	}
+
+	return crow::json::wvalue{map};
+}

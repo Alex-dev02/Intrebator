@@ -14,6 +14,8 @@ public:
 	Cell& GetCell(uint8_t x, uint8_t y);
 
 	// set cell ??? (anexed or base and to which color)
+	operator crow::json::wvalue() const;
+
 public:
 	uint16_t FreeCells();
 	bool TryPickCell(uint8_t x, uint8_t y, std::shared_ptr<Player> player);

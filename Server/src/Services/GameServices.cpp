@@ -105,7 +105,7 @@ crow::json::wvalue GameServices::TryPickCell(uint8_t x, uint8_t y, uint32_t play
 crow::json::wvalue GameServices::GetCurrentQuestion() {
 	auto question = m_game->CurrentQuestion();
 	auto numeric_question = std::dynamic_pointer_cast<NumericQuestion>(question);
-	auto multiple_answer_question = std::make_shared<MultipleAnswerQuestion>(dynamic_cast<MultipleAnswerQuestion&>(*question));
+	auto multiple_answer_question = std::dynamic_pointer_cast<MultipleAnswerQuestion>(question);
 
 	if (numeric_question)
 		return CrowResponse::Json(CrowResponse::Code::OK, "",
@@ -122,6 +122,10 @@ crow::json::wvalue GameServices::GetCurrentQuestion() {
 		);
 
 	return CrowResponse::Json(CrowResponse::Code::SERVER_ERROR);
+}
+
+crow::json::wvalue GameServices::GetMap() {
+	return CrowResponse::Json(CrowResponse::Code::OK, "", static_cast<crow::json::wvalue>(m_game->GetMap()));
 }
 
 void GameServices::InitRoutes() {
@@ -151,5 +155,8 @@ void GameServices::InitRoutes() {
 	});
 	CROW_ROUTE(app, "/current_question")([this]() {
 		return GetCurrentQuestion();
+	});
+	CROW_ROUTE(app, "/map")([this]() {
+		return GetMap();
 	});
 }

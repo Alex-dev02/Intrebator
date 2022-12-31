@@ -12,6 +12,8 @@ public:
 		NONE
 	};
 
+	static std::string TypeToString(const Type type);
+
 public:
 	Cell();
 	Cell(uint16_t score, Type base_type);
@@ -23,6 +25,8 @@ public:
 	void SetScore(uint16_t score);
 	void SetType(Type base_type);
 	void SetPlayer(std::shared_ptr<Player> player);
+
+	operator crow::json::wvalue() const;
 
 private:
 	std::optional<std::shared_ptr<Player>> m_player;

@@ -112,9 +112,9 @@ uint16_t Game::GetNumberOfQuestionsToPrepare() {
 
 void Game::InitialiseGame() {
 	QuestionServices question_services{ m_database };
-	m_questions = question_services.FetchQuestionForGame(GetNumberOfQuestionsToPrepare());
 	SetMap();
 	ShuffleRounds();
+	m_questions = question_services.FetchQuestionForGame(GetNumberOfQuestionsToPrepare());
 	ShuffleQuestions();
 }
 
@@ -227,4 +227,8 @@ bool Game::TryPickCell(uint8_t x, uint8_t y, uint32_t player_id) {
 
 std::shared_ptr<Question> Game::CurrentQuestion() {
 	return m_contest.CurrentQuestion();
+}
+
+const Map& Game::GetMap() {
+	return m_map;
 }
