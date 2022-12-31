@@ -322,7 +322,23 @@ void UI::CreateOptionsMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 
 void UI::CreateMapMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	m_mapMenu = tgui::Group::create();
+	cpr::Response r = cpr::Get(cpr::Url{ "http://127.0.0.1:8080/map" });
+	auto body = crow::json::load(r.text);
 
+	auto res = body["data"];
+	auto vector_of_rows = res.lo();
+	for (auto row : vector_of_rows) {
+		auto vector_of_cells = row.lo();
+		for (auto cell : vector_of_cells) {
+			std::cout << cell["player"];
+			/*
+			* trebuie verificat daca playerul e altceva in afara de NONE
+			* daca da, atunci ar trebui facut un auto player = cell["player"]
+			* si abia apoi extreas din player datale cu player["id"]
+			* sau name sau etc, asa cred
+			*/
+		}
+	}
 	// TODO : add map buttons
 
 	m_gui.add(m_mapMenu);
