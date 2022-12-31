@@ -128,6 +128,17 @@ crow::json::wvalue GameServices::GetMap() {
 	return CrowResponse::Json(CrowResponse::Code::OK, "", static_cast<crow::json::wvalue>(m_game->GetMap()));
 }
 
+crow::json::wvalue GameServices::GetPlayers() {
+	const auto& players = m_game->GetPlayers();
+	std::vector<crow::json::wvalue> json_players;
+
+	for (const auto& p : players) {
+		json_players.push_back(static_cast<crow::json::wvalue>(*p.get()));
+	}
+
+	return CrowResponse::Json(CrowResponse::Code::OK, "", crow::json::wvalue{ json_players });
+}
+
 void GameServices::InitRoutes() {
 	auto& app = m_server->GetApp();
 
@@ -158,5 +169,8 @@ void GameServices::InitRoutes() {
 	});
 	CROW_ROUTE(app, "/map")([this]() {
 		return GetMap();
+	});
+	CROW_ROUTE(app, "/players")([this]() {
+		return GetPlayers();
 	});
 }

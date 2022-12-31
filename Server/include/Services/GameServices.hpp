@@ -20,7 +20,7 @@ private:
 	crow::json::wvalue TryPickCell(uint8_t x, uint8_t y, uint32_t player_id);
 	crow::json::wvalue GetCurrentQuestion();
 	crow::json::wvalue GetMap();
-
+	crow::json::wvalue GetPlayers();
 private:
 	std::shared_ptr<Server> m_server;
 	std::shared_ptr<Database> m_database;
