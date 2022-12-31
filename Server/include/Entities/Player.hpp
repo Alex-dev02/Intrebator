@@ -16,7 +16,7 @@ public:
 		BLUE,
 		NONE
 	};
-	const std::string& ColorToString(Color color) const;
+	std::string ColorToString(Color color) const;
 	static std::vector<Color> GetAllColors();
 public:
 	Player(std::unique_ptr<User> user);

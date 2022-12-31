@@ -1,6 +1,6 @@
 #include "../../include/Entities/Player.hpp"
 
-const std::string& Player::ColorToString(Color color) const{
+std::string Player::ColorToString(Color color) const{
 	if (color == Color::RED)
 		return "RED";
 	else if (color == Color::GREEN)

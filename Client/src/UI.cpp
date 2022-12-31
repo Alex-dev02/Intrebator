@@ -265,6 +265,8 @@ void UI::CreateMatchSelectorMenu(tgui::Layout windowWidth, tgui::Layout windowHe
 		});
 
 	threePlayerButton->onClick([]() {
+		// /join_game/int1/int2 , int1 = id player, int2 = roomsize
+		// /players pentru a obtine jucatorii participatori la joc
 		Debug::Log("3 players");
 		});
 
