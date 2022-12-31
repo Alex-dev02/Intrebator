@@ -41,8 +41,6 @@ crow::json::wvalue UserServices::UserRegister(const crow::request& req) {
 
 	SaveUser(User(str_name, str_password));
 
-	Debug::Log(str_name + " inregistrat cu parola: " + str_password);
-
 	return CrowResponse::Json(CrowResponse::Code::OK);
 }
 
@@ -59,8 +57,6 @@ crow::json::wvalue UserServices::UserLogin(const crow::request& req) {
 		return CrowResponse::Json(CrowResponse::Code::INVALID, "No password filed provided!");
 
 	std::string str_name{ name };
-
-	Debug::Log(str_name + " logat");
 
 	auto user = GetUserByName(str_name);
 	if (user && password == user->GetPassword())

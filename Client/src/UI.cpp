@@ -1,6 +1,7 @@
 #include "../include/UI.hpp"
 #include "../include/Network.hpp"
 #include <cpr/cpr.h>
+#include <crow.h>
 
 UI::UI(sf::RenderWindow& window) {
 	m_window = &window;
@@ -77,21 +78,28 @@ void UI::CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	registerButton->setPosition(windowWidth * 643 / 1270, windowHeight * 443.75 / 720);
 	registerButton->setText("Register");
 
+	tgui::Label::Ptr errorLabel = tgui::Label::create();
+	errorLabel->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
+	errorLabel->setPosition(windowWidth * 422 / 1270, windowHeight * 525 / 720);
+	errorLabel->setText("");
+	errorLabel->getRenderer()->setTextColor(tgui::Color::Red);
+
 	m_loginMenu->add(editBoxUsername);
 	m_loginMenu->add(editBoxPassword);
 	m_loginMenu->add(loginButton);
 	m_loginMenu->add(registerButton);
+	m_loginMenu->add(errorLabel);
 
 	editBoxUsername->onReturnKeyPress([editBoxPassword] {
 		editBoxPassword->setFocused(true);
 		});
 
-	editBoxPassword->onReturnKeyPress([editBoxUsername, editBoxPassword, this] {
-		Login(editBoxUsername, editBoxPassword);
+	editBoxPassword->onReturnKeyPress([errorLabel, editBoxUsername, editBoxPassword, this] {
+		errorLabel->setText(Login(editBoxUsername, editBoxPassword));
 		});
 
-	loginButton->onClick([editBoxUsername, editBoxPassword, this]() {
-		Login(editBoxUsername, editBoxPassword);
+	loginButton->onClick([errorLabel, editBoxUsername, editBoxPassword, this]() {
+		errorLabel->setText(Login(editBoxUsername, editBoxPassword));
 		});
 
 	registerButton->onClick([editBoxUsername, editBoxPassword, this]() {
@@ -115,14 +123,14 @@ void UI::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 	tgui::EditBox::Ptr editBoxPassword = tgui::EditBox::create();
 	editBoxPassword->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
 	editBoxPassword->setPosition(windowWidth * 422 / 1270, windowHeight * 284 / 720);
-	editBoxUsername->setInputValidator("[^ ]*");
+	editBoxPassword->setInputValidator("[^ ]*");
 	editBoxPassword->setPasswordCharacter('*');
 	editBoxPassword->setDefaultText("Password");
 
 	tgui::EditBox::Ptr editBoxRepeatPassword = tgui::EditBox::create();
 	editBoxRepeatPassword->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
 	editBoxRepeatPassword->setPosition(windowWidth * 422 / 1270, windowHeight * 399 / 720);
-	editBoxUsername->setInputValidator("[^ ]*");
+	editBoxRepeatPassword->setInputValidator("[^ ]*");
 	editBoxRepeatPassword->setPasswordCharacter('*');
 	editBoxRepeatPassword->setDefaultText("Repeat password");
 
@@ -136,11 +144,18 @@ void UI::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 	backButton->setPosition(windowWidth * 422 / 1270, windowHeight * 513.75 / 720);
 	backButton->setText("Back");
 
+	tgui::Label::Ptr errorLabel = tgui::Label::create();
+	errorLabel->setSize(windowWidth * 425 / 1270, windowHeight * 62 / 720);
+	errorLabel->setPosition(windowWidth * 422 / 1270, windowHeight * 568 / 720);
+	errorLabel->setText("");
+	errorLabel->getRenderer()->setTextColor(tgui::Color::Red);
+
 	m_registerMenu->add(editBoxUsername);
 	m_registerMenu->add(editBoxPassword);
 	m_registerMenu->add(editBoxRepeatPassword);
 	m_registerMenu->add(registerButton);
 	m_registerMenu->add(backButton);
+	m_registerMenu->add(errorLabel);
 
 	editBoxUsername->onReturnKeyPress([editBoxPassword] {
 		editBoxPassword->setFocused(true);
@@ -150,13 +165,8 @@ void UI::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 		editBoxRepeatPassword->setFocused(true);
 		});
 
-	editBoxRepeatPassword->onReturnKeyPress([editBoxUsername, editBoxPassword, editBoxRepeatPassword, this] {
-		if (editBoxPassword->getText().toStdString() == editBoxRepeatPassword->getText().toStdString()) {
-			CreateAccount(editBoxUsername, editBoxPassword);
-		}
-		else {
-			// TODO : afiseaza cv mesaj de oroare
-		}
+	editBoxRepeatPassword->onReturnKeyPress([errorLabel, editBoxUsername, editBoxPassword, editBoxRepeatPassword, this] {
+		errorLabel->setText(CreateAccount(editBoxUsername, editBoxPassword, editBoxRepeatPassword));
 		});
 
 	backButton->onClick([editBoxUsername, editBoxPassword, this]() {
@@ -165,13 +175,8 @@ void UI::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
 		});
 
 
-	registerButton->onClick([editBoxUsername, editBoxPassword, editBoxRepeatPassword, this]() {
-		if (editBoxPassword->getText().toStdString() == editBoxRepeatPassword->getText().toStdString()) {
-			CreateAccount(editBoxUsername, editBoxPassword);
-		}
-		else {
-			// TODO : afiseaza cv mesaj de oroare
-		}
+	registerButton->onClick([errorLabel, editBoxUsername, editBoxPassword, editBoxRepeatPassword, this]() {
+		errorLabel->setText(CreateAccount(editBoxUsername, editBoxPassword, editBoxRepeatPassword));
 		});
 
 	m_gui.add(m_registerMenu);
@@ -583,39 +588,63 @@ void UI::CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layout
 	m_gui.add(m_multipleAnswerQuestionMenu);
 }
 
-void UI::CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password) {
-	Debug::Log("Registered man");
-	Debug::Log("Username: " + username->getText().toStdString());
-	Debug::Log("Password: " + password->getText().toStdString());
+std::string UI::Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password) {
+	auto response = cpr::Get(
+		cpr::Url{ "http://localhost:8080/user/login?name=" +
+		username->getText().toStdString() +
+		"&password=" +
+		password->getText().toStdString() });
 
-	cpr::Response r = cpr::Post(cpr::Url{ "http://localhost:8080/user/register" },
-		cpr::Body{ "name=" + username->getText().toStdString() + "&password=" + password->getText().toStdString() },
-		cpr::Header{ {"Content-Type", "application/x-www-form-urlencoded"} });
+	auto body = crow::json::load(response.text);
 
-	if (true) { // daca are net si reuseste sa-si faca cont
-		// connect sau cv
-		m_registerMenu->setVisible(false);
-		m_mainMenu->setVisible(true);
+	try {
+		std::string message = body["message"].s();
+		uint32_t code = body["code"].i();
+
+		Debug::Log(message);
+		Debug::Log(code);
+
+		if (code == 200) {
+			m_loginMenu->setVisible(false);
+			m_mainMenu->setVisible(true);
+			return "";
+		}
+		else {
+			return message;
+		}
 	}
-	else {
-		// zi-le ca nu se poate accesa serveru din cine stie ce motiv
+	catch (const std::exception&) {
+		return "No connection to the server";
 	}
 }
 
-void UI::Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password) {
-	Debug::Log("Username: " + username->getText().toStdString());
-	Debug::Log("Password: " + password->getText().toStdString());
-
-	cpr::Response r = cpr::Post(cpr::Url{ "http://localhost:8080/user/login" },
-		cpr::Body{ "name=" + username->getText().toStdString() + "&password=" + password->getText().toStdString() },
-		cpr::Header{ {"Content-Type", "application/x-www-form-urlencoded"} });
-
-	if (true) { // adica daca il gasesti in baza de date sau nu
-		// connect sau cv
-		m_loginMenu->setVisible(false);
-		m_mainMenu->setVisible(true);
+std::string UI::CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password, tgui::EditBox::Ptr repeatPassword) {
+	if (password->getText().toStdString() != repeatPassword->getText().toStdString()) {
+		return "Passwords do not match";
 	}
-	else {
-		// zi-le ca nu ii boon
+
+	auto response = cpr::Get(
+		cpr::Url{ "http://localhost:8080/user/register?name=" +
+		username->getText().toStdString() +
+		"&password=" +
+		password->getText().toStdString() });
+
+	auto body = crow::json::load(response.text);
+
+	try {
+		std::string message = body["message"].s();
+		uint32_t code = body["code"].i();
+
+		if (code == 200) {
+			m_registerMenu->setVisible(false);
+			m_mainMenu->setVisible(true);
+			return "";
+		}
+		else {
+			return message;
+		}
+	}
+	catch (const std::exception&) {
+		return "No connection to the server";
 	}
 }

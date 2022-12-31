@@ -26,8 +26,8 @@ private:
 	void CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
 
 private:
-	void CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password);
-	void Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password);
+	std::string CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password, tgui::EditBox::Ptr repeatPassword);
+	std::string Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password);
 
 private:
 	tgui::Gui m_gui;
