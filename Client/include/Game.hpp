@@ -3,11 +3,17 @@
 #include <TGUI/TGUI.hpp>
 #include <TGUI/Backends/SFML.hpp>
 
-#include "../include/User.hpp"
+#include <SFML/Audio.hpp>
 
 #include "../../Logger/Debug.hpp"
 
 class Game {
+public:
+	struct User {
+		uint32_t id;
+		std::string name;
+	};
+
 public:
 	Game(sf::RenderWindow& window);
 
@@ -19,10 +25,11 @@ private:
 	void CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
 	void CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
 	void CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
-	void CreateMatchSelectorMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
 	void CreateOptionsMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
+	void CreateMatchSelectorMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
 
 private:
+	void CreateWaitRoomMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
 	void CreateMapMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
 	void CreateNumberQuestionMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
 	void CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
@@ -35,20 +42,29 @@ private:
 private:
 	tgui::Gui m_gui;
 
-	User m_user; // we'll use this 1 l8r
+	User m_user;
 
 	sf::RenderWindow* m_window;
 
-	tgui::Group::Ptr m_menus;
+	sf::Music m_menuMusic;
+	sf::Music m_gameMusic;
+
+	sf::SoundBuffer m_clickSoundBuffer;
+	sf::SoundBuffer m_checkboxSoundBuffer;
+	sf::SoundBuffer m_correctSoundBuffer;
+	sf::SoundBuffer m_incorrectSoundBuffer;
+
+	sf::Sound m_clickSound;
+	sf::Sound m_checkBoxSound;
+	sf::Sound m_correctSound;
+	sf::Sound m_incorrectSound;
 
 	tgui::Group::Ptr m_loginMenu;
 	tgui::Group::Ptr m_registerMenu;
 	tgui::Group::Ptr m_mainMenu;
 
-	tgui::Group::Ptr m_matchSelectorMenu;
 	tgui::Group::Ptr m_optionsMenu;
-
-	tgui::Group::Ptr m_gameMenus;
+	tgui::Group::Ptr m_matchSelectorMenu;
 
 	tgui::Group::Ptr m_mapMenu;
 	tgui::Group::Ptr m_numberQuestionMenu;

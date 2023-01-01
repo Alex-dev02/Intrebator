@@ -19,5 +19,4 @@ private:
 	sf::Image m_icon;
 	sf::Image m_background;
 	sf::Font m_font;
-	sf::Music m_music;
 };

@@ -128,13 +128,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\User.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Game.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.hpp" />
-    <ClInclude Include="include\User.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="TGUI\AbsoluteOrRelativeValue.hpp" />
     <ClInclude Include="TGUI\AllWidgets.hpp" />

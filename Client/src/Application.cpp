@@ -13,12 +13,6 @@ Application::Application()
 	}
 	m_window.setIcon(m_icon.getSize().x, m_icon.getSize().y, m_icon.getPixelsPtr());
 
-	if (!m_music.openFromFile("assets/audio/music/menu song.ogg")) {
-		Debug::LogError("Error loading music");
-	}
-	m_music.setLoop(true);
-	m_music.play();
-
 	if (!m_font.loadFromFile("assets/fonts/Inter-Medium.ttf")) {
 		Debug::LogError("Could not find contb.ttf font.");
 	}

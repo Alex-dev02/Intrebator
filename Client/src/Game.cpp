@@ -1,12 +1,48 @@
 #include "../include/Game.hpp"
 
+#include <vector>
+
 #include <cpr/cpr.h>
 #include <crow.h>
 
 Game::Game(sf::RenderWindow& window) {
 	m_window = &window;
 
-	//m_user.name = "test"; // TODO : just for debug purposes, delete when the user assignment has been completed
+	if (!m_menuMusic.openFromFile("assets/audio/music/menu_song.ogg")) {
+		Debug::LogError("Error loading menu music");
+		m_window->close();
+	}
+	m_menuMusic.setLoop(true);
+
+	if (!m_gameMusic.openFromFile("assets/audio/music/game_song.ogg")) {
+		Debug::LogError("Error loading game music");
+		m_window->close();
+	}
+	m_gameMusic.setLoop(true);
+
+	if (!m_clickSoundBuffer.loadFromFile("assets/audio/sound_effects/click.ogg")) {
+		Debug::LogError("Error loading click sound");
+		m_window->close();
+	}
+	m_clickSound.setBuffer(m_clickSoundBuffer);
+
+	if (!m_checkboxSoundBuffer.loadFromFile("assets/audio/sound_effects/checkbox.ogg")) {
+		Debug::LogError("Error loading checkbox sound");
+		m_window->close();
+	}
+	m_checkBoxSound.setBuffer(m_checkboxSoundBuffer);
+
+	if (!m_correctSoundBuffer.loadFromFile("assets/audio/sound_effects/correct.ogg")) {
+		Debug::LogError("Error loading correct sound");
+		m_window->close();
+	}
+	m_correctSound.setBuffer(m_correctSoundBuffer);
+
+	if (!m_incorrectSoundBuffer.loadFromFile("assets/audio/sound_effects/incorrect.ogg")) {
+		Debug::LogError("Error loading incorrect sound");
+		m_window->close();
+	}
+	m_incorrectSound.setBuffer(m_incorrectSoundBuffer);
 
 	auto windowWidth = tgui::bindWidth(m_gui);
 	auto windowHeight = tgui::bindHeight(m_gui);
@@ -20,17 +56,9 @@ Game::Game(sf::RenderWindow& window) {
 
 	CreateLoginMenu(windowWidth, windowHeight);
 	CreateRegisterMenu(windowWidth, windowHeight);
-
-	m_menus = tgui::Group::create();
-	m_menus->add(m_loginMenu);
-	m_menus->add(m_registerMenu);
-
-	m_menus->setVisible(true);
-
-	m_loginMenu->setVisible(true);
-	m_registerMenu->setVisible(false);
-
-	m_gui.add(m_menus);
+	CreateMainMenu(windowWidth, windowHeight);
+	CreateMatchSelectorMenu(windowWidth, windowHeight);
+	CreateOptionsMenu(windowWidth, windowHeight);
 }
 
 void Game::CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
@@ -81,13 +109,18 @@ void Game::CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) 
 		});
 
 	loginButton->onClick([errorLabel, editBoxUsername, editBoxPassword, this]() {
-		errorLabel->setText(Login(editBoxUsername, editBoxPassword));
+		m_clickSound.play();
+	errorLabel->setText(Login(editBoxUsername, editBoxPassword));
 		});
 
 	registerButton->onClick([editBoxUsername, editBoxPassword, this]() {
-		m_loginMenu->setVisible(false);
+		m_clickSound.play();
+	m_loginMenu->setVisible(false);
 	m_registerMenu->setVisible(true);
 		});
+
+	m_gui.add(m_loginMenu);
+	m_loginMenu->setVisible(true);
 }
 
 void Game::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
@@ -150,14 +183,19 @@ void Game::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeigh
 		});
 
 	backButton->onClick([editBoxUsername, editBoxPassword, this]() {
-		m_registerMenu->setVisible(false);
+		m_clickSound.play();
+	m_registerMenu->setVisible(false);
 	m_loginMenu->setVisible(true);
 		});
 
 
 	registerButton->onClick([errorLabel, editBoxUsername, editBoxPassword, editBoxRepeatPassword, this]() {
-		errorLabel->setText(CreateAccount(editBoxUsername, editBoxPassword, editBoxRepeatPassword));
+		m_clickSound.play();
+	errorLabel->setText(CreateAccount(editBoxUsername, editBoxPassword, editBoxRepeatPassword));
 		});
+
+	m_gui.add(m_registerMenu);
+	m_registerMenu->setVisible(false);
 }
 
 void Game::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
@@ -190,24 +228,92 @@ void Game::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	exitButton->setText("Exit");
 	exitButton->setTextSize(20);
 
-	m_mainMenu->add(usernameLabel);
+	m_mainMenu->add(usernameLabel, "usernameLabel");
 	m_mainMenu->add(playButton);
 	m_mainMenu->add(optionsButton);
 	m_mainMenu->add(exitButton);
 
 	playButton->onClick([this]() {
-		m_mainMenu->setVisible(false);
+		m_clickSound.play();
+	m_mainMenu->setVisible(false);
 	m_matchSelectorMenu->setVisible(true);
 		});
 
 	optionsButton->onClick([this]() {
-		m_mainMenu->setVisible(false);
+		m_clickSound.play();
+	m_mainMenu->setVisible(false);
 	m_optionsMenu->setVisible(true);
 		});
 
 	exitButton->onClick([this]() {
-		m_window->close();
+		m_clickSound.play();
+	m_window->close();
 		});
+
+	m_gui.add(m_mainMenu);
+	m_mainMenu->setVisible(false);
+}
+
+void Game::CreateOptionsMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
+{
+	m_optionsMenu = tgui::Group::create();
+	m_optionsMenu->setTextSize(20);
+
+	tgui::CheckBox::Ptr musicCheckbox = tgui::CheckBox::create();
+	musicCheckbox->setSize(windowWidth * 56.9 / 1270, windowHeight * 56.9 / 720);
+	musicCheckbox->setPosition(windowWidth * 73 / 1270, windowHeight * 420 / 720);
+	musicCheckbox->setText("Music");
+	musicCheckbox->setChecked(true);
+
+	tgui::CheckBox::Ptr sfxCheckbox = tgui::CheckBox::create();
+	sfxCheckbox->setSize(windowWidth * 56.9 / 1270, windowHeight * 56.9 / 720);
+	sfxCheckbox->setPosition(windowWidth * 73 / 1270, windowHeight * 550 / 720);
+	sfxCheckbox->setText("Sfx");
+	sfxCheckbox->setChecked(true);
+
+	tgui::Button::Ptr backButton = tgui::Button::create();
+	backButton->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
+	backButton->setPosition(windowWidth * 73 / 1270, windowHeight * 595.09 / 720);
+	backButton->setText("Back");
+
+	m_optionsMenu->add(backButton);
+	m_optionsMenu->add(musicCheckbox);
+
+	backButton->onClick([this]() {
+		m_clickSound.play();
+	m_mainMenu->setVisible(true);
+	m_optionsMenu->setVisible(false);
+		});
+
+	musicCheckbox->onCheck([this]() {
+		m_checkBoxSound.play();
+	m_menuMusic.setVolume(100);
+		});
+
+	musicCheckbox->onUncheck([this]() {
+		m_checkBoxSound.play();
+	m_menuMusic.setVolume(0);
+		});
+
+
+	sfxCheckbox->onCheck([this]() {
+		m_clickSound.setVolume(100);
+	m_checkBoxSound.setVolume(100);
+	m_correctSound.setVolume(100);
+	m_incorrectSound.setVolume(100);
+	m_checkBoxSound.play();
+		});
+
+	sfxCheckbox->onUncheck([this]() {
+		m_clickSound.setVolume(0);
+	m_checkBoxSound.setVolume(0);
+	m_correctSound.setVolume(0);
+	m_incorrectSound.setVolume(0);
+	m_checkBoxSound.play();
+		});
+
+	m_gui.add(m_optionsMenu);
+	m_optionsMenu->setVisible(false);
 }
 
 void Game::CreateMatchSelectorMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
@@ -247,64 +353,38 @@ void Game::CreateMatchSelectorMenu(tgui::Layout windowWidth, tgui::Layout window
 	m_matchSelectorMenu->add(errorLabel);
 
 	twoPlayerButton->onClick([errorLabel, this]() {
-		errorLabel->setText(JoinMatch(2));
+		m_clickSound.play();
+	errorLabel->setText(JoinMatch(2));
 	Debug::Log("2 players");
 		});
 
 	threePlayerButton->onClick([errorLabel, this]() {
-		errorLabel->setText(JoinMatch(3));
+		m_clickSound.play();
+	errorLabel->setText(JoinMatch(3));
 	Debug::Log("3 players");
 		});
 
 	fourPlayerButton->onClick([errorLabel, this]() {
-		errorLabel->setText(JoinMatch(4));
+		m_clickSound.play();
+	errorLabel->setText(JoinMatch(4));
 	Debug::Log("4 players");
 		});
 
 	backButton->onClick([this]() {
-		m_mainMenu->setVisible(true);
+		m_clickSound.play();
+	m_mainMenu->setVisible(true);
 	m_matchSelectorMenu->setVisible(false);
 		});
-}
 
-void Game::CreateOptionsMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
-{
-	m_optionsMenu = tgui::Group::create();
-	m_optionsMenu->setTextSize(20);
-
-	tgui::Button::Ptr backButton = tgui::Button::create();
-	backButton->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
-	backButton->setPosition(windowWidth * 73 / 1270, windowHeight * 595.09 / 720);
-	backButton->setText("Back");
-
-	// more buttons for music and stuff like that go here
-	tgui::CheckBox::Ptr musicCheckbox = tgui::CheckBox::create();
-	musicCheckbox->setSize(windowWidth * 56.9 / 1270, windowHeight * 56.9 / 720);
-	musicCheckbox->setPosition(windowWidth * 73 / 1270, windowHeight * 420 / 720);
-	musicCheckbox->setText("Music");
-	musicCheckbox->setChecked(true);
-
-	m_optionsMenu->add(backButton);
-	m_optionsMenu->add(musicCheckbox);
-
-	backButton->onClick([this]() {
-		m_mainMenu->setVisible(true);
-	m_optionsMenu->setVisible(false);
-		});
-
-	musicCheckbox->onCheck([this]() {
-		Debug::Log("Music on");
-		});
-
-	musicCheckbox->onUncheck([this]() {
-		Debug::Log("Music off");
-		});
-
-	// TODO : click events 4 each button goes here
+	m_gui.add(m_matchSelectorMenu);
+	m_matchSelectorMenu->setVisible(false);
 }
 
 void Game::CreateMapMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	m_mapMenu = tgui::Group::create();
+
+	m_menuMusic.stop();
+	m_gameMusic.play();
 
 	return; // 4 now
 
@@ -350,68 +430,28 @@ void Game::CreateNumberQuestionMenu(tgui::Layout windowWidth, tgui::Layout windo
 	submitButton->setText("Submit");
 	submitButton->setTextSize(20);
 
-	// ik it looks ass but idk what else to do
-
 	tgui::Button::Ptr number0Button = tgui::Button::create();
 	number0Button->setSize(windowWidth * 80 / 1270, windowHeight * 80 / 720);
 	number0Button->setPosition(windowWidth * 452 / 1270, windowHeight * 335 / 720);
 	number0Button->setText("0");
 	number0Button->setTextSize(20);
 
-	tgui::Button::Ptr number1Button = tgui::Button::create();
-	number1Button->setSize(windowWidth * 80 / 1270, windowHeight * 80 / 720);
-	number1Button->setPosition(windowWidth * 161 / 1270, windowHeight * 532 / 720);
-	number1Button->setText("1");
-	number1Button->setTextSize(20);
+	std::vector<tgui::Button::Ptr> numberButtons;
 
-	tgui::Button::Ptr number2Button = tgui::Button::create();
-	number2Button->setSize(windowWidth * 80 / 1270, windowHeight * 80 / 720);
-	number2Button->setPosition(windowWidth * 258 / 1270, windowHeight * 532 / 720);
-	number2Button->setText("2");
-	number2Button->setTextSize(20);
+	std::vector <int> xPosition = { 161, 258, 355 };
+	std::vector <int> yPosition = { 532, 433, 335 };
 
-	tgui::Button::Ptr number3Button = tgui::Button::create();
-	number3Button->setSize(windowWidth * 80 / 1270, windowHeight * 80 / 720);
-	number3Button->setPosition(windowWidth * 355 / 1270, windowHeight * 532 / 720);
-	number3Button->setText("3");
-	number3Button->setTextSize(20);
+	for (auto i = 1; i <= 3; i++) {
+		for (auto j = 1; j <= 3; j++) {
+			auto button = tgui::Button::create();
+			button->setSize(windowWidth * 80 / 1270, windowHeight * 80 / 720);
+			button->setPosition(windowWidth * xPosition[j - 1] / 1270, windowHeight * yPosition[i - 1] / 720);
+			button->setText(std::to_string((i - 1) * 3 + j));
+			button->setTextSize(20);
 
-	tgui::Button::Ptr number4Button = tgui::Button::create();
-	number4Button->setSize(windowWidth * 80 / 1270, windowHeight * 80 / 720);
-	number4Button->setPosition(windowWidth * 161 / 1270, windowHeight * 433 / 720);
-	number4Button->setText("4");
-	number4Button->setTextSize(20);
-
-	tgui::Button::Ptr number5Button = tgui::Button::create();
-	number5Button->setSize(windowWidth * 80 / 1270, windowHeight * 80 / 720);
-	number5Button->setPosition(windowWidth * 258 / 1270, windowHeight * 433 / 720);
-	number5Button->setText("5");
-	number5Button->setTextSize(20);
-
-	tgui::Button::Ptr number6Button = tgui::Button::create();
-	number6Button->setSize(windowWidth * 80 / 1270, windowHeight * 80 / 720);
-	number6Button->setPosition(windowWidth * 355 / 1270, windowHeight * 433 / 720);
-	number6Button->setText("6");
-	number6Button->setTextSize(20);
-
-	tgui::Button::Ptr number7Button = tgui::Button::create();
-	number7Button->setSize(windowWidth * 80 / 1270, windowHeight * 80 / 720);
-	number7Button->setPosition(windowWidth * 161 / 1270, windowHeight * 335 / 720);
-	number7Button->setText("7");
-	number7Button->setTextSize(20);
-
-	tgui::Button::Ptr number8Button = tgui::Button::create();
-	number8Button->setSize(windowWidth * 80 / 1270, windowHeight * 80 / 720);
-	number8Button->setPosition(windowWidth * 258 / 1270, windowHeight * 335 / 720);
-	number8Button->setText("8");
-	number8Button->setTextSize(20);
-
-	tgui::Button::Ptr number9Button = tgui::Button::create();
-	number9Button->setSize(windowWidth * 80 / 1270, windowHeight * 80 / 720);
-	number9Button->setPosition(windowWidth * 355 / 1270, windowHeight * 335 / 720);
-	number9Button->setText("9");
-	number9Button->setTextSize(20);
-
+			numberButtons.push_back(button);
+		}
+	}
 	tgui::Button::Ptr backspaceButton = tgui::Button::create();
 	backspaceButton->setSize(windowWidth * 80 / 1270, windowHeight * 80 / 720);
 	backspaceButton->setPosition(windowWidth * 549 / 1270, windowHeight * 335 / 720);
@@ -421,71 +461,37 @@ void Game::CreateNumberQuestionMenu(tgui::Layout windowWidth, tgui::Layout windo
 	m_numberQuestionMenu->add(panel);
 	m_numberQuestionMenu->add(answerBox);
 	m_numberQuestionMenu->add(submitButton);
-	m_numberQuestionMenu->add(number0Button);
-	m_numberQuestionMenu->add(number1Button);
-	m_numberQuestionMenu->add(number2Button);
-	m_numberQuestionMenu->add(number3Button);
-	m_numberQuestionMenu->add(number4Button);
-	m_numberQuestionMenu->add(number5Button);
-	m_numberQuestionMenu->add(number6Button);
-	m_numberQuestionMenu->add(number7Button);
-	m_numberQuestionMenu->add(number8Button);
-	m_numberQuestionMenu->add(number9Button);
+	m_numberQuestionMenu->add(number0Button, "0");
+	for (auto i = 1; i <= 9; i++) {
+		m_numberQuestionMenu->add(numberButtons[i - 1], std::to_string(i));
+	}
 	m_numberQuestionMenu->add(backspaceButton);
 
 	submitButton->onClick([this, answerBox]() {
-		Debug::Log(answerBox->getText().toStdString());
+		m_clickSound.play();
+	Debug::Log(answerBox->getText().toStdString());
 	// submit to the server
 		});
 
-	number0Button->onClick([this, answerBox]() {
-		answerBox->setText(answerBox->getText() + "0");
-		});
-
-	number1Button->onClick([this, answerBox]() {
-		answerBox->setText(answerBox->getText() + "1");
-		});
-
-	number2Button->onClick([this, answerBox]() {
-		answerBox->setText(answerBox->getText() + "2");
-		});
-
-	number3Button->onClick([this, answerBox]() {
-		answerBox->setText(answerBox->getText() + "3");
-		});
-
-	number4Button->onClick([this, answerBox]() {
-		answerBox->setText(answerBox->getText() + "4");
-		});
-
-	number5Button->onClick([this, answerBox]() {
-		answerBox->setText(answerBox->getText() + "5");
-		});
-
-	number6Button->onClick([this, answerBox]() {
-		answerBox->setText(answerBox->getText() + "6");
-		});
-
-	number7Button->onClick([this, answerBox]() {
-		answerBox->setText(answerBox->getText() + "7");
-		});
-
-	number8Button->onClick([this, answerBox]() {
-		answerBox->setText(answerBox->getText() + "8");
-		});
-
-	number9Button->onClick([this, answerBox]() {
-		answerBox->setText(answerBox->getText() + "9");
-		});
+	for (auto i = 0; i <= 9; i++) {
+		m_numberQuestionMenu->get<tgui::Button>(std::to_string(i))->onClick([this, answerBox, i]() {
+			m_clickSound.play();
+		answerBox->setText(answerBox->getText() + std::to_string(i));
+			});
+	}
 
 	backspaceButton->onClick([this, answerBox]()
 		{
-			std::string text = answerBox->getText().toStdString();
+			m_clickSound.play();
+	std::string text = answerBox->getText().toStdString();
 	if (text.size() > 0) {
 		text.pop_back();
 	}
 	answerBox->setText(text);
 		});
+
+	m_gui.add(m_numberQuestionMenu);
+	m_numberQuestionMenu->setVisible(false);
 }
 
 void Game::CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
@@ -531,8 +537,9 @@ void Game::CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layo
 
 	int selected = NULL;
 
-	answer1Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button]() {
-		selected = 1;
+	answer1Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button, this]() {
+		m_clickSound.play();
+	selected = 1;
 
 	//answer1Button->getRenderer()->setBackgroundColor(tgui::Color::Green);
 	//answer1Button->getRenderer()->setBackgroundColor(tgui::Color::Red);
@@ -544,8 +551,9 @@ void Game::CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layo
 	answer4Button->setEnabled(false);
 		});
 
-	answer2Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button]() {
-		selected = 2;
+	answer2Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button, this]() {
+		m_clickSound.play();
+	selected = 2;
 
 	//answer2Button->getRenderer()->setBackgroundColor(tgui::Color::Green);
 	//answer2Button->getRenderer()->setBackgroundColor(tgui::Color::Red);
@@ -557,8 +565,9 @@ void Game::CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layo
 	answer4Button->setEnabled(false);
 		});
 
-	answer3Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button]() {
-		selected = 3;
+	answer3Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button, this]() {
+		m_clickSound.play();
+	selected = 3;
 
 	//answer3Button->getRenderer()->setBackgroundColor(tgui::Color::Green);
 	//answer3Button->getRenderer()->setBackgroundColor(tgui::Color::Red);
@@ -570,8 +579,9 @@ void Game::CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layo
 	answer4Button->setEnabled(false);
 		});
 
-	answer4Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button]() {
-		selected = 4;
+	answer4Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button, this]() {
+		m_clickSound.play();
+	selected = 4;
 
 	//answer4Button->getRenderer()->setBackgroundColor(tgui::Color::Green);
 	//answer4Button->getRenderer()->setBackgroundColor(tgui::Color::Red);
@@ -582,6 +592,8 @@ void Game::CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layo
 	answer2Button->setEnabled(false);
 	answer3Button->setEnabled(false);
 		});
+
+	m_gui.add(m_multipleAnswerQuestionMenu);
 }
 
 std::string Game::Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password) {
@@ -606,18 +618,12 @@ std::string Game::Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password
 			m_user.id = data["player_id"].i();
 			m_user.name = username->getText().toStdString();
 
-			CreateMainMenu(windowWidth, windowHeight);
-			CreateMatchSelectorMenu(windowWidth, windowHeight);
-			CreateOptionsMenu(windowWidth, windowHeight);
-
-			m_menus->add(m_mainMenu);
-			m_menus->add(m_matchSelectorMenu);
-			m_menus->add(m_optionsMenu);
+			m_mainMenu->get<tgui::Label>("usernameLabel")->setText(m_user.name);
 
 			m_loginMenu->setVisible(false);
 			m_mainMenu->setVisible(true);
-			m_matchSelectorMenu->setVisible(false);
-			m_optionsMenu->setVisible(false);
+
+			m_menuMusic.play();
 
 			return "";
 		}
@@ -655,18 +661,12 @@ std::string Game::CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr 
 			m_user.id = m_user.id = data["player_id"].i();
 			m_user.name = username->getText().toStdString();
 
-			CreateMainMenu(windowWidth, windowHeight);
-			CreateMatchSelectorMenu(windowWidth, windowHeight);
-			CreateOptionsMenu(windowWidth, windowHeight);
-
-			m_menus->add(m_mainMenu);
-			m_menus->add(m_matchSelectorMenu);
-			m_menus->add(m_optionsMenu);
+			m_mainMenu->get<tgui::Label>("usernameLabel")->setText(m_user.name);
 
 			m_registerMenu->setVisible(false);
 			m_mainMenu->setVisible(true);
-			m_matchSelectorMenu->setVisible(false);
-			m_optionsMenu->setVisible(false);
+
+			m_menuMusic.play();
 
 			return "";
 		}
@@ -704,18 +704,13 @@ std::string Game::JoinMatch(uint32_t numberOfPlayers) {
 			// Multiple Answer Question Menu
 			CreateMultipleAnswerQuestionMenu(windowWidth, windowHeight);
 
-			m_gameMenus = tgui::Group::create();
-			m_gameMenus->add(m_mapMenu);
-			m_gameMenus->add(m_numberQuestionMenu);
-			m_gameMenus->add(m_multipleAnswerQuestionMenu);
-
-			m_gameMenus->setVisible(true);
+			m_gui.add(m_mapMenu);
+			m_gui.add(m_numberQuestionMenu);
+			m_gui.add(m_multipleAnswerQuestionMenu);
 
 			m_mapMenu->setVisible(true);
 			m_numberQuestionMenu->setVisible(false);
 			m_multipleAnswerQuestionMenu->setVisible(false);
-
-			m_gui.add(m_gameMenus);
 
 			return "";
 		}
