@@ -39,9 +39,10 @@ crow::json::wvalue UserServices::UserRegister(const crow::request& req) {
 
 	std::string str_password{ password };
 
-	SaveUser(User(str_name, str_password));
+	auto inserted_user_id = SaveUser(User(str_name, str_password));
 
-	return CrowResponse::Json(CrowResponse::Code::OK);
+	return CrowResponse::Json(CrowResponse::Code::OK, "",
+		inserted_user_id.has_value() ? crow::json::wvalue{ {"player_id", inserted_user_id.value()}} : crow::json::wvalue{});
 }
 
 crow::json::wvalue UserServices::UserLogin(const crow::request& req) {
@@ -60,7 +61,7 @@ crow::json::wvalue UserServices::UserLogin(const crow::request& req) {
 
 	auto user = GetUserByName(str_name);
 	if (user && password == user->GetPassword())
-		return CrowResponse::Json(CrowResponse::Code::OK);
+		return CrowResponse::Json(CrowResponse::Code::OK, "", crow::json::wvalue{{"player_id", user->GetId()}});
 
 	return CrowResponse::Json(CrowResponse::Code::INVALID, "Invalid credentials!");
 }
