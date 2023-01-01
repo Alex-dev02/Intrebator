@@ -1,26 +1,56 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/Audio.hpp>
+#include <TGUI/TGUI.hpp>
+#include <TGUI/Backends/SFML.hpp>
 
-#include "../include/UI.hpp"
-
-#include "../include/Network.hpp"
+#include "../include/User.hpp"
 
 #include "../../Logger/Debug.hpp"
 
 class Game {
 public:
-	Game();
-	void Run();
+	Game(sf::RenderWindow& window);
+
+	inline tgui::Gui& GetGui() { return m_gui; }
+	inline void Draw() { m_gui.draw(); }
+	inline void HandleEvent(sf::Event event) { m_gui.handleEvent(event); }
 
 private:
-	sf::RenderWindow m_window;
-	UI m_ui;
-	sf::Image m_icon;
-	sf::Image m_background;
-	sf::Font m_font;
-	sf::Music m_music;
-	Network m_network;
+	void CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
+	void CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
+	void CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
+	void CreateMatchSelectorMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
+	void CreateOptionsMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
+
+private:
+	void CreateMapMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
+	void CreateNumberQuestionMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
+	void CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
+
+private:
+	std::string CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password, tgui::EditBox::Ptr repeatPassword);
+	std::string Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password);
+	std::string JoinMatch(uint32_t numberOfPlayers);
+
+private:
+	tgui::Gui m_gui;
+
+	User m_user; // we'll use this 1 l8r
+
+	sf::RenderWindow* m_window;
+
+	tgui::Group::Ptr m_menus;
+
+	tgui::Group::Ptr m_loginMenu;
+	tgui::Group::Ptr m_registerMenu;
+	tgui::Group::Ptr m_mainMenu;
+
+	tgui::Group::Ptr m_matchSelectorMenu;
+	tgui::Group::Ptr m_optionsMenu;
+
+	tgui::Group::Ptr m_gameMenus;
+
+	tgui::Group::Ptr m_mapMenu;
+	tgui::Group::Ptr m_numberQuestionMenu;
+	tgui::Group::Ptr m_multipleAnswerQuestionMenu;
 };

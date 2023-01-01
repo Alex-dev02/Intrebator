@@ -127,14 +127,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\Network.cpp" />
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\User.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\UI.cpp" />
+    <ClCompile Include="src\Game.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Game.hpp" />
-    <ClInclude Include="include\Network.hpp" />
+    <ClInclude Include="include\Application.hpp" />
+    <ClInclude Include="include\User.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="TGUI\AbsoluteOrRelativeValue.hpp" />
     <ClInclude Include="TGUI\AllWidgets.hpp" />
@@ -323,7 +323,7 @@
     <ClInclude Include="TGUI\Widgets\TreeView.hpp" />
     <ClInclude Include="TGUI\Widgets\VerticalLayout.hpp" />
     <ClInclude Include="TGUI\WindowsInclude.hpp" />
-    <ClInclude Include="include\UI.hpp" />
+    <ClInclude Include="include\Game.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="icon.ico" />
