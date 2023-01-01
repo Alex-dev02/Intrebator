@@ -6,7 +6,7 @@
 Game::Game(sf::RenderWindow& window) {
 	m_window = &window;
 
-	m_user.name = "test"; // TODO : just for debug purposes, delete when the user assignment has been completed
+	//m_user.name = "test"; // TODO : just for debug purposes, delete when the user assignment has been completed
 
 	auto windowWidth = tgui::bindWidth(m_gui);
 	auto windowHeight = tgui::bindHeight(m_gui);
@@ -18,35 +18,17 @@ Game::Game(sf::RenderWindow& window) {
 	m_gui.setFont(tgui::Font("assets/fonts/Inter-Medium.ttf"));
 	m_gui.add(background);
 
-	// Login Menu
 	CreateLoginMenu(windowWidth, windowHeight);
-
-	// Register menu
 	CreateRegisterMenu(windowWidth, windowHeight);
-
-	// Main menu
-	CreateMainMenu(windowWidth, windowHeight);
-
-	// Match Selector Menu
-	CreateMatchSelectorMenu(windowWidth, windowHeight);
-
-	// Options Menu
-	CreateOptionsMenu(windowWidth, windowHeight);
 
 	m_menus = tgui::Group::create();
 	m_menus->add(m_loginMenu);
 	m_menus->add(m_registerMenu);
-	m_menus->add(m_mainMenu);
-	m_menus->add(m_matchSelectorMenu);
-	m_menus->add(m_optionsMenu);
 
 	m_menus->setVisible(true);
 
-	m_loginMenu->setVisible(false); // debug value, should be true
+	m_loginMenu->setVisible(true);
 	m_registerMenu->setVisible(false);
-	m_mainMenu->setVisible(false);
-	m_matchSelectorMenu->setVisible(true); // debug value, should be false
-	m_optionsMenu->setVisible(false);
 
 	m_gui.add(m_menus);
 }
@@ -180,27 +162,33 @@ void Game::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeigh
 
 void Game::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	m_mainMenu = tgui::Group::create();
-	m_mainMenu->setTextSize(20);
 
 	tgui::Label::Ptr usernameLabel = tgui::Label::create();
 	usernameLabel->setTextSize(80);
 	usernameLabel->setPosition(windowWidth * 73 / 1270, windowHeight * 80 / 720);
 	usernameLabel->setText(m_user.name);
+	usernameLabel->getRenderer()->setTextColor(tgui::Color::White);
+	usernameLabel->getRenderer()->setTextOutlineColor(tgui::Color::Black);
+	usernameLabel->getRenderer()->setTextOutlineThickness(2);
+	usernameLabel->setTextSize(35);
 
 	tgui::Button::Ptr playButton = tgui::Button::create();
 	playButton->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
 	playButton->setPosition(windowWidth * 73 / 1270, windowHeight * 420 / 720);
 	playButton->setText("Play");
+	playButton->setTextSize(20);
 
 	tgui::Button::Ptr optionsButton = tgui::Button::create();
 	optionsButton->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
 	optionsButton->setPosition(windowWidth * 73 / 1270, windowHeight * 507.56 / 720);
 	optionsButton->setText("Options");
+	optionsButton->setTextSize(20);
 
 	tgui::Button::Ptr exitButton = tgui::Button::create();
 	exitButton->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
 	exitButton->setPosition(windowWidth * 73 / 1270, windowHeight * 595.09 / 720);
 	exitButton->setText("Exit");
+	exitButton->setTextSize(20);
 
 	m_mainMenu->add(usernameLabel);
 	m_mainMenu->add(playButton);
@@ -608,12 +596,29 @@ std::string Game::Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password
 	try {
 		std::string message = body["message"].s();
 		uint32_t code = body["code"].i();
-		// data would probably fill the username and the id of the user variable
+		auto& data = body["data"];
 
 		if (code == 200) {
+
+			auto windowWidth = tgui::bindWidth(m_gui);
+			auto windowHeight = tgui::bindHeight(m_gui);
+
+			m_user.id = data["player_id"].i();
+			m_user.name = username->getText().toStdString();
+
+			CreateMainMenu(windowWidth, windowHeight);
+			CreateMatchSelectorMenu(windowWidth, windowHeight);
+			CreateOptionsMenu(windowWidth, windowHeight);
+
+			m_menus->add(m_mainMenu);
+			m_menus->add(m_matchSelectorMenu);
+			m_menus->add(m_optionsMenu);
+
 			m_loginMenu->setVisible(false);
 			m_mainMenu->setVisible(true);
-			// TODO : make a user variable that keeps track of the user id and username
+			m_matchSelectorMenu->setVisible(false);
+			m_optionsMenu->setVisible(false);
+
 			return "";
 		}
 		else {
@@ -641,12 +646,28 @@ std::string Game::CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr 
 	try {
 		std::string message = body["message"].s();
 		uint32_t code = body["code"].i();
-		// data would probably fill the username and the id of the user variable
+		auto& data = body["data"];
 
 		if (code == 200) {
+			auto windowWidth = tgui::bindWidth(m_gui);
+			auto windowHeight = tgui::bindHeight(m_gui);
+
+			m_user.id = m_user.id = data["player_id"].i();
+			m_user.name = username->getText().toStdString();
+
+			CreateMainMenu(windowWidth, windowHeight);
+			CreateMatchSelectorMenu(windowWidth, windowHeight);
+			CreateOptionsMenu(windowWidth, windowHeight);
+
+			m_menus->add(m_mainMenu);
+			m_menus->add(m_matchSelectorMenu);
+			m_menus->add(m_optionsMenu);
+
 			m_registerMenu->setVisible(false);
 			m_mainMenu->setVisible(true);
-			// TODO : make a user variable that keeps track of the user id and username
+			m_matchSelectorMenu->setVisible(false);
+			m_optionsMenu->setVisible(false);
+
 			return "";
 		}
 		else {
@@ -659,11 +680,7 @@ std::string Game::CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr 
 }
 
 std::string Game::JoinMatch(uint32_t numberOfPlayers) {
-
-	// /join_game/int1/int2 , int1 = id player, int2 = roomsize
-	// /players pentru a obtine jucatorii participatori la joc
-
-	auto response = cpr::Get(cpr::Url{ "http://localhost:8080/join_game/" + /* player.m_id +*/ '/' + numberOfPlayers });
+	auto response = cpr::Get(cpr::Url{ "http://localhost:8080/join_game/" + std::to_string(m_user.id) + '/' + std::to_string(numberOfPlayers) });
 
 	auto body = crow::json::load(response.text);
 
