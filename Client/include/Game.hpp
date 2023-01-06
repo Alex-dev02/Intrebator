@@ -7,17 +7,19 @@
 
 #include "../../Logger/Debug.hpp"
 
-class Game {
+class Game
+{
 public:
-	struct User {
+	struct User
+	{
 		uint32_t id;
 		std::string name;
 	};
 
 public:
-	Game(sf::RenderWindow& window);
+	Game(sf::RenderWindow &window);
 
-	inline tgui::Gui& GetGui() { return m_gui; }
+	inline tgui::Gui &GetGui() { return m_gui; }
 	inline void Draw() { m_gui.draw(); }
 	inline void HandleEvent(sf::Event event) { m_gui.handleEvent(event); }
 
@@ -38,6 +40,8 @@ private:
 	std::string CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password, tgui::EditBox::Ptr repeatPassword);
 	std::string Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password);
 	std::string JoinMatch(uint32_t numberOfPlayers);
+
+public:
 	void LeaveMatch();
 
 private:
@@ -45,7 +49,7 @@ private:
 
 	User m_user;
 
-	sf::RenderWindow* m_window;
+	sf::RenderWindow *m_window;
 
 	sf::Music m_menuMusic;
 	sf::Music m_gameMusic;

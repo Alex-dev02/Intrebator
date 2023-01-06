@@ -2,38 +2,45 @@
 
 Application::Application()
 	: m_window(sf::VideoMode(1270, 720), "Triviador", sf::Style::Titlebar | sf::Style::Close),
-	m_ui(m_window) {
+	  m_game(m_window)
+{
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 	m_window.setPosition(sf::Vector2i((desktop.width - 1270) / 2, (desktop.height - 720) / 2));
 	m_window.setFramerateLimit(60);
 	m_window.setVerticalSyncEnabled(true);
 
-	if (!m_icon.loadFromFile("assets/images/icon.png")) {
+	if (!m_icon.loadFromFile("assets/images/icon.png"))
+	{
 		Debug::LogError("Image not found");
 	}
 	m_window.setIcon(m_icon.getSize().x, m_icon.getSize().y, m_icon.getPixelsPtr());
 
-	if (!m_font.loadFromFile("assets/fonts/Inter-Medium.ttf")) {
+	if (!m_font.loadFromFile("assets/fonts/Inter-Medium.ttf"))
+	{
 		Debug::LogError("Could not find contb.ttf font.");
 	}
 }
 
-void Application::Run() {
-	while (m_window.isOpen()) {
-
+void Application::Run()
+{
+	while (m_window.isOpen())
+	{
 		// Event polling
 		sf::Event event;
-		while (m_window.pollEvent(event)) {
+		while (m_window.pollEvent(event))
+		{
 
-			m_ui.HandleEvent(event);
+			m_game.HandleEvent(event);
 
-			switch (event.type) {
-				case sf::Event::Closed:
-					m_window.close();
-					break;
+			switch (event.type)
+			{
+			case sf::Event::Closed:
+				m_game.LeaveMatch();
+				m_window.close();
+				break;
 
-				default:
-					break;
+			default:
+				break;
 			}
 		}
 
@@ -42,7 +49,7 @@ void Application::Run() {
 		// Render
 		m_window.clear(); // Clear old frame
 
-		m_ui.Draw();
+		m_game.Draw();
 
 		m_window.display(); // Tell the app that the m_window is done drawing
 	}
