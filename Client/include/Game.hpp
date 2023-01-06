@@ -29,7 +29,7 @@ private:
 	void CreateMatchSelectorMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
 
 private:
-	void CreateWaitRoomMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
+	void CreateWaitRoomMenu(tgui::Layout windowWidth, tgui::Layout windowHeight, uint32_t numberOfPlayers);
 	void CreateMapMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
 	void CreateNumberQuestionMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
 	void CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layout windowHeight);
@@ -38,6 +38,7 @@ private:
 	std::string CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password, tgui::EditBox::Ptr repeatPassword);
 	std::string Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password);
 	std::string JoinMatch(uint32_t numberOfPlayers);
+	void LeaveMatch();
 
 private:
 	tgui::Gui m_gui;
@@ -66,6 +67,7 @@ private:
 	tgui::Group::Ptr m_optionsMenu;
 	tgui::Group::Ptr m_matchSelectorMenu;
 
+	tgui::Group::Ptr m_waitRoomMenu;
 	tgui::Group::Ptr m_mapMenu;
 	tgui::Group::Ptr m_numberQuestionMenu;
 	tgui::Group::Ptr m_multipleAnswerQuestionMenu;

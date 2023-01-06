@@ -7,21 +7,35 @@
 #include <thread>
 
 std::string Game::StatusToString(Status status) {
-	if (status == Status::WAITING_FOR_PLAYERS)
-		return "WAITING_FOR_PLAYERS";
-	else if (status == Status::SHOW_MAP)
-		return  "SHOW_MAP";
-	else if (status == Status::ANSWERING_QUESTION)
-		return "ANSWERING_QUESTION";
-	else if (status == Status::PICKING_BASE)
-		return "WAITING_FOR_PLAYERS";
-	else if (status == Status::PICKING_CELLS)
-		return "PICKING_CELLS";
-	else if (status == Status::DUELLING)
-		return "DUELLING";
-	else if (status == Status::FINISHED)
-		return "FINISHED";
-	return "ERROR";
+	switch (status) {
+		case Game::Status::WAITING_FOR_PLAYERS:
+			return "WAITING_FOR_PLAYERS";
+			break;
+		case Game::Status::SHOW_MAP:
+			return  "SHOW_MAP";
+			break;
+		case Game::Status::ANSWERING_QUESTION:
+			return "ANSWERING_QUESTION";
+			break;
+		case Game::Status::SHOW_RESULTS:
+			return "SHOW_RESULTS";
+			break;
+		case Game::Status::PICKING_BASE:
+			return "PICKING_BASE";
+			break;
+		case Game::Status::PICKING_CELLS:
+			return "PICKING_CELLS";
+			break;
+		case Game::Status::DUELLING:
+			return "DUELLING";
+			break;
+		case Game::Status::FINISHED:
+			return "FINISHED";
+			break;
+		default:
+			return "ERROR";
+			break;
+	}
 }
 
 Game::Game()
@@ -152,9 +166,9 @@ void Game::ShuffleQuestions() {
 	// .begin + 1 so the first question is a numeric one
 }
 
-int Game::GetRandomValueFrom0UpUntilN(int n){
+int Game::GetRandomValueFrom0UpUntilN(int n) {
 	std::random_device rnd;
-	std::default_random_engine random{rnd()};
+	std::default_random_engine random{ rnd() };
 	std::uniform_int_distribution<int> uniform(0, n - 1);
 	return uniform(random);
 }
@@ -187,7 +201,7 @@ void Game::SetRoomSize(uint8_t room_size) {
 std::optional<std::shared_ptr<Player>> Game::GetPlayer(uint32_t id) {
 	auto player_to_remove = std::find_if(m_players.begin(), m_players.end(), [id](std::shared_ptr<Player> player) {
 		return player->GetId() == id;
-	});
+		});
 	if (player_to_remove != m_players.end())
 		return { *player_to_remove };
 	return { std::nullopt };
@@ -222,7 +236,7 @@ std::vector<Contest::Answer> Game::GetContestResults() {
 bool Game::TryPickCell(uint8_t x, uint8_t y, uint32_t player_id) {
 	auto player = std::find_if(m_players.begin(), m_players.end(), [player_id](std::shared_ptr<Player> player) {
 		return player->GetId() == player_id;
-	});
+		});
 	if (player != m_players.end())
 		return m_map.TryPickCell(x, y, *player);
 	return false;

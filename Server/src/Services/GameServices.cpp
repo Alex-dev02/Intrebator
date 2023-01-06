@@ -12,33 +12,33 @@ GameServices::GameServices(std::shared_ptr<Database> database, std::shared_ptr<S
 crow::json::wvalue GameServices::JoinGame(uint32_t user_id, uint8_t room_size) {
 	if (m_server->GameIsRunning())
 		CrowResponse::Json(CrowResponse::Code::INVALID, "The game is already running!");
-	
+
 	auto user = m_user_services->GetUserById(user_id);
 
 	if (!user)
 		return CrowResponse::Json(CrowResponse::Code::INVALID, "Invalid user id!");
-	
+
 	m_game->SetRoomSize(room_size);
 
 	std::shared_ptr<Player> player = std::make_shared<Player>(std::move(user));
-	
+
 	if (m_game->AddPlayer(player)) {
 		const auto& players = m_game->GetPlayers();
 		std::vector<crow::json::wvalue> json_players;
-		
+
 		for (const auto& p : players) {
 			json_players.push_back(static_cast<crow::json::wvalue>(*p.get()));
 		}
 
-		return CrowResponse::Json(CrowResponse::Code::OK, "", crow::json::wvalue{json_players});
+		return CrowResponse::Json(CrowResponse::Code::OK, "", crow::json::wvalue{ json_players });
 	}
-	
+
 	return CrowResponse::Json(CrowResponse::Code::INVALID, "Room is full!");
 }
 
 crow::json::wvalue GameServices::LeaveGame(uint32_t user_id) {
 	auto user = m_user_services->GetUserById(user_id);
-	
+
 	if (!user)
 		return CrowResponse::Json(CrowResponse::Code::INVALID, "Invalid user id!");
 
@@ -66,23 +66,23 @@ crow::json::wvalue GameServices::SubmitAnswerForCurrentQuestion(const crow::requ
 	if (!body)
 		return CrowResponse::Json(CrowResponse::Code::INVALID, "No request body found");
 
-	try{
+	try {
 		if (m_game->GetStatus() != Game::Status::ANSWERING_QUESTION)
 			return CrowResponse::Json(CrowResponse::Code::INVALID, "Could not submit answer in this fase!");
-		
+
 		auto player = m_game->GetPlayer(body["player_id"].i());
-		
+
 		if (!player.has_value())
 			return CrowResponse::Json(CrowResponse::Code::INVALID, "Invalid user");
 
 		m_game->SubmitContestAnswer(body["answer"].s(), player.value());
-		
+
 		return CrowResponse::Json(CrowResponse::Code::OK);
 	}
-	catch (const std::exception&){
+	catch (const std::exception&) {
 		return CrowResponse::Json(CrowResponse::Code::SERVER_ERROR);
 	}
-	
+
 }
 
 crow::json::wvalue GameServices::GetPoolResults() {
@@ -91,8 +91,8 @@ crow::json::wvalue GameServices::GetPoolResults() {
 
 	for (const auto& answer : answers)
 		json_answers.push_back(static_cast<crow::json::wvalue>(answer));
-	
-	return CrowResponse::Json(CrowResponse::Code::OK, "", crow::json::wvalue{json_answers});
+
+	return CrowResponse::Json(CrowResponse::Code::OK, "", crow::json::wvalue{ json_answers });
 }
 
 crow::json::wvalue GameServices::TryPickCell(uint8_t x, uint8_t y, uint32_t player_id) {
@@ -119,7 +119,7 @@ crow::json::wvalue GameServices::GetCurrentQuestion() {
 				{"question", multiple_answer_question->GetQuestion()},
 				{"answers", static_cast<crow::json::wvalue>(*multiple_answer_question.get())}
 			}
-		);
+	);
 
 	return CrowResponse::Json(CrowResponse::Code::SERVER_ERROR);
 }
@@ -144,33 +144,32 @@ void GameServices::InitRoutes() {
 
 	CROW_ROUTE(app, "/join_game/<int>/<int>")([this](std::uint32_t user_id, std::uint8_t room_size) {
 		return JoinGame(user_id, room_size);
-	});
+		});
 	CROW_ROUTE(app, "/leave_game/<int>")([this](std::uint32_t user_id) {
 		return LeaveGame(user_id);
-	});
+		});
 	CROW_ROUTE(app, "/start_game")([this]() {
 		return StartGame();
-	});
+		});
 	CROW_ROUTE(app, "/game_status")([this]() {
 		return CheckGameStatus();
-	});
-	CROW_ROUTE(app, "/submit_answer_for_current_question").methods("POST"_method)
-	([this](const crow::request& req) {
+		});
+	CROW_ROUTE(app, "/submit_answer_for_current_question").methods("POST"_method) ([this](const crow::request& req) {
 		return SubmitAnswerForCurrentQuestion(req);
-	});
+		});
 	CROW_ROUTE(app, "/get_pool_results")([this]() {
 		return GetPoolResults();
-	});
+		});
 	CROW_ROUTE(app, "/pick_cell/<int>/<int>/<int>")([this](uint8_t x, uint8_t y, uint32_t player_id) {
 		return TryPickCell(x, y, player_id);
-	});
+		});
 	CROW_ROUTE(app, "/current_question")([this]() {
 		return GetCurrentQuestion();
-	});
+		});
 	CROW_ROUTE(app, "/map")([this]() {
 		return GetMap();
-	});
+		});
 	CROW_ROUTE(app, "/players")([this]() {
 		return GetPlayers();
-	});
+		});
 }

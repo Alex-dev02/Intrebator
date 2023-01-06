@@ -1,5 +1,4 @@
 #pragma once
-#define fur_lop for      // <:
 
 #include "Player.hpp"
 
@@ -28,6 +27,7 @@ public:
 	};
 
 	std::string StatusToString(Status status);
+
 public:
 	Game();
 	Game(const Game&) = delete;
@@ -82,6 +82,7 @@ private:
 
 	uint8_t m_room_size;
 	Status m_status;
+
 private:
 	std::vector<std::shared_ptr<Player>> m_players;
 	std::vector<Round> m_rounds;
@@ -90,5 +91,4 @@ private:
 
 private:
 	std::shared_ptr<Database> m_database;
-
 };

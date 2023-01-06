@@ -5,40 +5,47 @@
 #include <cpr/cpr.h>
 #include <crow.h>
 
-Game::Game(sf::RenderWindow& window) {
+Game::Game(sf::RenderWindow& window)
+{
 	m_window = &window;
 
-	if (!m_menuMusic.openFromFile("assets/audio/music/menu_song.ogg")) {
+	if (!m_menuMusic.openFromFile("assets/audio/music/menu_song.ogg"))
+	{
 		Debug::LogError("Error loading menu music");
 		m_window->close();
 	}
 	m_menuMusic.setLoop(true);
 
-	if (!m_gameMusic.openFromFile("assets/audio/music/game_song.ogg")) {
+	if (!m_gameMusic.openFromFile("assets/audio/music/game_song.ogg"))
+	{
 		Debug::LogError("Error loading game music");
 		m_window->close();
 	}
 	m_gameMusic.setLoop(true);
 
-	if (!m_clickSoundBuffer.loadFromFile("assets/audio/sound_effects/click.ogg")) {
+	if (!m_clickSoundBuffer.loadFromFile("assets/audio/sound_effects/click.ogg"))
+	{
 		Debug::LogError("Error loading click sound");
 		m_window->close();
 	}
 	m_clickSound.setBuffer(m_clickSoundBuffer);
 
-	if (!m_checkboxSoundBuffer.loadFromFile("assets/audio/sound_effects/checkbox.ogg")) {
+	if (!m_checkboxSoundBuffer.loadFromFile("assets/audio/sound_effects/checkbox.ogg"))
+	{
 		Debug::LogError("Error loading checkbox sound");
 		m_window->close();
 	}
 	m_checkBoxSound.setBuffer(m_checkboxSoundBuffer);
 
-	if (!m_correctSoundBuffer.loadFromFile("assets/audio/sound_effects/correct.ogg")) {
+	if (!m_correctSoundBuffer.loadFromFile("assets/audio/sound_effects/correct.ogg"))
+	{
 		Debug::LogError("Error loading correct sound");
 		m_window->close();
 	}
 	m_correctSound.setBuffer(m_correctSoundBuffer);
 
-	if (!m_incorrectSoundBuffer.loadFromFile("assets/audio/sound_effects/incorrect.ogg")) {
+	if (!m_incorrectSoundBuffer.loadFromFile("assets/audio/sound_effects/incorrect.ogg"))
+	{
 		Debug::LogError("Error loading incorrect sound");
 		m_window->close();
 	}
@@ -61,7 +68,8 @@ Game::Game(sf::RenderWindow& window) {
 	CreateOptionsMenu(windowWidth, windowHeight);
 }
 
-void Game::CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
+void Game::CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
+{
 	m_loginMenu = tgui::Group::create();
 	m_loginMenu->setTextSize(20);
 
@@ -100,30 +108,29 @@ void Game::CreateLoginMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) 
 	m_loginMenu->add(registerButton);
 	m_loginMenu->add(errorLabel);
 
-	editBoxUsername->onReturnKeyPress([editBoxPassword] {
-		editBoxPassword->setFocused(true);
-		});
+	editBoxUsername->onReturnKeyPress([editBoxPassword]
+		{ editBoxPassword->setFocused(true); });
 
-	editBoxPassword->onReturnKeyPress([errorLabel, editBoxUsername, editBoxPassword, this] {
-		errorLabel->setText(Login(editBoxUsername, editBoxPassword));
-		});
+	editBoxPassword->onReturnKeyPress([errorLabel, editBoxUsername, editBoxPassword, this]
+		{ errorLabel->setText(Login(editBoxUsername, editBoxPassword)); });
 
-	loginButton->onClick([errorLabel, editBoxUsername, editBoxPassword, this]() {
-		m_clickSound.play();
-	errorLabel->setText(Login(editBoxUsername, editBoxPassword));
-		});
+	loginButton->onClick([errorLabel, editBoxUsername, editBoxPassword, this]()
+		{
+			m_clickSound.play();
+	errorLabel->setText(Login(editBoxUsername, editBoxPassword)); });
 
-	registerButton->onClick([editBoxUsername, editBoxPassword, this]() {
-		m_clickSound.play();
+	registerButton->onClick([editBoxUsername, editBoxPassword, this]()
+		{
+			m_clickSound.play();
 	m_loginMenu->setVisible(false);
-	m_registerMenu->setVisible(true);
-		});
+	m_registerMenu->setVisible(true); });
 
 	m_gui.add(m_loginMenu);
 	m_loginMenu->setVisible(true);
 }
 
-void Game::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
+void Game::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
+{
 	m_registerMenu = tgui::Group::create();
 	m_registerMenu->setTextSize(20);
 
@@ -170,35 +177,32 @@ void Game::CreateRegisterMenu(tgui::Layout windowWidth, tgui::Layout windowHeigh
 	m_registerMenu->add(backButton);
 	m_registerMenu->add(errorLabel);
 
-	editBoxUsername->onReturnKeyPress([editBoxPassword] {
-		editBoxPassword->setFocused(true);
-		});
+	editBoxUsername->onReturnKeyPress([editBoxPassword]
+		{ editBoxPassword->setFocused(true); });
 
-	editBoxPassword->onReturnKeyPress([editBoxRepeatPassword] {
-		editBoxRepeatPassword->setFocused(true);
-		});
+	editBoxPassword->onReturnKeyPress([editBoxRepeatPassword]
+		{ editBoxRepeatPassword->setFocused(true); });
 
-	editBoxRepeatPassword->onReturnKeyPress([errorLabel, editBoxUsername, editBoxPassword, editBoxRepeatPassword, this] {
-		errorLabel->setText(CreateAccount(editBoxUsername, editBoxPassword, editBoxRepeatPassword));
-		});
+	editBoxRepeatPassword->onReturnKeyPress([errorLabel, editBoxUsername, editBoxPassword, editBoxRepeatPassword, this]
+		{ errorLabel->setText(CreateAccount(editBoxUsername, editBoxPassword, editBoxRepeatPassword)); });
 
-	backButton->onClick([editBoxUsername, editBoxPassword, this]() {
-		m_clickSound.play();
+	backButton->onClick([editBoxUsername, editBoxPassword, this]()
+		{
+			m_clickSound.play();
 	m_registerMenu->setVisible(false);
-	m_loginMenu->setVisible(true);
-		});
+	m_loginMenu->setVisible(true); });
 
-
-	registerButton->onClick([errorLabel, editBoxUsername, editBoxPassword, editBoxRepeatPassword, this]() {
-		m_clickSound.play();
-	errorLabel->setText(CreateAccount(editBoxUsername, editBoxPassword, editBoxRepeatPassword));
-		});
+	registerButton->onClick([errorLabel, editBoxUsername, editBoxPassword, editBoxRepeatPassword, this]()
+		{
+			m_clickSound.play();
+	errorLabel->setText(CreateAccount(editBoxUsername, editBoxPassword, editBoxRepeatPassword)); });
 
 	m_gui.add(m_registerMenu);
 	m_registerMenu->setVisible(false);
 }
 
-void Game::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
+void Game::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
+{
 	m_mainMenu = tgui::Group::create();
 
 	tgui::Label::Ptr usernameLabel = tgui::Label::create();
@@ -233,22 +237,22 @@ void Game::CreateMainMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
 	m_mainMenu->add(optionsButton);
 	m_mainMenu->add(exitButton);
 
-	playButton->onClick([this]() {
-		m_clickSound.play();
+	playButton->onClick([this]()
+		{
+			m_clickSound.play();
 	m_mainMenu->setVisible(false);
-	m_matchSelectorMenu->setVisible(true);
-		});
+	m_matchSelectorMenu->setVisible(true); });
 
-	optionsButton->onClick([this]() {
-		m_clickSound.play();
+	optionsButton->onClick([this]()
+		{
+			m_clickSound.play();
 	m_mainMenu->setVisible(false);
-	m_optionsMenu->setVisible(true);
-		});
+	m_optionsMenu->setVisible(true); });
 
-	exitButton->onClick([this]() {
-		m_clickSound.play();
-	m_window->close();
-		});
+	exitButton->onClick([this]()
+		{
+			m_clickSound.play();
+	m_window->close(); });
 
 	m_gui.add(m_mainMenu);
 	m_mainMenu->setVisible(false);
@@ -267,7 +271,7 @@ void Game::CreateOptionsMenu(tgui::Layout windowWidth, tgui::Layout windowHeight
 
 	tgui::CheckBox::Ptr sfxCheckbox = tgui::CheckBox::create();
 	sfxCheckbox->setSize(windowWidth * 56.9 / 1270, windowHeight * 56.9 / 720);
-	sfxCheckbox->setPosition(windowWidth * 73 / 1270, windowHeight * 550 / 720);
+	sfxCheckbox->setPosition(windowWidth * 73 / 1270, windowHeight * 507.545 / 720);
 	sfxCheckbox->setText("Sfx");
 	sfxCheckbox->setChecked(true);
 
@@ -278,45 +282,48 @@ void Game::CreateOptionsMenu(tgui::Layout windowWidth, tgui::Layout windowHeight
 
 	m_optionsMenu->add(backButton);
 	m_optionsMenu->add(musicCheckbox);
+	m_optionsMenu->add(sfxCheckbox);
 
-	backButton->onClick([this]() {
-		m_clickSound.play();
+	backButton->onClick([this]()
+		{
+			m_clickSound.play();
 	m_mainMenu->setVisible(true);
-	m_optionsMenu->setVisible(false);
-		});
+	m_optionsMenu->setVisible(false); });
 
-	musicCheckbox->onCheck([this]() {
-		m_checkBoxSound.play();
+	musicCheckbox->onCheck([this]()
+		{
+			m_checkBoxSound.play();
 	m_menuMusic.setVolume(100);
-		});
+	m_gameMusic.setVolume(100); });
 
-	musicCheckbox->onUncheck([this]() {
-		m_checkBoxSound.play();
+	musicCheckbox->onUncheck([this]()
+		{
+			m_checkBoxSound.play();
 	m_menuMusic.setVolume(0);
-		});
+	m_gameMusic.setVolume(0); });
 
-
-	sfxCheckbox->onCheck([this]() {
-		m_clickSound.setVolume(100);
+	sfxCheckbox->onCheck([this]()
+		{
+			m_clickSound.setVolume(100);
 	m_checkBoxSound.setVolume(100);
 	m_correctSound.setVolume(100);
 	m_incorrectSound.setVolume(100);
-	m_checkBoxSound.play();
-		});
+	m_checkBoxSound.play(); });
 
-	sfxCheckbox->onUncheck([this]() {
-		m_clickSound.setVolume(0);
+	sfxCheckbox->onUncheck([this]()
+		{
+			m_clickSound.setVolume(0);
 	m_checkBoxSound.setVolume(0);
 	m_correctSound.setVolume(0);
 	m_incorrectSound.setVolume(0);
-	m_checkBoxSound.play();
-		});
+	m_checkBoxSound.play(); });
 
 	m_gui.add(m_optionsMenu);
 	m_optionsMenu->setVisible(false);
 }
 
-void Game::CreateMatchSelectorMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
+void Game::CreateMatchSelectorMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
+{
 	m_matchSelectorMenu = tgui::Group::create();
 	m_matchSelectorMenu->setTextSize(20);
 
@@ -352,63 +359,195 @@ void Game::CreateMatchSelectorMenu(tgui::Layout windowWidth, tgui::Layout window
 	m_matchSelectorMenu->add(backButton);
 	m_matchSelectorMenu->add(errorLabel);
 
-	twoPlayerButton->onClick([errorLabel, this]() {
-		m_clickSound.play();
+	twoPlayerButton->onClick([errorLabel, this]()
+		{
+			m_clickSound.play();
 	errorLabel->setText(JoinMatch(2));
-	Debug::Log("2 players");
-		});
+	Debug::Log("2 players"); });
 
-	threePlayerButton->onClick([errorLabel, this]() {
-		m_clickSound.play();
+	threePlayerButton->onClick([errorLabel, this]()
+		{
+			m_clickSound.play();
 	errorLabel->setText(JoinMatch(3));
-	Debug::Log("3 players");
-		});
+	Debug::Log("3 players"); });
 
-	fourPlayerButton->onClick([errorLabel, this]() {
-		m_clickSound.play();
+	fourPlayerButton->onClick([errorLabel, this]()
+		{
+			m_clickSound.play();
 	errorLabel->setText(JoinMatch(4));
-	Debug::Log("4 players");
-		});
+	Debug::Log("4 players"); });
 
-	backButton->onClick([this]() {
-		m_clickSound.play();
+	backButton->onClick([this]()
+		{
+			m_clickSound.play();
 	m_mainMenu->setVisible(true);
-	m_matchSelectorMenu->setVisible(false);
-		});
+	m_matchSelectorMenu->setVisible(false); });
 
 	m_gui.add(m_matchSelectorMenu);
 	m_matchSelectorMenu->setVisible(false);
 }
 
-void Game::CreateMapMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
-	m_mapMenu = tgui::Group::create();
+void Game::CreateWaitRoomMenu(tgui::Layout windowWidth, tgui::Layout windowHeight, uint32_t numberOfPlayers)
+{
+	m_waitRoomMenu = tgui::Group::create();
 
-	m_menuMusic.stop();
-	m_gameMusic.play();
+	tgui::Label::Ptr waitingLabel = tgui::Label::create();
+	waitingLabel->setSize(windowWidth * 1000 / 1270, windowHeight * 120 / 720);
+	waitingLabel->setPosition(windowWidth * 135 / 1270, windowHeight * 62 / 720);
+	waitingLabel->getRenderer()->setTextColor(tgui::Color::White);
+	waitingLabel->getRenderer()->setTextOutlineColor(tgui::Color::Black);
+	waitingLabel->getRenderer()->setTextOutlineThickness(1);
+	waitingLabel->setText("Waiting for other players to join");
+	waitingLabel->setTextSize(30);
+	waitingLabel->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
 
-	return; // 4 now
+	tgui::Label::Ptr playersJoinedLabel = tgui::Label::create();
+	playersJoinedLabel->setSize(windowWidth * 1000 / 1270, windowHeight * 120 / 720);
+	playersJoinedLabel->setPosition(windowWidth * 135 / 1270, windowHeight * 200 / 720);
+	playersJoinedLabel->getRenderer()->setTextColor(tgui::Color::White);
+	playersJoinedLabel->getRenderer()->setTextOutlineColor(tgui::Color::Black);
+	playersJoinedLabel->getRenderer()->setTextOutlineThickness(1);
+	playersJoinedLabel->setText("Players joined: 1 / 4");
+	playersJoinedLabel->setTextSize(30);
+	playersJoinedLabel->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
 
-	cpr::Response r = cpr::Get(cpr::Url{ "http://127.0.0.1:8080/map" });
-	auto body = crow::json::load(r.text);
+	tgui::Button::Ptr startGameButton = tgui::Button::create();
+	startGameButton->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
+	startGameButton->setPosition(windowWidth * 73 / 1270, windowHeight * 507.56 / 720);
+	startGameButton->setText("Start game");
+	startGameButton->setTextSize(20);
 
-	auto res = body["data"];
-	auto vector_of_rows = res.lo();
-	for (auto row : vector_of_rows) {
-		auto vector_of_cells = row.lo();
-		for (auto cell : vector_of_cells) {
-			std::cout << cell["player"];
-			/*
-			* trebuie verificat daca playerul e altceva in afara de NONE
-			* daca da, atunci ar trebui facut un auto player = cell["player"]
-			* si abia apoi extreas din player datale cu player["id"]
-			* sau name sau etc, asa cred
-			*/
-		}
-	}
-	// TODO : add map buttons
+	tgui::Button::Ptr backButton = tgui::Button::create();
+	backButton->setSize(windowWidth * 218 / 1270, windowHeight * 56.9 / 720);
+	backButton->setPosition(windowWidth * 73 / 1270, windowHeight * 595.09 / 720);
+	backButton->setText("Back");
+	backButton->setTextSize(20);
+
+	m_waitRoomMenu->add(waitingLabel);
+	m_waitRoomMenu->add(playersJoinedLabel);
+	m_waitRoomMenu->add(startGameButton);
+	m_waitRoomMenu->add(backButton);
+
+	startGameButton->onClick([this, windowWidth, windowHeight]()
+		{
+			m_clickSound.play();
+	m_waitRoomMenu->setVisible(false);
+	CreateMapMenu(windowWidth, windowHeight);
+	// start the game o rsomethng
+		});
+
+	backButton->onClick([this]()
+		{
+			m_clickSound.play();
+	LeaveMatch();
+	m_waitRoomMenu->setVisible(false);
+	m_matchSelectorMenu->setVisible(true);
+		});
+
+	m_gui.add(m_waitRoomMenu);
+	m_waitRoomMenu->setVisible(false);
+
+	std::thread thread = std::thread([this, playersJoinedLabel, numberOfPlayers]()
+		{
+			while (true)
+			{
+				cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:8080/players" });
+				auto body = crow::json::load(response.text);
+
+				try
+				{
+					std::string message = body["message"].s();
+					uint32_t code = body["code"].i();
+					auto data = body["data"];
+
+					if (code == 200)
+					{
+						Debug::Log(data);
+						Debug::Log(data.size());
+
+						if (playersJoinedLabel->getText().toStdString()[16] != std::to_string(data.size())[0]) {
+							playersJoinedLabel->setText("Players joined: " + std::to_string(data.size()) + " / " + std::to_string(numberOfPlayers));
+						}
+					}
+				}
+				catch (const std::exception& e)
+				{
+					Debug::Log(e.what());
+				}
+			}
+		});
+
+	thread.detach();
+
+	return;
 }
 
-void Game::CreateNumberQuestionMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
+void Game::CreateMapMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
+{
+	m_mapMenu = tgui::Group::create();
+
+	CreateNumberQuestionMenu(windowWidth, windowHeight);
+	CreateMultipleAnswerQuestionMenu(windowWidth, windowHeight);
+
+	m_gui.add(m_mapMenu);
+	m_mapMenu->setVisible(false);
+
+	return; // for now
+
+	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:8080/map" });
+	auto body = crow::json::load(response.text);
+
+	try
+	{
+		std::string message = body["message"].s();
+		uint32_t code = body["code"].i();
+		auto data = body["data"];
+
+		for (auto& row : data.lo())
+		{
+			for (auto& cell : row.lo())
+			{
+
+				Debug::Log(cell["player"]);
+				Debug::Log(cell["score"]);
+				Debug::Log(cell["type"]);
+
+				auto& player = cell["player"];
+
+				Debug::Log(player["id"]);
+
+				/*
+				 * trebuie verificat daca playerul e altceva in afara de NONE
+				 * daca da, atunci ar trebui facut un auto player = cell["player"]
+				 * si abia apoi extreas din player datale cu player["id"]
+				 * sau name sau etc, asa cred
+				 */
+			}
+		}
+
+		if (code == 200)
+		{
+			auto windowWidth = tgui::bindWidth(m_gui);
+			auto windowHeight = tgui::bindHeight(m_gui);
+
+			m_matchSelectorMenu->setVisible(false);
+			m_mainMenu->setVisible(false);
+
+			return;
+		}
+		else
+		{
+			return;
+		}
+	}
+	catch (const std::exception&)
+	{
+		return;
+	}
+}
+
+void Game::CreateNumberQuestionMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
+{
 	m_numberQuestionMenu = tgui::Group::create();
 
 	tgui::Button::Ptr panel = tgui::Button::create();
@@ -438,11 +577,13 @@ void Game::CreateNumberQuestionMenu(tgui::Layout windowWidth, tgui::Layout windo
 
 	std::vector<tgui::Button::Ptr> numberButtons;
 
-	std::vector <int> xPosition = { 161, 258, 355 };
-	std::vector <int> yPosition = { 532, 433, 335 };
+	std::vector<int> xPosition = { 161, 258, 355 };
+	std::vector<int> yPosition = { 532, 433, 335 };
 
-	for (auto i = 1; i <= 3; i++) {
-		for (auto j = 1; j <= 3; j++) {
+	for (uint8_t i = 1; i <= 3; i++)
+	{
+		for (auto j = 1; j <= 3; j++)
+		{
 			auto button = tgui::Button::create();
 			button->setSize(windowWidth * 80 / 1270, windowHeight * 80 / 720);
 			button->setPosition(windowWidth * xPosition[j - 1] / 1270, windowHeight * yPosition[i - 1] / 720);
@@ -452,6 +593,7 @@ void Game::CreateNumberQuestionMenu(tgui::Layout windowWidth, tgui::Layout windo
 			numberButtons.push_back(button);
 		}
 	}
+
 	tgui::Button::Ptr backspaceButton = tgui::Button::create();
 	backspaceButton->setSize(windowWidth * 80 / 1270, windowHeight * 80 / 720);
 	backspaceButton->setPosition(windowWidth * 549 / 1270, windowHeight * 335 / 720);
@@ -462,22 +604,25 @@ void Game::CreateNumberQuestionMenu(tgui::Layout windowWidth, tgui::Layout windo
 	m_numberQuestionMenu->add(answerBox);
 	m_numberQuestionMenu->add(submitButton);
 	m_numberQuestionMenu->add(number0Button, "0");
-	for (auto i = 1; i <= 9; i++) {
+	for (uint8_t i = 1; i <= 9; i++)
+	{
 		m_numberQuestionMenu->add(numberButtons[i - 1], std::to_string(i));
 	}
 	m_numberQuestionMenu->add(backspaceButton);
 
-	submitButton->onClick([this, answerBox]() {
-		m_clickSound.play();
+	submitButton->onClick([this, answerBox]()
+		{
+			m_clickSound.play();
 	Debug::Log(answerBox->getText().toStdString());
 	// submit to the server
 		});
 
-	for (auto i = 0; i <= 9; i++) {
-		m_numberQuestionMenu->get<tgui::Button>(std::to_string(i))->onClick([this, answerBox, i]() {
-			m_clickSound.play();
-		answerBox->setText(answerBox->getText() + std::to_string(i));
-			});
+	for (auto i = 0; i <= 9; i++)
+	{
+		m_numberQuestionMenu->get<tgui::Button>(std::to_string(i))->onClick([this, answerBox, i]()
+			{
+				m_clickSound.play();
+		answerBox->setText(answerBox->getText() + std::to_string(i)); });
 	}
 
 	backspaceButton->onClick([this, answerBox]()
@@ -487,14 +632,14 @@ void Game::CreateNumberQuestionMenu(tgui::Layout windowWidth, tgui::Layout windo
 	if (text.size() > 0) {
 		text.pop_back();
 	}
-	answerBox->setText(text);
-		});
+	answerBox->setText(text); });
 
 	m_gui.add(m_numberQuestionMenu);
 	m_numberQuestionMenu->setVisible(false);
 }
 
-void Game::CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layout windowHeight) {
+void Game::CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layout windowHeight)
+{
 	m_multipleAnswerQuestionMenu = tgui::Group::create();
 
 	tgui::Button::Ptr panel = tgui::Button::create();
@@ -537,8 +682,9 @@ void Game::CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layo
 
 	int selected = NULL;
 
-	answer1Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button, this]() {
-		m_clickSound.play();
+	answer1Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button, this]()
+		{
+			m_clickSound.play();
 	selected = 1;
 
 	//answer1Button->getRenderer()->setBackgroundColor(tgui::Color::Green);
@@ -548,11 +694,11 @@ void Game::CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layo
 
 	answer2Button->setEnabled(false);
 	answer3Button->setEnabled(false);
-	answer4Button->setEnabled(false);
-		});
+	answer4Button->setEnabled(false); });
 
-	answer2Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button, this]() {
-		m_clickSound.play();
+	answer2Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button, this]()
+		{
+			m_clickSound.play();
 	selected = 2;
 
 	//answer2Button->getRenderer()->setBackgroundColor(tgui::Color::Green);
@@ -562,11 +708,11 @@ void Game::CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layo
 
 	answer1Button->setEnabled(false);
 	answer3Button->setEnabled(false);
-	answer4Button->setEnabled(false);
-		});
+	answer4Button->setEnabled(false); });
 
-	answer3Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button, this]() {
-		m_clickSound.play();
+	answer3Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button, this]()
+		{
+			m_clickSound.play();
 	selected = 3;
 
 	//answer3Button->getRenderer()->setBackgroundColor(tgui::Color::Green);
@@ -576,11 +722,11 @@ void Game::CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layo
 
 	answer1Button->setEnabled(false);
 	answer2Button->setEnabled(false);
-	answer4Button->setEnabled(false);
-		});
+	answer4Button->setEnabled(false); });
 
-	answer4Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button, this]() {
-		m_clickSound.play();
+	answer4Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button, this]()
+		{
+			m_clickSound.play();
 	selected = 4;
 
 	//answer4Button->getRenderer()->setBackgroundColor(tgui::Color::Green);
@@ -590,27 +736,30 @@ void Game::CreateMultipleAnswerQuestionMenu(tgui::Layout windowWidth, tgui::Layo
 
 	answer1Button->setEnabled(false);
 	answer2Button->setEnabled(false);
-	answer3Button->setEnabled(false);
-		});
+	answer3Button->setEnabled(false); });
 
 	m_gui.add(m_multipleAnswerQuestionMenu);
+	m_multipleAnswerQuestionMenu->setVisible(false);
 }
 
-std::string Game::Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password) {
+std::string Game::Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password)
+{
 	auto response = cpr::Get(
 		cpr::Url{ "http://localhost:8080/user/login?name=" +
-		username->getText().toStdString() +
-		"&password=" +
-		password->getText().toStdString() });
+				 username->getText().toStdString() +
+				 "&password=" +
+				 password->getText().toStdString() });
 
 	auto body = crow::json::load(response.text);
 
-	try {
+	try
+	{
 		std::string message = body["message"].s();
 		uint32_t code = body["code"].i();
 		auto& data = body["data"];
 
-		if (code == 200) {
+		if (code == 200)
+		{
 
 			auto windowWidth = tgui::bindWidth(m_gui);
 			auto windowHeight = tgui::bindHeight(m_gui);
@@ -627,34 +776,40 @@ std::string Game::Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password
 
 			return "";
 		}
-		else {
+		else
+		{
 			return message;
 		}
 	}
-	catch (const std::exception&) {
+	catch (const std::exception&)
+	{
 		return "No connection to the server";
 	}
 }
 
-std::string Game::CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password, tgui::EditBox::Ptr repeatPassword) {
-	if (password->getText().toStdString() != repeatPassword->getText().toStdString()) {
+std::string Game::CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password, tgui::EditBox::Ptr repeatPassword)
+{
+	if (password->getText().toStdString() != repeatPassword->getText().toStdString())
+	{
 		return "Passwords do not match";
 	}
 
 	auto response = cpr::Get(
 		cpr::Url{ "http://localhost:8080/user/register?name=" +
-		username->getText().toStdString() +
-		"&password=" +
-		password->getText().toStdString() });
+				 username->getText().toStdString() +
+				 "&password=" +
+				 password->getText().toStdString() });
 
 	auto body = crow::json::load(response.text);
 
-	try {
+	try
+	{
 		std::string message = body["message"].s();
 		uint32_t code = body["code"].i();
 		auto& data = body["data"];
 
-		if (code == 200) {
+		if (code == 200)
+		{
 			auto windowWidth = tgui::bindWidth(m_gui);
 			auto windowHeight = tgui::bindHeight(m_gui);
 
@@ -670,55 +825,68 @@ std::string Game::CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr 
 
 			return "";
 		}
-		else {
+		else
+		{
 			return message;
 		}
 	}
-	catch (const std::exception&) {
+	catch (const std::exception&)
+	{
 		return "No connection to the server";
 	}
 }
 
-std::string Game::JoinMatch(uint32_t numberOfPlayers) {
+std::string Game::JoinMatch(uint32_t numberOfPlayers)
+{
 	auto response = cpr::Get(cpr::Url{ "http://localhost:8080/join_game/" + std::to_string(m_user.id) + '/' + std::to_string(numberOfPlayers) });
-
 	auto body = crow::json::load(response.text);
 
-	try {
+	try
+	{
 		std::string message = body["message"].s();
 		uint32_t code = body["code"].i();
 
-		if (code == 200) {
+		if (code == 200)
+		{
 			auto windowWidth = tgui::bindWidth(m_gui);
 			auto windowHeight = tgui::bindHeight(m_gui);
 
 			m_matchSelectorMenu->setVisible(false);
 			m_mainMenu->setVisible(false);
 
-			// Map Menu
-			CreateMapMenu(windowWidth, windowHeight);
-
-			// Number Question Menu
-			CreateNumberQuestionMenu(windowWidth, windowHeight);
-
-			// Multiple Answer Question Menu
-			CreateMultipleAnswerQuestionMenu(windowWidth, windowHeight);
-
-			m_gui.add(m_mapMenu);
-			m_gui.add(m_numberQuestionMenu);
-			m_gui.add(m_multipleAnswerQuestionMenu);
-
-			m_mapMenu->setVisible(true);
-			m_numberQuestionMenu->setVisible(false);
-			m_multipleAnswerQuestionMenu->setVisible(false);
+			CreateWaitRoomMenu(windowWidth, windowHeight, numberOfPlayers);
+			m_waitRoomMenu->setVisible(true);
 
 			return "";
 		}
-		else {
+		else
+		{
 			return message;
 		}
 	}
-	catch (const std::exception&) {
+	catch (const std::exception&)
+	{
 		return "No connection to the server";
+	}
+}
+
+void Game::LeaveMatch()
+{
+	auto response = cpr::Get(cpr::Url{ "http://localhost:8080//leave_game/" + std::to_string(m_user.id) });
+	auto body = crow::json::load(response.text);
+
+	try
+	{
+		std::string message = body["message"].s();
+		uint32_t code = body["code"].i();
+
+		if (code == 200)
+		{
+			Debug::Log("left match");
+		}
+	}
+	catch (const std::exception& e)
+	{
+		Debug::Log(e.what());
 	}
 }
