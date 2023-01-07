@@ -85,14 +85,10 @@ crow::json::wvalue GameServices::SubmitAnswerForCurrentQuestion(const crow::requ
 
 }
 
-crow::json::wvalue GameServices::GetPoolResults() {
-	auto answers = m_game->GetContestResults();
-	std::vector<crow::json::wvalue> json_answers;
-
-	for (const auto& answer : answers)
-		json_answers.push_back(static_cast<crow::json::wvalue>(answer));
-
-	return CrowResponse::Json(CrowResponse::Code::OK, "", crow::json::wvalue{ json_answers });
+crow::json::wvalue GameServices::GetPoolResults(uint32_t player_id) {
+	auto answer = m_game->GetContestResult(player_id);
+	
+	return CrowResponse::Json(CrowResponse::Code::OK, "", answer);
 }
 
 crow::json::wvalue GameServices::TryPickCell(uint8_t x, uint8_t y, uint32_t player_id) {
@@ -157,8 +153,8 @@ void GameServices::InitRoutes() {
 	CROW_ROUTE(app, "/submit_answer_for_current_question").methods("POST"_method) ([this](const crow::request& req) {
 		return SubmitAnswerForCurrentQuestion(req);
 		});
-	CROW_ROUTE(app, "/get_pool_results")([this]() {
-		return GetPoolResults();
+	CROW_ROUTE(app, "/get_pool_results/<int>")([this](uint32_t player_id) {
+		return GetPoolResults(player_id);
 		});
 	CROW_ROUTE(app, "/pick_cell/<int>/<int>/<int>")([this](uint8_t x, uint8_t y, uint32_t player_id) {
 		return TryPickCell(x, y, player_id);

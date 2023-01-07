@@ -77,19 +77,10 @@ void Game::PickBase() {
 
 void Game::PickFreeCells() {
 	using namespace std::chrono_literals;
-	auto free_cells = m_map.FreeCells();
-	while (free_cells > 0) {
-		m_mutex.lock();
-		m_status = Status::ANSWERING_QUESTION;
-		m_mutex.unlock();
-		WaitForAnswers(15);
-		ShowResults();
 		m_mutex.lock();
 		m_status = Status::PICKING_CELLS;
 		m_mutex.unlock();
 		std::this_thread::sleep_for(6s);
-		free_cells = m_map.FreeCells();
-	}
 }
 
 void Game::GameLoop() {
@@ -105,7 +96,11 @@ void Game::GameLoop() {
 	WaitForAnswers(15);
 	ShowResults();
 
-	PickFreeCells();
+	while (m_map.FreeCells() > 0) {
+		PickFreeCells();
+		WaitForAnswers(15);
+		ShowResults();
+	}
 	// wait for answers in PickFreeCells, maybe remodel it
 
 
@@ -229,8 +224,8 @@ void Game::SubmitContestAnswer(const std::string& answer, std::shared_ptr<Player
 	m_contest.SubmitAnswer(answer, player);
 }
 
-std::vector<Contest::Answer> Game::GetContestResults() {
-	return m_contest.GetAnswers();
+crow::json::wvalue Game::GetContestResult(uint32_t player_id) {
+	return m_contest.GetResult(player_id);
 }
 
 bool Game::TryPickCell(uint8_t x, uint8_t y, uint32_t player_id) {

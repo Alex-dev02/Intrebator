@@ -18,7 +18,7 @@ public:
 
 		operator crow::json::wvalue() const;
 	};
-
+	
 public:
 	Contest() = default;
 
@@ -37,6 +37,8 @@ public:
 
 	void SubmitAnswer(const std::string& answer, std::shared_ptr<Player> player);
 	std::vector<Contest::Answer> GetAnswers();
+	crow::json::wvalue GetResult(uint32_t player_id);
+
 private:
 	std::time_t m_time;
 	std::vector<std::shared_ptr<Player>> m_participants;

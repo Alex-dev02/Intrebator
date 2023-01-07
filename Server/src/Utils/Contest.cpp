@@ -1,4 +1,6 @@
 #include "../../include/Utils/Contest.hpp"
+#include "../../include/Entities/Questions/NumericQuestion.hpp"
+#include "../../include/Entities/Questions/MultipleAnswerQuestion.hpp"
 
 void Contest::SetQuestion(std::shared_ptr<Question> question) {
 	m_question = question;
@@ -35,8 +37,42 @@ Contest::Answer::Answer(std::shared_ptr<Player> player, uint16_t answering_time_
 Contest::Answer::operator crow::json::wvalue() const {
 	return crow::json::wvalue{
 		{"player", static_cast<crow::json::wvalue>(*m_player.get())},
-		{"answering_time", m_answering_time_s},
 		{"answer", m_answer}
+	};
+}
+
+crow::json::wvalue Contest::GetResult(uint32_t player_id) {
+	auto answer_it = std::find_if(m_answers.begin(), m_answers.end(), [player_id](const Answer& a) {
+		return a.m_player->GetId() == player_id;
+	});
+
+	if (answer_it == m_answers.end())
+		return crow::json::wvalue{
+			{"error"}
+		};
+
+	auto numeric_question = std::dynamic_pointer_cast<NumericQuestion>(m_question);
+
+	if (numeric_question)
+		return crow::json::wvalue{
+			{"question", m_question->GetQuestion()},
+			{"player", static_cast<crow::json::wvalue>((*answer_it->m_player.get()))},
+			{"answer", answer_it->m_answer},
+			{"correct_answer", std::to_string(numeric_question->GetAnswer())}
+	};
+
+	auto multiple_answer_question = std::dynamic_pointer_cast<MultipleAnswerQuestion>(m_question);
+
+	if (multiple_answer_question)
+		return crow::json::wvalue{
+			{"question", m_question->GetQuestion()},
+			{"player", static_cast<crow::json::wvalue>((*answer_it->m_player.get()))},
+			{"answer", answer_it->m_answer},
+			{"correct_answer", multiple_answer_question->GetCorrectAnswer()}
+		};
+
+	return crow::json::wvalue{
+			{"error"}
 	};
 }
 
