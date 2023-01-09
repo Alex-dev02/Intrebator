@@ -47,6 +47,9 @@ public:
 	std::vector<Contest::Answer> GetAnswers();
 	crow::json::wvalue GetResult(uint32_t player_id);
 	std::vector<EvaluatedAnswer> GetEvaluatedAnswers();
+	const std::vector<std::shared_ptr<Player>>& GetParticipants() const;
+
+private:
 	std::optional<std::vector<EvaluatedAnswer>> GetEvaluatedAnswersForNumericQuestion();
 	std::optional<std::vector<EvaluatedAnswer>> GetEvaluatedAnswersForMultipleQuestion();
 	float GetMarginErrorForAnswer(int given_answer, int correct_answer);

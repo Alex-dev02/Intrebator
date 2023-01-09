@@ -251,3 +251,7 @@ std::shared_ptr<Question> Game::CurrentQuestion() {
 const Map& Game::GetMap() {
 	return m_map;
 }
+
+const std::vector<std::shared_ptr<Player>>& Game::GetContestingPlayers() const {
+	return m_contest.GetParticipants();
+}

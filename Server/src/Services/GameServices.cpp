@@ -139,6 +139,16 @@ crow::json::wvalue GameServices::ActivatePowerup(){
 	
 }
 
+crow::json::wvalue GameServices::GetContestingPlayers() {
+	std::vector<crow::json::wvalue> json_players;
+	const auto& contesting_players = m_game->GetContestingPlayers();
+
+	for (const auto& player : contesting_players)
+		json_players.push_back(static_cast<crow::json::wvalue>(*player.get()));
+
+	return crow::json::wvalue{json_players};
+}
+
 void GameServices::InitRoutes() {
 	auto& app = m_server->GetApp();
 
@@ -174,5 +184,8 @@ void GameServices::InitRoutes() {
 		});
 	CROW_ROUTE(app, "/activate_powerup")([this](){
 		return ActivatePowerup();
+	});
+	CROW_ROUTE(app, "/contesting_players")([this]() {
+		return GetContestingPlayers();
 	});
 }

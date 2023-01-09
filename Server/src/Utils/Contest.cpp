@@ -154,3 +154,7 @@ std::optional<std::vector<Contest::EvaluatedAnswer>> Contest::GetEvaluatedAnswer
 float Contest::GetMarginErrorForAnswer(int given_answer, int correct_answer) {
 	return std::abs(float(100.0f - float((given_answer * 100) / correct_answer)));
 }
+
+const std::vector<std::shared_ptr<Player>>& Contest::GetParticipants() const {
+	return m_participants;
+}
