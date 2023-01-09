@@ -22,6 +22,10 @@ private:
 	crow::json::wvalue GetMap();
 	crow::json::wvalue GetPlayers();
 	crow::json::wvalue ActivatePowerup();
+<<<<<<< HEAD
+=======
+	crow::json::wvalue GetContestingPlayers();
+>>>>>>> 7e3904656ae0ba6c5ab85a3c9541a3c59c344614
 
 private:
 	std::shared_ptr<Server> m_server;

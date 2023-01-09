@@ -137,9 +137,17 @@ crow::json::wvalue GameServices::GetPlayers() {
 }
 
 crow::json::wvalue GameServices::ActivatePowerup(){
-	// check if user used the powerup already
-	// // if yes return response not ok
-	// // if not set powerup to used and return ok
+	return crow::json::wvalue{};
+}
+
+crow::json::wvalue GameServices::GetContestingPlayers() {
+	std::vector<crow::json::wvalue> json_players;
+	const auto& contesting_players = m_game->GetContestingPlayers();
+
+	for (const auto& player : contesting_players)
+		json_players.push_back(static_cast<crow::json::wvalue>(*player.get()));
+
+	return crow::json::wvalue{json_players};
 }
 
 void GameServices::InitRoutes() {
@@ -177,5 +185,8 @@ void GameServices::InitRoutes() {
 		});
 	CROW_ROUTE(app, "/activate_powerup")([this](){
 		return ActivatePowerup();
+	});
+	CROW_ROUTE(app, "/contesting_players")([this]() {
+		return GetContestingPlayers();
 	});
 }

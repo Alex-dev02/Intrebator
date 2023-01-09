@@ -43,6 +43,7 @@ public:
 	bool RemovePlayer(std::shared_ptr<Player> player);
 	std::optional<std::shared_ptr<Player>> GetPlayer(uint32_t id);
 	const std::vector<std::shared_ptr<Player>>& GetPlayers() const;
+	const std::vector<std::shared_ptr<Player>>& GetContestingPlayers() const;
 
 	Status GetStatus() const;
 	void SetRoomSize(uint8_t room_size);
@@ -90,6 +91,8 @@ private:
 	std::vector<Round> m_rounds;
 	std::vector<std::shared_ptr<Question>> m_questions;
 	std::vector<Player::Color> m_available_player_colors;
+	
+	std::shared_ptr<Player> m_actioning_player;
 
 private:
 	std::shared_ptr<Database> m_database;
