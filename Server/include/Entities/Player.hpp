@@ -33,6 +33,9 @@ public:
 	const Color& GetColor() const;
 	uint32_t GetScore() const;
 	const std::string& GetPassword() const = delete;
+	const bool& GetUsed5050Powerup();
+	const bool& GetUsed4AnswersPowerup();
+	const bool& GetUsedCorrectAnswerPowerup();
 
 	void SetInactive();
 	void SetColor(Color color);

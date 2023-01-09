@@ -74,7 +74,7 @@ crow::json::wvalue Contest::GetResult(uint32_t player_id) {
 		};
 
 	return crow::json::wvalue{
-			{"error"}
+		{"error"}
 	};
 }
 
@@ -169,3 +169,24 @@ float Contest::GetMarginErrorForAnswer(int given_answer, int correct_answer) {
 const std::vector<std::shared_ptr<Player>>& Contest::GetParticipants() const {
 	return m_participants;
 }
+
+bool UsedPowerup(const Player::Powerups& powerupName){
+	if(powerupName == Player::Powerups::FIFTYFIFITY){
+		if(Player::GetUsed5050Powerup)
+			;// return bad
+		else
+			;// return good
+	}
+	else if(powerupName == Player::Powerups::FOURANSWERS){
+		if(Player::GetUsed4AnswersPowerup)
+			;// return bad
+		else
+			;// return good
+	}
+	else if(powerupName == Player::Powerups::CORRECTANSWER){
+		if(Player::GetUsedCorrectAnswerPowerup)
+			;// return bad
+		else
+			;// return good
+	}
+}//TODO: !!!!!!!!!!!!!!!!!!!!!!!!!
