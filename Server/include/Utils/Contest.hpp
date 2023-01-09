@@ -50,6 +50,7 @@ public:
 	std::optional<std::vector<EvaluatedAnswer>> GetEvaluatedAnswersForNumericQuestion();
 	std::optional<std::vector<EvaluatedAnswer>> GetEvaluatedAnswersForMultipleQuestion();
 	float GetMarginErrorForAnswer(int given_answer, int correct_answer);
+	bool usedPowerup(bool );
 
 private:
 	std::time_t m_time;
