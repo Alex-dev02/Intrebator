@@ -64,7 +64,7 @@ void Game::ShowResults() {
 	std::this_thread::sleep_for(3s);
 }
 
-void Game::PickBase() {
+void Game::PrepareContest(const std::vector<std::shared_ptr<Player>>& players) {
 	m_mutex.lock();
 	m_contest.SetQuestion(m_questions.front());
 	m_questions.erase(m_questions.begin());
@@ -83,6 +83,14 @@ void Game::PickFreeCells() {
 		std::this_thread::sleep_for(6s);
 }
 
+void Game::PickBase() {
+	auto answers = m_contest.GetEvaluatedAnswers();
+	m_mutex.lock();
+	m_status = Status::PICKING_BASE;
+	m_mutex.lock();
+
+}
+
 void Game::GameLoop() {
 	using namespace std::chrono_literals;
 
@@ -92,9 +100,10 @@ void Game::GameLoop() {
 	std::this_thread::sleep_for(5s);
 
 	// first fase, answering numeric question for picking the base
-	PickBase();
+	PrepareContest(m_players);
 	WaitForAnswers(15);
 	ShowResults();
+	PickBase();
 
 	while (m_map.FreeCells() > 0) {
 		PickFreeCells();

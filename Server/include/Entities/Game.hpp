@@ -67,6 +67,7 @@ private:
 	void WaitForAnswers(uint8_t seconds_to_wait);
 	void PickFreeCells();
 	void ShowResults();
+	void PrepareContest(const std::vector<std::shared_ptr<Player>>& players);
 	void PickBase();
 
 private:
