@@ -135,6 +135,10 @@ crow::json::wvalue GameServices::GetPlayers() {
 	return CrowResponse::Json(CrowResponse::Code::OK, "", crow::json::wvalue{ json_players });
 }
 
+crow::json::wvalue GameServices::ActivatePowerup(){
+	
+}
+
 void GameServices::InitRoutes() {
 	auto& app = m_server->GetApp();
 
@@ -168,4 +172,7 @@ void GameServices::InitRoutes() {
 	CROW_ROUTE(app, "/players")([this]() {
 		return GetPlayers();
 		});
+	CROW_ROUTE(app, "/activate_powerup")([this](){
+		return ActivatePowerup();
+	});
 }
