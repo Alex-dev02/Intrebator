@@ -103,8 +103,6 @@ void Game::GameLoop() {
 	}
 	// wait for answers in PickFreeCells, maybe remodel it
 
-
-
 }
 
 void Game::Run() {

@@ -6,6 +6,7 @@
 #include <vector>
 #include <ctime>
 #include <crow.h>
+#include <variant>
 
 class Contest {
 public:
@@ -18,7 +19,14 @@ public:
 
 		operator crow::json::wvalue() const;
 	};
-	
+
+	struct EvaluatedAnswer {
+		EvaluatedAnswer() = default;
+
+		std::shared_ptr<Player> m_player;
+		std::variant<bool, float> m_is_correct_or_margin_error;
+	};
+
 public:
 	Contest() = default;
 
@@ -38,6 +46,10 @@ public:
 	void SubmitAnswer(const std::string& answer, std::shared_ptr<Player> player);
 	std::vector<Contest::Answer> GetAnswers();
 	crow::json::wvalue GetResult(uint32_t player_id);
+	std::vector<EvaluatedAnswer> GetEvaluatedAnswers();
+	std::optional<std::vector<EvaluatedAnswer>> GetEvaluatedAnswersForNumericQuestion();
+	std::optional<std::vector<EvaluatedAnswer>> GetEvaluatedAnswersForMultipleQuestion();
+	float GetMarginErrorForAnswer(int given_answer, int correct_answer);
 
 private:
 	std::time_t m_time;

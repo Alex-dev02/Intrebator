@@ -2,6 +2,8 @@
 #include "../../include/Entities/Questions/NumericQuestion.hpp"
 #include "../../include/Entities/Questions/MultipleAnswerQuestion.hpp"
 
+#include <cmath>
+
 void Contest::SetQuestion(std::shared_ptr<Question> question) {
 	m_question = question;
 }
@@ -96,4 +98,59 @@ std::vector<Contest::Answer> Contest::GetAnswers() {
 
 std::shared_ptr<Question> Contest::CurrentQuestion() {
 	return m_question;
+}
+
+std::vector<Contest::EvaluatedAnswer> Contest::GetEvaluatedAnswers() {
+	std::optional<std::vector<Contest::EvaluatedAnswer>> evaluated_answers;
+
+	evaluated_answers = GetEvaluatedAnswersForNumericQuestion();
+
+	if (evaluated_answers.has_value())
+		return evaluated_answers.value();
+
+	return GetEvaluatedAnswersForMultipleQuestion().value();
+}
+
+std::optional<std::vector<Contest::EvaluatedAnswer>> Contest::GetEvaluatedAnswersForNumericQuestion() {
+	auto numeric_question = std::dynamic_pointer_cast<NumericQuestion>(m_question);
+
+	if (!numeric_question)
+		return std::nullopt;
+
+	std::vector<Contest::EvaluatedAnswer> evaluated_answers;
+
+	EvaluatedAnswer evaluated_answer;
+
+	for (const auto& answer : m_answers) {
+		evaluated_answer.m_player = answer.m_player;
+		evaluated_answer.m_is_correct_or_margin_error =
+			GetMarginErrorForAnswer(std::stoi(answer.m_answer), numeric_question->GetAnswer());
+		evaluated_answers.push_back(evaluated_answer);
+	}
+
+	return evaluated_answers;
+}
+
+std::optional<std::vector<Contest::EvaluatedAnswer>> Contest::GetEvaluatedAnswersForMultipleQuestion() {
+	auto multiple_answer_question = std::dynamic_pointer_cast<MultipleAnswerQuestion>(m_question);
+
+	if (!multiple_answer_question)
+		return std::nullopt;
+
+	std::vector<Contest::EvaluatedAnswer> evaluated_answers;
+
+	EvaluatedAnswer evaluated_answer;
+
+	for (const auto& answer : m_answers) {
+		evaluated_answer.m_player = answer.m_player;
+		evaluated_answer.m_is_correct_or_margin_error =
+			answer.m_answer == multiple_answer_question->GetCorrectAnswer();
+		evaluated_answers.push_back(evaluated_answer);
+	}
+
+	return evaluated_answers;
+}
+
+float Contest::GetMarginErrorForAnswer(int given_answer, int correct_answer) {
+	return std::abs(float(100.0f - float((given_answer * 100) / correct_answer)));
 }
