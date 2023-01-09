@@ -136,7 +136,7 @@ crow::json::wvalue GameServices::GetPlayers() {
 }
 
 crow::json::wvalue GameServices::ActivatePowerup(){
-	
+	return crow::json::wvalue{};
 }
 
 crow::json::wvalue GameServices::GetContestingPlayers() {

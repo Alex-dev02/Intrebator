@@ -101,14 +101,25 @@ std::shared_ptr<Question> Contest::CurrentQuestion() {
 }
 
 std::vector<Contest::EvaluatedAnswer> Contest::GetEvaluatedAnswers() {
-	std::optional<std::vector<Contest::EvaluatedAnswer>> evaluated_answers;
+	auto opt_evaluated_answers = GetEvaluatedAnswersForNumericQuestion();
+	std::vector<EvaluatedAnswer> evaluated_answers;
 
-	evaluated_answers = GetEvaluatedAnswersForNumericQuestion();
+	if (!opt_evaluated_answers.has_value())
+		evaluated_answers = GetEvaluatedAnswersForMultipleQuestion().value();
+	else
+		evaluated_answers = opt_evaluated_answers.value();
+	
+	std::sort(evaluated_answers.begin(), evaluated_answers.end(),
+	[](const Contest::EvaluatedAnswer& first_ans, const Contest::EvaluatedAnswer& second_ans) {
+			if (std::holds_alternative<bool>(first_ans.m_is_correct_or_margin_error))
+				return std::get<bool>(first_ans.m_is_correct_or_margin_error) >=
+				std::get<bool>(second_ans.m_is_correct_or_margin_error);
+			else
+				return std::get<float>(first_ans.m_is_correct_or_margin_error) <=
+				std::get<float>(second_ans.m_is_correct_or_margin_error);
+	});
 
-	if (evaluated_answers.has_value())
-		return evaluated_answers.value();
-
-	return GetEvaluatedAnswersForMultipleQuestion().value();
+	return evaluated_answers;
 }
 
 std::optional<std::vector<Contest::EvaluatedAnswer>> Contest::GetEvaluatedAnswersForNumericQuestion() {
