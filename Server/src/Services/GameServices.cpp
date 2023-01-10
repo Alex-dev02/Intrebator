@@ -1,6 +1,7 @@
 #include "../../include/Services/GameServices.hpp"
 #include "../../include/Services/UserServices.hpp"
 #include "../../include/Utils/CrowResponse.hpp"
+#include "../../include/Entities/User.hpp"
 
 GameServices::GameServices(std::shared_ptr<Database> database, std::shared_ptr<Server> server)
 	: m_database(database),
@@ -136,7 +137,7 @@ crow::json::wvalue GameServices::GetPlayers() {
 }
 
 crow::json::wvalue GameServices::ActivatePowerup(){
-	
+	return crow::json::wvalue{};
 }
 
 crow::json::wvalue GameServices::GetContestingPlayers() {

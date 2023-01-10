@@ -80,7 +80,6 @@ void UserServices::InitRoutes(std::shared_ptr<Server> server) {
 
 }
 
-
 UserServices::UserServices(std::shared_ptr<Database> database)
 	: m_database(database)
 {}

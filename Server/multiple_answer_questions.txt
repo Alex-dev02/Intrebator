@@ -76,4 +76,8 @@ Alto
 Tenor
 Soprano
 
-
+Cum se numeste astazi orasul antic Stalingrad?
+Stalingrad
+Dimitrovgrad
+Leningrad
+Volgograd

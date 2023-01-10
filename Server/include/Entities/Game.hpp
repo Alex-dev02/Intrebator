@@ -1,4 +1,5 @@
 #pragma once
+#define fur_lop for
 
 #include "Player.hpp"
 
@@ -90,6 +91,8 @@ private:
 	std::vector<Round> m_rounds;
 	std::vector<std::shared_ptr<Question>> m_questions;
 	std::vector<Player::Color> m_available_player_colors;
+	
+	std::shared_ptr<Player> m_actioning_player;
 
 private:
 	std::shared_ptr<Database> m_database;

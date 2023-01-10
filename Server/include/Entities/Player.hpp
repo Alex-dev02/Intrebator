@@ -16,6 +16,13 @@ public:
 		BLUE,
 		NONE
 	};
+
+	enum class Powerups{
+		FIFTYFIFITY,
+		FOURANSWERS,
+		CORRECTANSWER
+	};
+
 	std::string ColorToString(Color color) const;
 	static std::vector<Color> GetAllColors();
 public:
@@ -26,6 +33,9 @@ public:
 	const Color& GetColor() const;
 	uint32_t GetScore() const;
 	const std::string& GetPassword() const = delete;
+	const bool& GetUsed5050Powerup();
+	const bool& GetUsed4AnswersPowerup();
+	const bool& GetUsedCorrectAnswerPowerup();
 
 	void SetInactive();
 	void SetColor(Color color);
@@ -39,4 +49,7 @@ private:
 	Color m_color;
 	uint32_t m_score;
 	bool m_isActive = true;
+	bool m_used5050Powerup;
+	bool m_used4AnswersPowerup;
+	bool m_usedCorrectAnswerPowerup;
 };
