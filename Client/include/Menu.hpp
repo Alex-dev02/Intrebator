@@ -9,23 +9,34 @@
 
 #include "Player.hpp"
 
-class Game {
+class Menu {
 public:
-	Game(sf::RenderWindow& window);
+	Menu(sf::RenderWindow& window);
 
 	inline tgui::Gui& GetGui() { return m_gui; }
 	inline void Draw() { m_gui.draw(); }
 	inline void HandleEvent(sf::Event event) { m_gui.handleEvent(event); }
 
-	void CreateMapMenu();
-	void CreateNumberQuestionMenu();
-	void CreateMultipleAnswerQuestionMenu();
+private:
+	void CreateLoginMenu();
+	void CreateRegisterMenu();
+	void CreateMainMenu();
+	void CreateOptionsMenu();
+	void CreateMatchSelectorMenu();
 
-	void Update();
+private:
+	void CreateWaitRoomMenu(uint32_t numberOfPlayers);
+
+private:
+	std::string CreateAccount(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password, tgui::EditBox::Ptr repeatPassword);
+	std::string Login(tgui::EditBox::Ptr username, tgui::EditBox::Ptr password);
+	std::string JoinMatch(uint32_t numberOfPlayers);
+
+public:
+	void LeaveMatch();
 
 private:
 	tgui::Gui m_gui;
-
 	tgui::Layout m_windowWidth;
 	tgui::Layout m_windowHeight;
 
@@ -50,6 +61,14 @@ private:
 	sf::Sound m_correctSound;
 	sf::Sound m_incorrectSound;
 
+	tgui::Group::Ptr m_loginMenu;
+	tgui::Group::Ptr m_registerMenu;
+	tgui::Group::Ptr m_mainMenu;
+
+	tgui::Group::Ptr m_optionsMenu;
+	tgui::Group::Ptr m_matchSelectorMenu;
+
+	tgui::Group::Ptr m_waitRoomMenu;
 	tgui::Group::Ptr m_mapMenu;
 	tgui::Group::Ptr m_numberQuestionMenu;
 	tgui::Group::Ptr m_multipleAnswerQuestionMenu;
