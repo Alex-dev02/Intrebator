@@ -43,6 +43,18 @@ uint32_t Player::GetScore() const{
 	return m_score;
 }
 
+const bool& Player::GetUsed5050Powerup(){
+	return m_used5050Powerup;
+}
+
+const bool& Player::GetUsed4AnswersPowerup(){
+	return m_used4AnswersPowerup;
+}
+
+const bool& Player::GetUsedCorrectAnswerPowerup(){
+	return m_usedCorrectAnswerPowerup;
+}
+
 void Player::SetInactive() {
 	m_isActive = false;
 }
