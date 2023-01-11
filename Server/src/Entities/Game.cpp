@@ -87,8 +87,19 @@ void Game::PickBase() {
 	auto answers = m_contest.GetEvaluatedAnswers();
 	m_mutex.lock();
 	m_status = Status::PICKING_BASE;
-	m_mutex.lock();
+	m_mutex.unlock();
 
+	for (const auto& answer : answers)
+		SetActioningPlayer(answer.m_player);
+}
+
+void Game::SetActioningPlayer(std::shared_ptr <Player> player) {
+	using namespace std::chrono_literals;
+
+	m_mutex.lock();
+	m_actioning_player = player;
+	m_mutex.unlock();
+	std::this_thread::sleep_for(8s);
 }
 
 void Game::GameLoop() {
@@ -105,7 +116,9 @@ void Game::GameLoop() {
 	ShowResults();
 	PickBase();
 
+	// save the number of free cells 
 	while (m_map.FreeCells() > 0) {
+		PrepareContest(m_players);
 		PickFreeCells();
 		WaitForAnswers(15);
 		ShowResults();

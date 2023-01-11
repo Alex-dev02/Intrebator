@@ -70,6 +70,7 @@ private:
 	void ShowResults();
 	void PrepareContest(const std::vector<std::shared_ptr<Player>>& players);
 	void PickBase();
+	void SetActioningPlayer(std::shared_ptr <Player> player);
 
 private:
 	std::mutex m_mutex;

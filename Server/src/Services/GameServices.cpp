@@ -106,12 +106,14 @@ crow::json::wvalue GameServices::GetCurrentQuestion() {
 	if (numeric_question)
 		return CrowResponse::Json(CrowResponse::Code::OK, "",
 			crow::json::wvalue{
+				{"type", "numeric"},
 				{"question", numeric_question->GetQuestion()}
 			}
 	);
 	else if (multiple_answer_question)
 		return CrowResponse::Json(CrowResponse::Code::OK, "",
 			crow::json::wvalue{
+				{"type", "multiple"},
 				{"question", multiple_answer_question->GetQuestion()},
 				{"answers", static_cast<crow::json::wvalue>(*multiple_answer_question.get())}
 			}
