@@ -623,47 +623,19 @@ void Application::CreateNumberQuestionMenu()
 	}
 	m_numberQuestionMenu->add(backspaceButton);
 
-	submitButton->onClick([this, answerBox]()
-		{
-			m_clickSound.play();
-	Debug::Log(answerBox->getText().toStdString());
+	submitButton->onClick([this, answerBox]() {
+		m_clickSound.play();
 
+	auto response = cpr::Post(cpr::Url{ "http://localhost:8080/submit_answer_for_current_question" },
+		cpr::Payload{ { "player_id", std::to_string(m_localPlayer.id) }, { "answer", answerBox->getText().toStdString() } });
 
-
-
-
-
-
-
-	auto response = cpr::Get(cpr::Url{ "http://localhost:8080/submit_answer_for_current_question" }); // TODO : make it answer the question
-	auto body = crow::json::load(response.text);
-
-	try {
-		std::string message = body["message"].s();
-		uint32_t code = body["code"].i();
-
-		if (code == 200) {
-			Debug::Log("Game successfully started");
-		}
-	}
-	catch (const std::exception& e) {
-		Debug::Log(e.what());
-	}
 		});
 
-
-
-
-
-
-
-
-	for (auto i = 0; i <= 9; i++)
-	{
-		m_numberQuestionMenu->get<tgui::Button>(std::to_string(i))->onClick([this, answerBox, i]()
-			{
-				m_clickSound.play();
-		answerBox->setText(answerBox->getText() + std::to_string(i)); });
+	for (auto i = 0; i <= 9; i++) {
+		m_numberQuestionMenu->get<tgui::Button>(std::to_string(i))->onClick([this, answerBox, i]() {
+			m_clickSound.play();
+		answerBox->setText(answerBox->getText() + std::to_string(i));
+			});
 	}
 
 	backspaceButton->onClick([this, answerBox]()
@@ -798,6 +770,25 @@ void Application::CreateMultipleAnswerQuestionMenu()
 	answer2Button->setEnabled(false);
 	answer3Button->setEnabled(false);
 		});
+
+	try
+	{
+		auto response = cpr::Get(cpr::Url{ "http://localhost:8080/current_question" });
+		auto body = crow::json::load(response.text);
+
+		std::string message = body["message"].s();
+		uint32_t code = body["code"].i();
+		auto data = body["data"];
+
+		if (code == 200)
+		{
+			panel->setText(std::string(data["question"].s()));
+		}
+	}
+	catch (const std::exception& e)
+	{
+		Debug::Log(e.what());
+	}
 }
 
 void Application::Update()
@@ -850,6 +841,7 @@ void Application::Update()
 			}
 			else if (message == "SHOW_RESULTS")
 			{
+
 			}
 			else if (message == "PICKING_BASE")
 			{
