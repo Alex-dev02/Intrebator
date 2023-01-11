@@ -46,12 +46,12 @@ Contest::Answer::operator crow::json::wvalue() const {
 crow::json::wvalue Contest::GetResult(uint32_t player_id) {
 	auto answer_it = std::find_if(m_answers.begin(), m_answers.end(), [player_id](const Answer& a) {
 		return a.m_player->GetId() == player_id;
-	});
+		});
 
 	if (answer_it == m_answers.end())
 		return crow::json::wvalue{
 			{"error"}
-		};
+	};
 
 	auto numeric_question = std::dynamic_pointer_cast<NumericQuestion>(m_question);
 
@@ -71,7 +71,7 @@ crow::json::wvalue Contest::GetResult(uint32_t player_id) {
 			{"player", static_cast<crow::json::wvalue>((*answer_it->m_player.get()))},
 			{"answer", answer_it->m_answer},
 			{"correct_answer", multiple_answer_question->GetCorrectAnswer()}
-		};
+	};
 
 	return crow::json::wvalue{
 		{"error"}
@@ -92,7 +92,7 @@ void Contest::SubmitAnswer(const std::string& answer, std::shared_ptr<Player> pl
 
 std::vector<Contest::Answer> Contest::GetAnswers() {
 	//if (m_time - time(nullptr) >= 15) // commented because of magic number 15, which must be set in a variable as a standard waiting time to answer the questions
-		return m_answers;
+	return m_answers;
 	return {};
 }
 
@@ -108,16 +108,16 @@ std::vector<Contest::EvaluatedAnswer> Contest::GetEvaluatedAnswers() {
 		evaluated_answers = GetEvaluatedAnswersForMultipleQuestion().value();
 	else
 		evaluated_answers = opt_evaluated_answers.value();
-	
+
 	std::sort(evaluated_answers.begin(), evaluated_answers.end(),
-	[](const Contest::EvaluatedAnswer& first_ans, const Contest::EvaluatedAnswer& second_ans) {
+		[](const Contest::EvaluatedAnswer& first_ans, const Contest::EvaluatedAnswer& second_ans) {
 			if (std::holds_alternative<bool>(first_ans.m_is_correct_or_margin_error))
-				return std::get<bool>(first_ans.m_is_correct_or_margin_error) >=
+			return std::get<bool>(first_ans.m_is_correct_or_margin_error) >=
 				std::get<bool>(second_ans.m_is_correct_or_margin_error);
 			else
 				return std::get<float>(first_ans.m_is_correct_or_margin_error) <=
 				std::get<float>(second_ans.m_is_correct_or_margin_error);
-	});
+		});
 
 	return evaluated_answers;
 }
@@ -169,7 +169,7 @@ float Contest::GetMarginErrorForAnswer(int given_answer, int correct_answer) {
 const std::vector<std::shared_ptr<Player>>& Contest::GetParticipants() const {
 	return m_participants;
 }
-
+/*
 bool UsedPowerup(const Player::Powerups& powerupName){
 	if(powerupName == Player::Powerups::FIFTYFIFITY){
 		if(Player::GetUsed5050Powerup)
@@ -190,3 +190,4 @@ bool UsedPowerup(const Player::Powerups& powerupName){
 			;// return good
 	}
 }//TODO: !!!!!!!!!!!!!!!!!!!!!!!!!
+*/

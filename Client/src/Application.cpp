@@ -106,7 +106,8 @@ void Application::Run()
 		}
 
 		// Update
-		if (m_gameStarted) {
+		if (m_gameStarted)
+		{
 			Update();
 		}
 
@@ -117,13 +118,6 @@ void Application::Run()
 		m_window.display(); // Tell the app that the m_window is done drawing
 	}
 }
-
-
-
-
-
-
-
 
 void Application::CreateLoginMenu()
 {
@@ -416,26 +410,26 @@ void Application::CreateMatchSelectorMenu()
 	m_matchSelectorMenu->add(backButton);
 	m_matchSelectorMenu->add(errorLabel);
 
-	twoPlayerButton->onClick([this, errorLabel]() {
-		m_clickSound.play();
-	errorLabel->setText(JoinMatch(2));
-		});
+	twoPlayerButton->onClick([this, errorLabel]()
+		{
+			m_clickSound.play();
+	errorLabel->setText(JoinMatch(2)); });
 
-	threePlayerButton->onClick([this, errorLabel]() {
-		m_clickSound.play();
-	errorLabel->setText(JoinMatch(3));
-		});
+	threePlayerButton->onClick([this, errorLabel]()
+		{
+			m_clickSound.play();
+	errorLabel->setText(JoinMatch(3)); });
 
-	fourPlayerButton->onClick([this, errorLabel]() {
-		m_clickSound.play();
-	errorLabel->setText(JoinMatch(4));
-		});
+	fourPlayerButton->onClick([this, errorLabel]()
+		{
+			m_clickSound.play();
+	errorLabel->setText(JoinMatch(4)); });
 
-	backButton->onClick([this]() {
-		m_clickSound.play();
+	backButton->onClick([this]()
+		{
+			m_clickSound.play();
 	m_mainMenu->setVisible(true);
-	m_matchSelectorMenu->setVisible(false);
-		});
+	m_matchSelectorMenu->setVisible(false); });
 
 	m_gui.add(m_matchSelectorMenu);
 	m_matchSelectorMenu->setVisible(false);
@@ -487,16 +481,14 @@ void Application::CreateWaitRoomMenu(uint32_t numberOfPlayers)
 	}
 	catch (const std::exception& e) {
 		Debug::Log(e.what());
-	}
-		});
+	} });
 
 	backButton->onClick([this]()
 		{
 			m_clickSound.play();
 	LeaveMatch();
 	m_waitRoomMenu->setVisible(false);
-	m_matchSelectorMenu->setVisible(true);
-		});
+	m_matchSelectorMenu->setVisible(true); });
 
 	m_gui.add(m_waitRoomMenu);
 	m_waitRoomMenu->setVisible(false);
@@ -506,57 +498,76 @@ void Application::CreateWaitRoomMenu(uint32_t numberOfPlayers)
 
 void Application::CreateMapMenu()
 {
-	m_mapMenu->removeAllWidgets();
 	m_mapMenu = tgui::Group::create();
-
-	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:8080/map" });
-	auto body = crow::json::load(response.text);
-
 	m_gui.add(m_mapMenu);
 	m_mapMenu->setVisible(true);
 
-	return;
 	try
 	{
+		auto response = cpr::Get(cpr::Url{ "http://localhost:8080/map" });
+		auto body = crow::json::load(response.text);
+
 		std::string message = body["message"].s();
 		uint32_t code = body["code"].i();
 		auto data = body["data"];
 
-		for (auto& row : data.lo())
-		{
-			for (auto& cell : row.lo())
-			{
-				Debug::Log(cell["player"]);
-				Debug::Log(cell["score"]);
-				Debug::Log(cell["type"]);
-
-				auto& player = cell["player"];
-
-				Debug::Log(player);
-			}
-		}
-
 		if (code == 200)
 		{
-			return;
+			auto i = 0;
+			for (auto& row : data.lo())
+			{
+				auto j = 0;
+				for (auto& cell : row.lo())
+				{
+					auto& player = cell["player"];
+
+					Debug::Log(player);
+
+					tgui::Button::Ptr button = tgui::Button::create();
+					m_mapMenu->add(button, std::to_string(i) + " " + std::to_string(j));
+
+					button->setSize(m_windowWidth * 120 / 1270, m_windowHeight * 120 / 720);
+					button->setPosition(m_windowWidth * (66 + j * 120) / 1270, m_windowHeight * (66 + i * 120) / 720);
+					button->setText(std::string(cell["score"]) + "\n" + std::string(cell["type"]));
+					button->setTextSize(20);
+
+					if (player.s() != "NONE") {
+						/*if (player["color"] == "RED") {
+							button->getRenderer()->setBackgroundColor(tgui::Color::Red);
+						}
+						if (player["color"] == "GREEN") {
+							button->getRenderer()->setBackgroundColor(tgui::Color::Green);
+						}
+						if (player["color"] == "YELLOW") {
+							button->getRenderer()->setBackgroundColor(tgui::Color::Yellow);
+						}
+						if (player["color"] == "BLUE") {
+							button->getRenderer()->setBackgroundColor(tgui::Color::Blue);
+						}*/
+					}
+
+					j++;
+				}
+				i++;
+			}
 		}
 		else
 		{
 			return;
 		}
 	}
-	catch (const std::exception&)
+	catch (const std::exception& e)
 	{
-		return;
+		Debug::Log(e.what());
 	}
-
-	return; // for now
-
 }
 
 void Application::CreateNumberQuestionMenu()
 {
 	m_numberQuestionMenu = tgui::Group::create();
+
+	m_gui.add(m_numberQuestionMenu);
+	m_numberQuestionMenu->setVisible(true);
 
 	tgui::Button::Ptr panel = tgui::Button::create();
 	panel->setEnabled(false);
@@ -605,7 +616,7 @@ void Application::CreateNumberQuestionMenu()
 	tgui::Button::Ptr backspaceButton = tgui::Button::create();
 	backspaceButton->setSize(m_windowWidth * 80 / 1270, m_windowHeight * 80 / 720);
 	backspaceButton->setPosition(m_windowWidth * 549 / 1270, m_windowHeight * 335 / 720);
-	backspaceButton->setText("Backspace");
+	backspaceButton->setText("Bksp");
 	backspaceButton->setTextSize(20);
 
 	m_numberQuestionMenu->add(panel);
@@ -641,14 +652,14 @@ void Application::CreateNumberQuestionMenu()
 		text.pop_back();
 	}
 	answerBox->setText(text); });
-
-	m_gui.add(m_numberQuestionMenu);
-	m_numberQuestionMenu->setVisible(false);
 }
 
 void Application::CreateMultipleAnswerQuestionMenu()
 {
 	m_multipleAnswerQuestionMenu = tgui::Group::create();
+
+	m_gui.add(m_multipleAnswerQuestionMenu);
+	m_multipleAnswerQuestionMenu->setVisible(true);
 
 	tgui::Button::Ptr panel = tgui::Button::create();
 	panel->setEnabled(false);
@@ -730,11 +741,11 @@ void Application::CreateMultipleAnswerQuestionMenu()
 
 	answer1Button->setEnabled(false);
 	answer2Button->setEnabled(false);
-	answer4Button->setEnabled(false); });
+	answer4Button->setEnabled(false);
+		});
 
-	answer4Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button, this]()
-		{
-			m_clickSound.play();
+	answer4Button->onClick([&selected, answer1Button, answer2Button, answer3Button, answer4Button, this]() {
+		m_clickSound.play();
 	selected = 4;
 
 	//answer4Button->getRenderer()->setBackgroundColor(tgui::Color::Green);
@@ -744,58 +755,65 @@ void Application::CreateMultipleAnswerQuestionMenu()
 
 	answer1Button->setEnabled(false);
 	answer2Button->setEnabled(false);
-	answer3Button->setEnabled(false); });
-
-	m_gui.add(m_multipleAnswerQuestionMenu);
-	m_multipleAnswerQuestionMenu->setVisible(false);
+	answer3Button->setEnabled(false);
+		});
 }
 
-void Application::Update() {
+void Application::Update()
+{
 	auto response = cpr::Get(cpr::Url{ "http://localhost:8080/game_status" });
 	auto body = crow::json::load(response.text);
 
-	try {
+	try
+	{
 		std::string message = body["message"].s();
 		uint32_t code = body["code"].i();
 
-		if (code == 200) {
-			Debug::Log(message);
-
-			if (m_gameState != message) {
-				if (m_gameState == "WAITING_FOR_PLAYERS") {
-
+		if (code == 200)
+		{
+			if (m_gameState != message)
+			{
+				Debug::Log(message);
+				if (message == "WAITING_FOR_PLAYERS")
+				{
+					m_players.clear();
+					// make a new vector of players and put em all in the m_players vector
 				}
-				else if (m_gameState == "SHOW_MAP") {
+				else if (message == "SHOW_MAP")
+				{
 					m_waitRoomMenu->setVisible(false);
 					CreateMapMenu();
 				}
-				else if (m_gameState == "ANSWERING_QUESTION") {
-					m_mapMenu->setEnabled(false);
+				else if (message == "ANSWERING_QUESTION")
+				{
+					m_mapMenu->setVisible(false);
+					CreateNumberQuestionMenu();
 				}
-				else if (m_gameState == "SHOW_RESULTS") {
-
+				else if (message == "SHOW_RESULTS")
+				{
 				}
-				else if (m_gameState == "PICKING_BASE") {
-
+				else if (message == "PICKING_BASE")
+				{
 				}
-				else if (m_gameState == "PICKING_CELLS") {
-
+				else if (message == "PICKING_CELLS")
+				{
 				}
-				else if (m_gameState == "DUELLING") {
-
+				else if (message == "DUELLING")
+				{
 				}
-				else if (m_gameState == "FINISHED") {
-
+				else if (message == "FINISHED")
+				{
 				}
-				else if (m_gameState == "ERROR") {
-
+				else if (message == "ERROR")
+				{
 				}
 			}
 
 			m_gameState = message;
 		}
 	}
-	catch (const std::exception& e) {
+	catch (const std::exception& e)
+	{
 		Debug::Log(e.what());
 	}
 }
