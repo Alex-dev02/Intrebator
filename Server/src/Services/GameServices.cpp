@@ -92,12 +92,12 @@ crow::json::wvalue GameServices::GetPoolResults(uint32_t player_id) {
 	return CrowResponse::Json(CrowResponse::Code::OK, "", answer);
 }
 
-crow::json::wvalue GameServices::TryPickCell(uint8_t x, uint8_t y, uint32_t player_id) {
+crow::json::wvalue GameServices::TryPickCell(uint8_t x, uint8_t y, uint32_t player_id, uint8_t is_base) {
 	// should differentiate what kind of problem caused the invalid response
 	if (m_game->GetActioningPlayer()->GetId() != player_id)
 		return CrowResponse::Json(CrowResponse::Code::INVALID, "Not this player turn");
 
-	if (m_game->TryPickCell(x, y, player_id)) {
+	if (m_game->TryPickCell(x, y, player_id, is_base)) {
 		m_game->SetActioningPlayerOff();
 		return CrowResponse::Json(CrowResponse::Code::OK);
 	}
@@ -186,8 +186,8 @@ void GameServices::InitRoutes() {
 	CROW_ROUTE(app, "/get_pool_results/<int>")([this](uint32_t player_id) {
 		return GetPoolResults(player_id);
 		});
-	CROW_ROUTE(app, "/pick_cell/<int>/<int>/<int>")([this](uint8_t x, uint8_t y, uint32_t player_id) {
-		return TryPickCell(x, y, player_id);
+	CROW_ROUTE(app, "/pick_cell/<int>/<int>/<int>/<int>")([this](uint8_t x, uint8_t y, uint32_t player_id, uint8_t is_base) {
+		return TryPickCell(x, y, player_id, is_base);
 		});
 	CROW_ROUTE(app, "/current_question")([this]() {
 		return GetCurrentQuestion();

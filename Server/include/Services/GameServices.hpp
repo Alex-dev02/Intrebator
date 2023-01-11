@@ -17,7 +17,7 @@ private:
 	crow::json::wvalue CheckGameStatus();
 	crow::json::wvalue SubmitAnswerForCurrentQuestion(const crow::request& req);
 	crow::json::wvalue GetPoolResults(uint32_t player_id);
-	crow::json::wvalue TryPickCell(uint8_t x, uint8_t y, uint32_t player_id);
+	crow::json::wvalue TryPickCell(uint8_t x, uint8_t y, uint32_t player_id, uint8_t is_base);
 	crow::json::wvalue GetCurrentQuestion();
 	crow::json::wvalue GetMap();
 	crow::json::wvalue GetPlayers();

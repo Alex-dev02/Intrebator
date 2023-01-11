@@ -24,11 +24,19 @@ uint16_t Map::FreeCells() {
 	return free_cells;
 }
 
-bool Map::TryPickCell(uint8_t x, uint8_t y, std::shared_ptr<Player> player) {
+bool Map::TryPickCell(uint8_t x, uint8_t y, std::shared_ptr<Player> player, uint8_t is_base) {
 	try{
 		auto& cell = GetCell(x, y);
+
+		if (is_base == 1 && !cell.GetPlayer().has_value()) {
+			cell.SetPlayer(player);
+			cell.SetType(Cell::Type::Base);
+			return true;
+		}
+
 		if (!cell.GetPlayer().has_value() && CellIsInPlayerReach(x, y, player)) {
 			cell.SetPlayer(player);
+			cell.SetType(Cell::Type::AnnexedTerritory);
 			return true;
 		}
 		return false;

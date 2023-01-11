@@ -18,7 +18,7 @@ public:
 
 public:
 	uint16_t FreeCells();
-	bool TryPickCell(uint8_t x, uint8_t y, std::shared_ptr<Player> player);
+	bool TryPickCell(uint8_t x, uint8_t y, std::shared_ptr<Player> player, uint8_t is_base);
 
 private:
 	bool CellIsInPlayerReach(uint8_t x, uint8_t, std::shared_ptr<Player> player);
