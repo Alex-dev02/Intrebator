@@ -551,10 +551,6 @@ void Application::CreateMapMenu()
 				i++;
 			}
 		}
-		else
-		{
-			return;
-		}
 	}
 	catch (const std::exception& e)
 	{
@@ -573,7 +569,7 @@ void Application::CreateNumberQuestionMenu()
 	panel->setEnabled(false);
 	panel->setSize(m_windowWidth * 1037.16 / 1270, m_windowHeight * 185.47 / 720);
 	panel->setPosition(m_windowWidth * 116.41 / 1270, m_windowHeight * 102 / 720);
-	panel->setText("Question");
+	panel->setText("...");
 	panel->setTextSize(28);
 
 	tgui::EditBox::Ptr answerBox = tgui::EditBox::create();
@@ -599,10 +595,8 @@ void Application::CreateNumberQuestionMenu()
 	std::vector<int> xPosition = { 161, 258, 355 };
 	std::vector<int> yPosition = { 532, 433, 335 };
 
-	for (uint8_t i = 1; i <= 3; i++)
-	{
-		for (auto j = 1; j <= 3; j++)
-		{
+	for (uint8_t i = 1; i <= 3; i++) {
+		for (auto j = 1; j <= 3; j++) {
 			auto button = tgui::Button::create();
 			button->setSize(m_windowWidth * 80 / 1270, m_windowHeight * 80 / 720);
 			button->setPosition(m_windowWidth * xPosition[j - 1] / 1270, m_windowHeight * yPosition[i - 1] / 720);
@@ -633,8 +627,36 @@ void Application::CreateNumberQuestionMenu()
 		{
 			m_clickSound.play();
 	Debug::Log(answerBox->getText().toStdString());
-	// submit to the server
+
+
+
+
+
+
+
+
+	auto response = cpr::Get(cpr::Url{ "http://localhost:8080/submit_answer_for_current_question" }); // TODO : make it answer the question
+	auto body = crow::json::load(response.text);
+
+	try {
+		std::string message = body["message"].s();
+		uint32_t code = body["code"].i();
+
+		if (code == 200) {
+			Debug::Log("Game successfully started");
+		}
+	}
+	catch (const std::exception& e) {
+		Debug::Log(e.what());
+	}
 		});
+
+
+
+
+
+
+
 
 	for (auto i = 0; i <= 9; i++)
 	{
@@ -652,6 +674,25 @@ void Application::CreateNumberQuestionMenu()
 		text.pop_back();
 	}
 	answerBox->setText(text); });
+
+	try
+	{
+		auto response = cpr::Get(cpr::Url{ "http://localhost:8080/current_question" });
+		auto body = crow::json::load(response.text);
+
+		std::string message = body["message"].s();
+		uint32_t code = body["code"].i();
+		auto data = body["data"];
+
+		if (code == 200)
+		{
+			panel->setText(std::string(data["question"].s()));
+		}
+	}
+	catch (const std::exception& e)
+	{
+		Debug::Log(e.what());
+	}
 }
 
 void Application::CreateMultipleAnswerQuestionMenu()
@@ -787,30 +828,47 @@ void Application::Update()
 				else if (message == "ANSWERING_QUESTION")
 				{
 					m_mapMenu->setVisible(false);
-					CreateNumberQuestionMenu();
-				}
-				else if (message == "SHOW_RESULTS")
-				{
-				}
-				else if (message == "PICKING_BASE")
-				{
-				}
-				else if (message == "PICKING_CELLS")
-				{
-				}
-				else if (message == "DUELLING")
-				{
-				}
-				else if (message == "FINISHED")
-				{
-				}
-				else if (message == "ERROR")
-				{
+
+					response = cpr::Get(cpr::Url{ "http://localhost:8080/current_question" });
+					body = crow::json::load(response.text);
+
+					code = body["code"].i();
+
+					if (code == 200) {
+						std::string question = body["data"]["question"].s();
+						std::string type = body["data"]["type"].s();
+
+						if (type == "numeric") {
+							CreateNumberQuestionMenu();
+						}
+
+						if (type == "multiple") {
+							CreateMultipleAnswerQuestionMenu();
+						}
+					}
 				}
 			}
-
-			m_gameState = message;
+			else if (message == "SHOW_RESULTS")
+			{
+			}
+			else if (message == "PICKING_BASE")
+			{
+			}
+			else if (message == "PICKING_CELLS")
+			{
+			}
+			else if (message == "DUELLING")
+			{
+			}
+			else if (message == "FINISHED")
+			{
+			}
+			else if (message == "ERROR")
+			{
+			}
 		}
+
+		m_gameState = message;
 	}
 	catch (const std::exception& e)
 	{
