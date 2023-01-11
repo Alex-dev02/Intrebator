@@ -128,13 +128,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Player.cpp" />
-    <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Game.hpp" />
     <ClInclude Include="include\Application.hpp" />
     <ClInclude Include="include\Player.hpp" />
     <ClInclude Include="resource.h" />
@@ -325,7 +322,6 @@
     <ClInclude Include="TGUI\Widgets\TreeView.hpp" />
     <ClInclude Include="TGUI\Widgets\VerticalLayout.hpp" />
     <ClInclude Include="TGUI\WindowsInclude.hpp" />
-    <ClInclude Include="include\Menu.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="icon.ico" />
