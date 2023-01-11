@@ -94,12 +94,23 @@ void Game::PickBase() {
 }
 
 void Game::SetActioningPlayer(std::shared_ptr <Player> player) {
-	using namespace std::chrono_literals;
-
 	m_mutex.lock();
 	m_actioning_player = player;
+	m_player_is_actioning = true;
 	m_mutex.unlock();
-	std::this_thread::sleep_for(8s);
+	WaitForActioningPlayer();
+}
+
+void Game::WaitForActioningPlayer() {
+	using namespace std::chrono_literals;
+
+	uint8_t seconds_to_wait  = 0;
+	while (seconds_to_wait != 8) {
+		if (!m_player_is_actioning)
+			break;
+		seconds_to_wait++;
+		std::this_thread::sleep_for(1s);
+	}
 }
 
 void Game::GameLoop() {
@@ -267,4 +278,12 @@ const Map& Game::GetMap() {
 
 const std::vector<std::shared_ptr<Player>>& Game::GetContestingPlayers() const {
 	return m_contest.GetParticipants();
+}
+
+std::shared_ptr<Player> Game::GetActioningPlayer() {
+	return m_actioning_player;
+}
+
+void Game::SetActioningPlayerOff() {
+	m_player_is_actioning = false;
 }

@@ -94,9 +94,15 @@ crow::json::wvalue GameServices::GetPoolResults(uint32_t player_id) {
 
 crow::json::wvalue GameServices::TryPickCell(uint8_t x, uint8_t y, uint32_t player_id) {
 	// should differentiate what kind of problem caused the invalid response
-	return CrowResponse::Json(
-		m_game->TryPickCell(x, y, player_id) ? CrowResponse::Code::OK : CrowResponse::Code::INVALID
-	);
+	if (m_game->GetActioningPlayer()->GetId() != player_id)
+		return CrowResponse::Json(CrowResponse::Code::INVALID, "Not this player turn");
+
+	if (m_game->TryPickCell(x, y, player_id)) {
+		m_game->SetActioningPlayerOff();
+		return CrowResponse::Json(CrowResponse::Code::OK);
+	}
+
+	return CrowResponse::Json(CrowResponse::Code::INVALID, "Invalid cell");
 }
 
 crow::json::wvalue GameServices::GetCurrentQuestion() {
@@ -152,6 +158,13 @@ crow::json::wvalue GameServices::GetContestingPlayers() {
 	return crow::json::wvalue{json_players};
 }
 
+crow::json::wvalue GameServices::GetActioningPlayer(){
+	auto actioning_player = m_game->GetActioningPlayer();
+
+	return CrowResponse::Json(CrowResponse::Code::OK, "",
+		actioning_player ? static_cast<Player>(*actioning_player.get()) : crow::json::wvalue{{"player", "none"}});
+}
+
 void GameServices::InitRoutes() {
 	auto& app = m_server->GetApp();
 
@@ -191,4 +204,7 @@ void GameServices::InitRoutes() {
 	CROW_ROUTE(app, "/contesting_players")([this]() {
 		return GetContestingPlayers();
 	});
+	CROW_ROUTE(app, "/actioning_player")([this]() {
+		return GetActioningPlayer();
+		});
 }

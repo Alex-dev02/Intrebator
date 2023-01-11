@@ -23,7 +23,7 @@ private:
 	crow::json::wvalue GetPlayers();
 	crow::json::wvalue ActivatePowerup();
 	crow::json::wvalue GetContestingPlayers();
-
+	crow::json::wvalue GetActioningPlayer();
 private:
 	std::shared_ptr<Server> m_server;
 	std::shared_ptr<Database> m_database;

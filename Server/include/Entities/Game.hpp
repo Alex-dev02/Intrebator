@@ -55,6 +55,8 @@ public:
 	bool TryPickCell(uint8_t x, uint8_t y, uint32_t player_id);
 	std::shared_ptr<Question> CurrentQuestion();
 	const Map& GetMap();
+	std::shared_ptr<Player> GetActioningPlayer();
+	void SetActioningPlayerOff();
 
 private:
 	Player::Color GetColorToAssignToPlayer();
@@ -72,6 +74,7 @@ private:
 	void PrepareContest(const std::vector<std::shared_ptr<Player>>& players);
 	void PickBase();
 	void SetActioningPlayer(std::shared_ptr <Player> player);
+	void WaitForActioningPlayer();
 
 private:
 	std::mutex m_mutex;
@@ -94,6 +97,7 @@ private:
 	std::vector<Player::Color> m_available_player_colors;
 	
 	std::shared_ptr<Player> m_actioning_player;
+	bool m_player_is_actioning = false;
 
 private:
 	std::shared_ptr<Database> m_database;
