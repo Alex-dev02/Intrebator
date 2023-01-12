@@ -27,6 +27,7 @@ private:
 	void CreateWaitRoomMenu(uint32_t numberOfPlayers);
 
 	void CreateMapMenu();
+	void CreateResultMenu();
 	void CreateNumberQuestionMenu();
 	void CreateMultipleAnswerQuestionMenu();
 
@@ -85,6 +86,7 @@ private:
 
 private:
 	tgui::Group::Ptr m_mapMenu;
+	tgui::Group::Ptr m_resultMenu;
 	tgui::Group::Ptr m_numberQuestionMenu;
 	tgui::Group::Ptr m_multipleAnswerQuestionMenu;
 };
