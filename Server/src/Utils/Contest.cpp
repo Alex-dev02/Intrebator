@@ -78,6 +78,29 @@ crow::json::wvalue Contest::GetResult(uint32_t player_id) {
 	};
 }
 
+crow::json::wvalue Contest::GetResults() {
+	auto numeric_question = std::dynamic_pointer_cast<NumericQuestion>(m_question);
+	auto multiple_answer_question = std::dynamic_pointer_cast<MultipleAnswerQuestion>(m_question);
+
+	std::vector<crow::json::wvalue> json_players;
+	for (const auto& answer : m_answers) {
+		json_players.push_back(
+			crow::json::wvalue{
+				{ "player", static_cast<crow::json::wvalue>(*answer.m_player.get()) },
+				{ "answer", answer.m_answer }
+			}
+		);
+		
+	}
+
+	return crow::json::wvalue{
+		{"question", m_question->GetQuestion()},
+		{"answer", numeric_question ?
+			std::to_string(numeric_question->GetAnswer()) : multiple_answer_question->GetCorrectAnswer()},
+		{"players", crow::json::wvalue{json_players}}
+	};
+}
+
 uint8_t Contest::GetAnswersSize() {
 	return m_answers.size();
 }

@@ -46,6 +46,7 @@ public:
 	void SubmitAnswer(const std::string& answer, std::shared_ptr<Player> player);
 	std::vector<Contest::Answer> GetAnswers();
 	crow::json::wvalue GetResult(uint32_t player_id);
+	crow::json::wvalue GetResults();
 	std::vector<EvaluatedAnswer> GetEvaluatedAnswers();
 	const std::vector<std::shared_ptr<Player>>& GetParticipants() const;
 

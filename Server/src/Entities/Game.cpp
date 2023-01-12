@@ -259,6 +259,10 @@ crow::json::wvalue Game::GetContestResult(uint32_t player_id) {
 	return m_contest.GetResult(player_id);
 }
 
+crow::json::wvalue Game::GetContestResults() {
+	return m_contest.GetResults();
+}
+
 bool Game::TryPickCell(uint8_t x, uint8_t y, uint32_t player_id, uint8_t is_base) {
 	auto player = std::find_if(m_players.begin(), m_players.end(), [player_id](std::shared_ptr<Player> player) {
 		return player->GetId() == player_id;

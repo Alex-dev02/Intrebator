@@ -52,6 +52,7 @@ public:
 public:
 	void SubmitContestAnswer(const std::string& answer, std::shared_ptr<Player> player);
 	crow::json::wvalue GetContestResult(uint32_t player_id);
+	crow::json::wvalue GetContestResults();
 	bool TryPickCell(uint8_t x, uint8_t y, uint32_t player_id, uint8_t is_base);
 	std::shared_ptr<Question> CurrentQuestion();
 	const Map& GetMap();

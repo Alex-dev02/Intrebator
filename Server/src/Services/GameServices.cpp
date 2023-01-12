@@ -92,6 +92,10 @@ crow::json::wvalue GameServices::GetPoolResults(uint32_t player_id) {
 	return CrowResponse::Json(CrowResponse::Code::OK, "", answer);
 }
 
+crow::json::wvalue GameServices::GetAllPoolResults() {
+	return m_game->GetContestResults();
+}
+
 crow::json::wvalue GameServices::TryPickCell(uint8_t x, uint8_t y, uint32_t player_id, uint8_t is_base) {
 	// should differentiate what kind of problem caused the invalid response
 	if (m_game->GetActioningPlayer()->GetId() != player_id)
@@ -206,5 +210,8 @@ void GameServices::InitRoutes() {
 	});
 	CROW_ROUTE(app, "/actioning_player")([this]() {
 		return GetActioningPlayer();
+		});
+	CROW_ROUTE(app, "/get_all_pool_results")([this]() {
+		return GetAllPoolResults();
 		});
 }
