@@ -28,6 +28,7 @@ private:
 
 	void CreateMapMenu();
 	void CreateResultMenu();
+	void CreateCellPickingMenu();
 	void CreateNumberQuestionMenu();
 	void CreateMultipleAnswerQuestionMenu();
 
@@ -57,8 +58,6 @@ private:
 
 	Player m_localPlayer;
 
-	std::vector<Player> m_players;
-
 	sf::Music m_menuMusic;
 	sf::Music m_gameMusic;
 
@@ -87,6 +86,7 @@ private:
 private:
 	tgui::Group::Ptr m_mapMenu;
 	tgui::Group::Ptr m_resultMenu;
+	tgui::Group::Ptr m_cellPickingMenu;
 	tgui::Group::Ptr m_numberQuestionMenu;
 	tgui::Group::Ptr m_multipleAnswerQuestionMenu;
 };

@@ -88,12 +88,12 @@ crow::json::wvalue GameServices::SubmitAnswerForCurrentQuestion(const crow::requ
 
 crow::json::wvalue GameServices::GetPoolResults(uint32_t player_id) {
 	auto answer = m_game->GetContestResult(player_id);
-	
+
 	return CrowResponse::Json(CrowResponse::Code::OK, "", answer);
 }
 
 crow::json::wvalue GameServices::GetAllPoolResults() {
-	return m_game->GetContestResults();
+	return CrowResponse::Json(CrowResponse::Code::OK, "", m_game->GetContestResults());
 }
 
 crow::json::wvalue GameServices::TryPickCell(uint8_t x, uint8_t y, uint32_t player_id, uint8_t is_base) {
@@ -144,11 +144,11 @@ crow::json::wvalue GameServices::GetPlayers() {
 	for (const auto& p : players) {
 		json_players.push_back(static_cast<crow::json::wvalue>(*p.get()));
 	}
-	
+
 	return CrowResponse::Json(CrowResponse::Code::OK, "", crow::json::wvalue{ json_players });
 }
 
-crow::json::wvalue GameServices::ActivatePowerup(){
+crow::json::wvalue GameServices::ActivatePowerup() {
 	return crow::json::wvalue{};
 }
 
@@ -159,14 +159,14 @@ crow::json::wvalue GameServices::GetContestingPlayers() {
 	for (const auto& player : contesting_players)
 		json_players.push_back(static_cast<crow::json::wvalue>(*player.get()));
 
-	return crow::json::wvalue{json_players};
+	return crow::json::wvalue{ json_players };
 }
 
-crow::json::wvalue GameServices::GetActioningPlayer(){
+crow::json::wvalue GameServices::GetActioningPlayer() {
 	auto actioning_player = m_game->GetActioningPlayer();
 
 	return CrowResponse::Json(CrowResponse::Code::OK, "",
-		actioning_player ? static_cast<crow::json::wvalue>(*actioning_player.get()) : crow::json::wvalue{{"player", "none"}});
+		actioning_player ? static_cast<crow::json::wvalue>(*actioning_player.get()) : crow::json::wvalue{ {"player", "none"} });
 }
 
 void GameServices::InitRoutes() {
@@ -202,12 +202,12 @@ void GameServices::InitRoutes() {
 	CROW_ROUTE(app, "/players")([this]() {
 		return GetPlayers();
 		});
-	CROW_ROUTE(app, "/activate_powerup")([this](){
+	CROW_ROUTE(app, "/activate_powerup")([this]() {
 		return ActivatePowerup();
-	});
+		});
 	CROW_ROUTE(app, "/contesting_players")([this]() {
 		return GetContestingPlayers();
-	});
+		});
 	CROW_ROUTE(app, "/actioning_player")([this]() {
 		return GetActioningPlayer();
 		});

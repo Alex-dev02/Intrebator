@@ -263,7 +263,7 @@ void Application::CreateMainMenu()
 	usernameLabel->getRenderer()->setTextColor(tgui::Color::White);
 	usernameLabel->getRenderer()->setTextOutlineColor(tgui::Color::Black);
 	usernameLabel->getRenderer()->setTextOutlineThickness(2);
-	usernameLabel->setTextSize(35);
+	usernameLabel->setTextSize(20);
 
 	tgui::Button::Ptr playButton = tgui::Button::create();
 	playButton->setSize(m_windowWidth * 218 / 1270, m_windowHeight * 56.9 / 720);
@@ -498,6 +498,10 @@ void Application::CreateWaitRoomMenu(uint32_t numberOfPlayers)
 
 void Application::CreateMapMenu()
 {
+	if (m_mapMenu != nullptr) {
+		m_mapMenu->removeAllWidgets();
+	}
+
 	m_mapMenu = tgui::Group::create();
 	m_gui.add(m_mapMenu);
 	m_mapMenu->setVisible(true);
@@ -520,8 +524,6 @@ void Application::CreateMapMenu()
 				for (auto& cell : row.lo())
 				{
 					auto& player = cell["player"];
-
-					Debug::Log(player);
 
 					tgui::Button::Ptr button = tgui::Button::create();
 					m_mapMenu->add(button, std::to_string(i) + " " + std::to_string(j));
@@ -562,14 +564,10 @@ void Application::CreateMapMenu()
 
 		if (code == 200)
 		{
-			Debug::Log(data);
-
 			auto i = 0;
 
 			for (auto& player : data.lo())
 			{
-				Debug::Log(player);
-
 				tgui::Label::Ptr label = tgui::Label::create();
 				m_mapMenu->add(label);
 				label->setSize(m_windowWidth * 226 / 1270, m_windowHeight * 59 / 720);
@@ -578,25 +576,33 @@ void Application::CreateMapMenu()
 				label->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
 				label->setVerticalAlignment(tgui::Label::VerticalAlignment::Center);
 
-				if (player["color"] == "RED")
-				{
-					label->getRenderer()->setBackgroundColor(tgui::Color::Red);
-					label->getRenderer()->setTextColor(tgui::Color::White);
-				}
 				if (player["color"] == "GREEN")
 				{
-					label->getRenderer()->setBackgroundColor(tgui::Color::Green);
+					label->getRenderer()->setBorderColor(tgui::Color{ 76, 204, 51 });
+					label->getRenderer()->setBorders({ 2 });
+					label->getRenderer()->setBackgroundColor(tgui::Color::White);
 					label->getRenderer()->setTextColor(tgui::Color::Black);
 				}
-				if (player["color"] == "YELLOW")
+				else if (player["color"] == "YELLOW")
 				{
-					label->getRenderer()->setBackgroundColor(tgui::Color::Yellow);
+					label->getRenderer()->setBorderColor(tgui::Color{ 255, 255, 51 });
+					label->getRenderer()->setBorders({ 2 });
+					label->getRenderer()->setBackgroundColor(tgui::Color::White);
 					label->getRenderer()->setTextColor(tgui::Color::Black);
 				}
-				if (player["color"] == "BLUE")
+				else if (player["color"] == "BLUE")
 				{
-					label->getRenderer()->setBackgroundColor(tgui::Color::Blue);
-					label->getRenderer()->setTextColor(tgui::Color::White);
+					label->getRenderer()->setBorderColor(tgui::Color{ 76, 51, 204 });
+					label->getRenderer()->setBorders({ 2 });
+					label->getRenderer()->setBackgroundColor(tgui::Color::White);
+					label->getRenderer()->setTextColor(tgui::Color::Black);
+				}
+				else if (player["color"] == "RED")
+				{
+					label->getRenderer()->setBorderColor(tgui::Color{ 204, 76, 51 });
+					label->getRenderer()->setBorders({ 2 });
+					label->getRenderer()->setBackgroundColor(tgui::Color::White);
+					label->getRenderer()->setTextColor(tgui::Color::Black);
 				}
 
 				label->setTextSize(20);
@@ -670,6 +676,148 @@ void Application::CreateResultMenu()
 				i++;
 			}
 			*/
+		}
+	}
+	catch (const std::exception& e)
+	{
+		Debug::Log(e.what());
+	}
+}
+
+void Application::CreateCellPickingMenu()
+{
+	if (m_cellPickingMenu != nullptr) {
+		m_cellPickingMenu->removeAllWidgets();
+	}
+
+	m_cellPickingMenu = tgui::Group::create();
+	m_gui.add(m_cellPickingMenu);
+	m_cellPickingMenu->setVisible(true);
+
+	try
+	{
+		auto response = cpr::Get(cpr::Url{ "http://localhost:8080/map" });
+		auto body = crow::json::load(response.text);
+
+		std::string message = body["message"].s();
+		uint32_t code = body["code"].i();
+		auto data = body["data"];
+
+		if (code == 200)
+		{
+			auto i = 0;
+			for (auto& row : data.lo())
+			{
+				auto j = 0;
+				for (auto& cell : row.lo())
+				{
+					auto& player = cell["player"];
+
+					tgui::Button::Ptr button = tgui::Button::create();
+					m_cellPickingMenu->add(button, std::to_string(i) + " " + std::to_string(j));
+
+					button->setSize(m_windowWidth * 120 / 1270, m_windowHeight * 120 / 720);
+					button->setPosition(m_windowWidth * (66 + j * 120) / 1270, m_windowHeight * (66 + i * 120) / 720);
+					button->setText(std::string(cell["score"]) + "\n" + std::string(cell["type"]));
+					button->setTextSize(20);
+
+
+					Debug::Log("showing actioning player");
+
+					auto otherResponse = cpr::Get(cpr::Url{ "http://localhost:8080/pick_cell/actioning_player" });
+					auto otherBody = crow::json::load(otherResponse.text);
+
+					auto otherMessage = otherBody["message"].s();
+					auto otherCode = otherBody["code"].i();
+					auto otherData = otherBody["data"];
+
+					Debug::Log(otherMessage);
+					Debug::Log(otherCode);
+					Debug::Log(otherData);
+
+					Debug::Log("done showing actioning player");
+
+					if (body["code"] == 200) {
+						if (body["data"]["id"] == m_localPlayer.id) {
+							button->onClick.connect([this, i, j]() {
+								Debug::Log("CLICKED ON " + std::to_string(i) + " " + std::to_string(j));
+							m_clickSound.play();
+
+							auto response = cpr::Get(cpr::Url{ "http://localhost:8080/pick_cell/" + std::to_string(i) + "/" + std::to_string(i) + std::to_string(m_localPlayer.id) + "/" + std::to_string(true) });
+							auto body = crow::json::load(response.text);
+
+								});
+						}
+					}
+
+					if (player.s() != "NONE")
+					{
+						/*if (player["color"] == "RED") {
+							button->getRenderer()->setBackgroundColor(tgui::Color::Red);
+						}
+						if (player["color"] == "GREEN") {
+							button->getRenderer()->setBackgroundColor(tgui::Color::Green);
+						}
+						if (player["color"] == "YELLOW") {
+							button->getRenderer()->setBackgroundColor(tgui::Color::Yellow);
+						}
+						if (player["color"] == "BLUE") {
+							button->getRenderer()->setBackgroundColor(tgui::Color::Blue);
+						}*/
+					}
+
+					j++;
+				}
+				i++;
+			}
+		}
+
+		response = cpr::Get(cpr::Url{ "http://localhost:8080/players" });
+		body = crow::json::load(response.text);
+
+		message = body["message"].s();
+		code = body["code"].i();
+		data = body["data"];
+
+		if (code == 200)
+		{
+			auto i = 0;
+
+			for (auto& player : data.lo())
+			{
+				tgui::Label::Ptr label = tgui::Label::create();
+				m_cellPickingMenu->add(label);
+				label->setSize(m_windowWidth * 226 / 1270, m_windowHeight * 59 / 720);
+				label->setPosition(m_windowWidth * (81 + i * 271) / 1270, m_windowHeight * 592 / 720);
+				label->setText(std::string(player["name"]));
+				label->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
+				label->setVerticalAlignment(tgui::Label::VerticalAlignment::Center);
+
+				if (player["color"] == "GREEN")
+				{
+					label->getRenderer()->setBackgroundColor(tgui::Color{ 76, 204, 51 });
+					label->getRenderer()->setTextColor(tgui::Color::Black);
+				}
+				else if (player["color"] == "YELLOW")
+				{
+					label->getRenderer()->setBackgroundColor(tgui::Color{ 255, 255, 76 });
+					label->getRenderer()->setTextColor(tgui::Color::Black);
+				}
+				else if (player["color"] == "BLUE")
+				{
+					label->getRenderer()->setBackgroundColor(tgui::Color{ 76, 51, 204 });
+					label->getRenderer()->setTextColor(tgui::Color::White);
+				}
+				else if (player["color"] == "RED")
+				{
+					label->getRenderer()->setBackgroundColor(tgui::Color{ 204, 76, 51 });
+					label->getRenderer()->setTextColor(tgui::Color::White);
+				}
+
+				label->setTextSize(20);
+
+				i++;
+			}
 		}
 	}
 	catch (const std::exception& e)
@@ -929,8 +1077,8 @@ void Application::Update()
 				Debug::Log(message);
 				if (message == "WAITING_FOR_PLAYERS")
 				{
-					m_players.clear();
-					// make a new vector of players and put em all in the m_players vector
+					m_menuMusic.stop();
+					m_gameMusic.play();
 				}
 				else if (message == "SHOW_MAP")
 				{
@@ -962,31 +1110,39 @@ void Application::Update()
 						}
 					}
 				}
-			}
-			else if (message == "SHOW_RESULTS")
-			{
-				if (m_numberQuestionMenu != nullptr) {
-					m_numberQuestionMenu->setVisible(false);
+				else if (message == "SHOW_RESULTS")
+				{
+					if (m_numberQuestionMenu != nullptr) {
+						m_numberQuestionMenu->setVisible(false);
+					}
+					if (m_multipleAnswerQuestionMenu != nullptr) {
+						m_multipleAnswerQuestionMenu->setVisible(false);
+					}
+					CreateResultMenu();
 				}
-				if (m_multipleAnswerQuestionMenu != nullptr) {
-					m_multipleAnswerQuestionMenu->setVisible(false);
+				else if (message == "PICKING_BASE")
+				{
+					if (m_resultMenu != nullptr) {
+						m_resultMenu->setVisible(false);
+					}
+
+					Debug::Log(message);
+					Debug::Log(m_gameState);
+
+					CreateCellPickingMenu();
 				}
-				CreateResultMenu();
-			}
-			else if (message == "PICKING_BASE")
-			{
-			}
-			else if (message == "PICKING_CELLS")
-			{
-			}
-			else if (message == "DUELLING")
-			{
-			}
-			else if (message == "FINISHED")
-			{
-			}
-			else if (message == "ERROR")
-			{
+				else if (message == "PICKING_CELLS")
+				{
+				}
+				else if (message == "DUELLING")
+				{
+				}
+				else if (message == "FINISHED")
+				{
+				}
+				else if (message == "ERROR")
+				{
+				}
 			}
 		}
 
