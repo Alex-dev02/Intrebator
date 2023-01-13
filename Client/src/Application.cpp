@@ -898,7 +898,7 @@ void Application::CreateNumberQuestionMenu()
 			m_clickSound.play();
 
 	auto response = cpr::Post(cpr::Url{ "http://localhost:8080/submit_answer_for_current_question" },
-		cpr::Payload{ {"player_id", std::to_string(m_localPlayer.id)}, {"answer", answerBox->getText().toStdString()} }); });
+		cpr::Body{ crow::json::wvalue{{"player_id", std::to_string(m_localPlayer.id)}, {"answer", answerBox->getText().toStdString()} }.dump()}); });
 
 	for (auto i = 0; i <= 9; i++)
 	{

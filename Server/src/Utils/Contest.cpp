@@ -86,7 +86,7 @@ crow::json::wvalue Contest::GetResults() {
 	for (const auto& answer : m_answers) {
 		json_players.push_back(
 			crow::json::wvalue{
-				{ "player", static_cast<crow::json::wvalue>(*answer.m_player.get()) },
+				{ "player", static_cast<crow::json::wvalue>(*(answer.m_player.get())) },
 				{ "answer", answer.m_answer }
 			}
 		);
