@@ -159,7 +159,7 @@ crow::json::wvalue GameServices::GetContestingPlayers() {
 	for (const auto& player : contesting_players)
 		json_players.push_back(static_cast<crow::json::wvalue>(*player.get()));
 
-	return crow::json::wvalue{ json_players };
+	return CrowResponse::Json(CrowResponse::Code::OK, "", crow::json::wvalue{json_players});
 }
 
 crow::json::wvalue GameServices::GetActioningPlayer() {

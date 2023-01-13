@@ -70,7 +70,7 @@ private:
 private:
 	void GameLoop();
 	void WaitForAnswers(uint8_t seconds_to_wait);
-	void PickFreeCells();
+	void PickFreeCells(uint8_t number_of_free_cells);
 	void ShowResults();
 	void PrepareContest(const std::vector<std::shared_ptr<Player>>& players);
 	void PickBase();

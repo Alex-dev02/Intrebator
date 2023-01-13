@@ -61,7 +61,7 @@ void Game::ShowResults() {
 	m_mutex.lock();
 	m_status = Status::SHOW_RESULTS;
 	m_mutex.unlock();
-	std::this_thread::sleep_for(3s);
+	std::this_thread::sleep_for(5s);
 }
 
 void Game::PrepareContest(const std::vector<std::shared_ptr<Player>>& players) {
@@ -75,12 +75,19 @@ void Game::PrepareContest(const std::vector<std::shared_ptr<Player>>& players) {
 }
 
 
-void Game::PickFreeCells() {
+void Game::PickFreeCells(uint8_t number_of_free_cells) {
 	using namespace std::chrono_literals;
-		m_mutex.lock();
-		m_status = Status::PICKING_CELLS;
-		m_mutex.unlock();
-		std::this_thread::sleep_for(6s);
+	auto answers = m_contest.GetEvaluatedAnswers();
+
+	m_mutex.lock();
+	m_status = Status::PICKING_CELLS;
+	m_mutex.unlock();
+
+	auto number_of_available_players_to_choose =
+		answers.size() > number_of_free_cells ? number_of_free_cells : answers.size();
+
+	for (uint8_t i = 0; i < number_of_available_players_to_choose; i++)
+		SetActioningPlayer(answers[i].m_player);
 }
 
 void Game::PickBase() {
@@ -128,11 +135,13 @@ void Game::GameLoop() {
 	PickBase();
 
 	// save the number of free cells 
-	while (m_map.FreeCells() > 0) {
+	auto number_of_free_cells = m_map.FreeCells();
+	while (number_of_free_cells > 0) {
 		PrepareContest(m_players);
-		PickFreeCells();
 		WaitForAnswers(15);
 		ShowResults();
+		PickFreeCells(number_of_free_cells);
+		m_map.FreeCells();
 	}
 	// wait for answers in PickFreeCells, maybe remodel it
 
