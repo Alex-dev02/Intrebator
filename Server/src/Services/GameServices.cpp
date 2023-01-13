@@ -166,7 +166,7 @@ crow::json::wvalue GameServices::GetActioningPlayer(){
 	auto actioning_player = m_game->GetActioningPlayer();
 
 	return CrowResponse::Json(CrowResponse::Code::OK, "",
-		actioning_player ? static_cast<Player>(*actioning_player.get()) : crow::json::wvalue{{"player", "none"}});
+		actioning_player ? static_cast<crow::json::wvalue>(*actioning_player.get()) : crow::json::wvalue{{"player", "none"}});
 }
 
 void GameServices::InitRoutes() {
