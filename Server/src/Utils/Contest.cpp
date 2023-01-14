@@ -132,14 +132,16 @@ std::vector<Contest::EvaluatedAnswer> Contest::GetEvaluatedAnswers() {
 	else
 		evaluated_answers = opt_evaluated_answers.value();
 
+	if (std::holds_alternative<bool>(evaluated_answers[0].m_is_correct_or_margin_error))
+		std::stable_partition(evaluated_answers.begin(), evaluated_answers.end(),
+			[](const Contest::EvaluatedAnswer& ans) {
+				return std::get<bool>(ans.m_is_correct_or_margin_error) == true;
+			});
+	else
 	std::sort(evaluated_answers.begin(), evaluated_answers.end(),
 		[](const Contest::EvaluatedAnswer& first_ans, const Contest::EvaluatedAnswer& second_ans) {
-			if (std::holds_alternative<bool>(first_ans.m_is_correct_or_margin_error))
-			return std::get<bool>(first_ans.m_is_correct_or_margin_error) ==
-				std::get<bool>(second_ans.m_is_correct_or_margin_error);
-			else
-				return std::get<float>(first_ans.m_is_correct_or_margin_error) <=
-				std::get<float>(second_ans.m_is_correct_or_margin_error);
+			return std::get<float>(first_ans.m_is_correct_or_margin_error) <=
+			std::get<float>(second_ans.m_is_correct_or_margin_error);
 		});
 
 	return evaluated_answers;
