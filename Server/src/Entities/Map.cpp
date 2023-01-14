@@ -96,3 +96,18 @@ Map::operator crow::json::wvalue() const {
 
 	return crow::json::wvalue{map};
 }
+
+std::optional<std::shared_ptr<Player>> Map::ConquerCell(uint8_t x, uint8_t y, std::shared_ptr<Player> player) {
+	try
+	{
+		const auto& cell_s_player = GetCell(x, y);
+		if (CellIsInPlayerReach(x, y, player) && cell_s_player.GetPlayer().value()->GetId() != player->GetId()) {
+			return cell_s_player.GetPlayer().value();
+		}
+		return std::nullopt;
+	}
+	catch (const std::exception&)
+	{
+		return std::nullopt;
+	}
+}

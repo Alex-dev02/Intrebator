@@ -58,6 +58,7 @@ public:
 	const Map& GetMap();
 	std::shared_ptr<Player> GetActioningPlayer();
 	void SetActioningPlayerOff();
+	bool ConquerCell(uint8_t x, uint8_t y, uint32_t player_id);
 
 private:
 	Player::Color GetColorToAssignToPlayer();
@@ -74,8 +75,9 @@ private:
 	void ShowResults();
 	void PrepareContest(const std::vector<std::shared_ptr<Player>>& players);
 	void PickBase();
-	void SetActioningPlayer(std::shared_ptr <Player> player);
-	void WaitForActioningPlayer();
+	bool SetActioningPlayer(std::shared_ptr <Player> player);
+	bool WaitForActioningPlayer();
+	bool UpdateMapAfterDuel();
 
 private:
 	std::mutex m_mutex;
@@ -98,6 +100,7 @@ private:
 	std::vector<Player::Color> m_available_player_colors;
 	
 	std::shared_ptr<Player> m_actioning_player;
+	std::shared_ptr<Player> m_opponent;
 	bool m_player_is_actioning = false;
 
 private:

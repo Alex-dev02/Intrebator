@@ -25,6 +25,8 @@ private:
 	crow::json::wvalue GetContestingPlayers();
 	crow::json::wvalue GetActioningPlayer();
 	crow::json::wvalue GetAllPoolResults();
+	crow::json::wvalue ConquerCell(uint8_t x, uint8_t y, uint32_t player_id);
+
 private:
 	std::shared_ptr<Server> m_server;
 	std::shared_ptr<Database> m_database;

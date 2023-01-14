@@ -199,6 +199,19 @@ void Contest::ClearContestData() {
 	m_answers.clear();
 }
 
+void Contest::SetDisputedCell(uint8_t x, uint8_t y) {
+	m_disputed_cell_x_coord = x;
+	m_disputed_cell_y_coord = y;
+}
+
+uint8_t Contest::GetDisputedCellX() const {
+	return m_disputed_cell_x_coord;
+}
+
+uint8_t Contest::GetDisputedCellY() const {
+	return m_disputed_cell_y_coord;
+}
+
 /*
 bool UsedPowerup(const Player::Powerups& powerupName){
 	if(powerupName == Player::Powerups::FIFTYFIFITY){

@@ -101,24 +101,65 @@ void Game::PickBase() {
 		SetActioningPlayer(answer.m_player);
 }
 
-void Game::SetActioningPlayer(std::shared_ptr <Player> player) {
+bool Game::SetActioningPlayer(std::shared_ptr <Player> player) {
 	m_mutex.lock();
 	m_actioning_player = player;
 	m_player_is_actioning = true;
 	m_mutex.unlock();
-	WaitForActioningPlayer();
+	return WaitForActioningPlayer();
 }
 
-void Game::WaitForActioningPlayer() {
+bool Game::WaitForActioningPlayer() {
 	using namespace std::chrono_literals;
 
 	uint8_t seconds_to_wait  = 0;
-	while (seconds_to_wait != 8) {
-		if (!m_player_is_actioning)
-			break;
+	while (seconds_to_wait != 9) {
+		if (!m_player_is_actioning) 
+			return true;
 		seconds_to_wait++;
 		std::this_thread::sleep_for(1s);
 	}
+	return false;
+}
+
+bool Game::UpdateMapAfterDuel() {
+	auto answers = m_contest.GetEvaluatedAnswers();
+
+	if (std::holds_alternative<bool>(answers[0].m_is_correct_or_margin_error)) {
+		if (std::get<bool>(answers[0].m_is_correct_or_margin_error) == std::get<bool>(answers[1].m_is_correct_or_margin_error))
+			return false;
+
+		auto player_to_search = m_actioning_player;
+		const auto& actioning_player_answer = *std::find_if(answers.begin(), answers.end(),
+			[player_to_search](const Contest::EvaluatedAnswer& ev_answer) {
+				return player_to_search->GetId() == ev_answer.m_player->GetId();
+			});
+		if (std::get<bool>(actioning_player_answer.m_is_correct_or_margin_error)) {
+			m_map.GetCell(m_contest.GetDisputedCellX(), m_contest.GetDisputedCellY()).SetPlayer(m_actioning_player);
+			return true;
+		}
+	}
+	else {
+		if (std::get<float>(answers[0].m_is_correct_or_margin_error) == std::get<float>(answers[1].m_is_correct_or_margin_error))
+			return false;
+
+		auto player_to_search = m_actioning_player;
+		auto opponent_to_search = m_opponent;
+		const auto& actioning_player_answer = *std::find_if(answers.begin(), answers.end(),
+			[player_to_search](const Contest::EvaluatedAnswer& ev_answer) {
+				return player_to_search->GetId() == ev_answer.m_player->GetId();
+			});
+		const auto& opponent_answer = *std::find_if(answers.begin(), answers.end(),
+			[opponent_to_search](const Contest::EvaluatedAnswer& ev_answer) {
+				return opponent_to_search->GetId() == ev_answer.m_player->GetId();
+			});
+		if (std::get<float>(actioning_player_answer.m_is_correct_or_margin_error)
+			< std::get<float>(opponent_answer.m_is_correct_or_margin_error)) {
+			m_map.GetCell(m_contest.GetDisputedCellX(), m_contest.GetDisputedCellY()).SetPlayer(m_actioning_player);
+			return true;
+		}
+	}
+		return false;
 }
 
 void Game::GameLoop() {
@@ -144,8 +185,23 @@ void Game::GameLoop() {
 		PickFreeCells(number_of_free_cells);
 		m_map.FreeCells();
 	}
-	// wait for answers in PickFreeCells, maybe remodel it
 
+	for (const auto& round : m_rounds) {
+		for (const auto& turn : round) {
+			m_mutex.lock();
+			m_status = Status::DUELLING;
+			m_mutex.unlock();
+			if (!SetActioningPlayer(turn))
+				continue;
+			WaitForAnswers(15);
+			ShowResults();
+			while (!UpdateMapAfterDuel()) {
+				PrepareContest({ m_actioning_player, m_opponent });
+				WaitForAnswers(15);
+				ShowResults();
+			}
+		}
+	}
 }
 
 void Game::Run() {
@@ -300,4 +356,19 @@ std::shared_ptr<Player> Game::GetActioningPlayer() {
 
 void Game::SetActioningPlayerOff() {
 	m_player_is_actioning = false;
+}
+
+bool Game::ConquerCell(uint8_t x, uint8_t y, uint32_t player_id) {
+	auto player = *std::find_if(m_players.begin(), m_players.end(), [player_id](const std::shared_ptr<Player>& player) {
+		return player->GetId() == player_id;
+		});
+	auto opponent = m_map.ConquerCell(x, y, player);
+	if (opponent.has_value()) {
+		m_opponent = opponent.value();
+		m_player_is_actioning = false;
+		m_contest.SetDisputedCell(x, y);
+		PrepareContest({m_actioning_player, m_opponent});
+		return true;
+	}
+	return false;
 }

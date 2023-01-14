@@ -169,6 +169,11 @@ crow::json::wvalue GameServices::GetActioningPlayer() {
 		actioning_player ? static_cast<crow::json::wvalue>(*actioning_player.get()) : crow::json::wvalue{ {"player", "none"} });
 }
 
+crow::json::wvalue GameServices::ConquerCell(uint8_t x, uint8_t y, uint32_t player_id) {
+	return CrowResponse::Json(m_game->ConquerCell(x, y, player_id)
+		? CrowResponse::Code::OK : CrowResponse::Code::INVALID);
+}
+
 void GameServices::InitRoutes() {
 	auto& app = m_server->GetApp();
 
@@ -213,5 +218,8 @@ void GameServices::InitRoutes() {
 		});
 	CROW_ROUTE(app, "/get_all_pool_results")([this]() {
 		return GetAllPoolResults();
+		});
+	CROW_ROUTE(app, "/conquer_cell/<int>/<int>/<int>")([this](uint8_t x, uint8_t y, uint32_t player_id) {
+		return ConquerCell(x, y, player_id);
 		});
 }

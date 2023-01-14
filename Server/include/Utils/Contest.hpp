@@ -39,6 +39,7 @@ public:
 	void ClearParticipants();
 	void ClearContestData();
 	void StartTimer();
+	void SetDisputedCell(uint8_t x, uint8_t y);
 
 	uint8_t GetAnswersSize();
 	uint8_t GetParticipantsSize();
@@ -50,6 +51,8 @@ public:
 	crow::json::wvalue GetResults();
 	std::vector<EvaluatedAnswer> GetEvaluatedAnswers();
 	const std::vector<std::shared_ptr<Player>>& GetParticipants() const;
+	uint8_t GetDisputedCellX() const;
+	uint8_t GetDisputedCellY() const;
 
 private:
 	std::optional<std::vector<EvaluatedAnswer>> GetEvaluatedAnswersForNumericQuestion();
@@ -63,4 +66,6 @@ private:
 	std::shared_ptr<Question> m_question;
 	std::vector<Answer> m_answers;
 
+	uint8_t m_disputed_cell_x_coord;
+	uint8_t m_disputed_cell_y_coord;
 };
