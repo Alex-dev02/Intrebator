@@ -90,7 +90,7 @@ crow::json::wvalue Contest::GetResults() {
 				{ "answer", answer.m_answer }
 			}
 		);
-		
+
 	}
 
 	return crow::json::wvalue{
@@ -186,7 +186,7 @@ std::optional<std::vector<Contest::EvaluatedAnswer>> Contest::GetEvaluatedAnswer
 }
 
 float Contest::GetMarginErrorForAnswer(int given_answer, int correct_answer) {
-	return std::abs(float(100.0f - float((given_answer * 100) / correct_answer)));
+	return std::abs(correct_answer - given_answer);
 }
 
 const std::vector<std::shared_ptr<Player>>& Contest::GetParticipants() const {
