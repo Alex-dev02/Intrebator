@@ -365,7 +365,9 @@ bool Game::ConquerCell(uint8_t x, uint8_t y, uint32_t player_id) {
 	auto opponent = m_map.ConquerCell(x, y, player);
 	if (opponent.has_value()) {
 		m_opponent = opponent.value();
+		m_mutex.lock();
 		m_player_is_actioning = false;
+		m_mutex.unlock();
 		m_contest.SetDisputedCell(x, y);
 		PrepareContest({m_actioning_player, m_opponent});
 		return true;
