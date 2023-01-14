@@ -533,27 +533,6 @@ void Application::CreateMapMenu()
 					button->setPosition(m_windowWidth * (66 + j * 120) / 1270, m_windowHeight * (66 + i * 120) / 720);
 					button->setText(std::string(cell["score"]) + "\n" + std::string(cell["type"]));
 					button->setTextSize(20);
-
-					if (player != "NONE")
-					{
-						if (player["color"] == "RED")
-						{
-							button->getRenderer()->setBackgroundColor(tgui::Color::Red);
-						}
-						if (player["color"] == "GREEN")
-						{
-							button->getRenderer()->setBackgroundColor(tgui::Color::Green);
-						}
-						if (player["color"] == "YELLOW")
-						{
-							button->getRenderer()->setBackgroundColor(tgui::Color::Yellow);
-						}
-						if (player["color"] == "BLUE")
-						{
-							button->getRenderer()->setBackgroundColor(tgui::Color::Blue);
-						}
-					}
-
 					j++;
 				}
 				i++;
@@ -788,9 +767,9 @@ void Application::CreateCellPickingMenu()
 						}
 					}
 
-					if (player != "NONE")
+					if (player.s() != "NONE")
 					{
-						Debug::Log(player["color"]);
+						// TODO : afla dc atunci cand vrei sa aflii culoarea nu te lasa
 
 						if (player["color"] == "RED")
 						{
