@@ -192,6 +192,13 @@ float Contest::GetMarginErrorForAnswer(int given_answer, int correct_answer) {
 const std::vector<std::shared_ptr<Player>>& Contest::GetParticipants() const {
 	return m_participants;
 }
+
+void Contest::ClearContestData() {
+	m_participants.clear();
+	m_question = nullptr;
+	m_answers.clear();
+}
+
 /*
 bool UsedPowerup(const Player::Powerups& powerupName){
 	if(powerupName == Player::Powerups::FIFTYFIFITY){

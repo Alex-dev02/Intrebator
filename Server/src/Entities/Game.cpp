@@ -66,6 +66,7 @@ void Game::ShowResults() {
 
 void Game::PrepareContest(const std::vector<std::shared_ptr<Player>>& players) {
 	m_mutex.lock();
+	m_contest.ClearContestData();
 	m_contest.SetQuestion(m_questions.front());
 	m_questions.erase(m_questions.begin());
 	m_contest.SetParticipants(m_players);

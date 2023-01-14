@@ -37,6 +37,7 @@ public:
 	void AddParticipant(std::shared_ptr<Player> player);
 	void SetParticipants(const std::vector<std::shared_ptr<Player>>& players);
 	void ClearParticipants();
+	void ClearContestData();
 	void StartTimer();
 
 	uint8_t GetAnswersSize();
