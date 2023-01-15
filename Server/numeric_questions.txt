@@ -49,7 +49,7 @@ Cate sotii a avut Henry al 8-lea?
 Orasul Pompeii a fost distrus de catre eruptia vulcanului Vezuviu in anul:
 79
 
-Cate chei negre are un pian cu 52 de chei albe?
+Cate clape negre are un pian cu 52 de clape albe?
 36
 
 Cati metri inaltime are cel mai inalt pom de pe pamant?
@@ -162,3 +162,6 @@ Cate patrate sunt pe o tabela Monopoly?
 
 Cate tari se invecineaza cu Romania?
 5
+
+Cate perechi de ochi are un paianjen?
+3
