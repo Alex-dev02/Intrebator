@@ -700,7 +700,7 @@ void Application::CreateResultMenu()
 	}
 }
 
-void Application::CreateCellPickingMenu()
+void Application::CreateCellPickingMenu(bool base)
 {
 	m_cellPickingMenu = tgui::Group::create();
 	m_gui.add(m_cellPickingMenu);
@@ -746,10 +746,10 @@ void Application::CreateCellPickingMenu()
 					{
 						if (actioningPlayerBody["data"]["id"] == m_localPlayer.id)
 						{
-							button->onClick.connect([this, i, j]()
+							button->onClick.connect([this, i, j, base]()
 								{
 									m_clickSound.play();
-							auto pickCellResponse = cpr::Get(cpr::Url{ "http://localhost:8080/pick_cell/" + std::to_string(i) + "/" + std::to_string(j) + "/" + std::to_string(m_localPlayer.id) + "/" + std::to_string(true) });
+							auto pickCellResponse = cpr::Get(cpr::Url{ "http://localhost:8080/pick_cell/" + std::to_string(i) + "/" + std::to_string(j) + "/" + std::to_string(m_localPlayer.id) + "/" + std::to_string(base) });
 							auto pickCellBody = crow::json::load(pickCellResponse.text);
 
 
@@ -1193,7 +1193,7 @@ void Application::Update()
 						m_resultMenu->setVisible(false);
 					}
 
-					CreateCellPickingMenu();
+					CreateCellPickingMenu(true);
 				}
 				else if (message == "PICKING_CELLS")
 				{
@@ -1202,7 +1202,7 @@ void Application::Update()
 						m_resultMenu->setVisible(false);
 					}
 
-					CreateCellPickingMenu();
+					CreateCellPickingMenu(false);
 				}
 				else if (message == "DUELLING")
 				{
@@ -1211,7 +1211,7 @@ void Application::Update()
 						m_resultMenu->setVisible(false);
 					}
 
-					CreateCellPickingMenu();
+					CreateCellPickingMenu(false);
 				}
 				else if (message == "FINISHED")
 				{

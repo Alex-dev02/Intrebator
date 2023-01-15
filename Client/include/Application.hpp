@@ -28,7 +28,7 @@ private:
 
 	void CreateMapMenu();
 	void CreateResultMenu();
-	void CreateCellPickingMenu();
+	void CreateCellPickingMenu(bool base);
 	void CreateNumberQuestionMenu();
 	void CreateMultipleAnswerQuestionMenu();
 
