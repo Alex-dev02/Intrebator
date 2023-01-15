@@ -767,25 +767,42 @@ void Application::CreateCellPickingMenu()
 						}
 					}
 
-					if (player.s() != "NONE")
-					{
-						// TODO : afla dc atunci cand vrei sa aflii culoarea nu te lasa
+					// TODO : afla dc atunci cand vrei sa aflii culoarea nu te lasa
+					try {
+						player.s();
+					}
+					catch (std::exception&) {
+						Debug::Log("id:");
+						auto id = player["id"];
+						Debug::Log(std::to_string(id.i()));
 
-						if (player["color"] == "RED")
+						Debug::Log("name:");
+						auto name = player["name"];
+						Debug::Log(std::string(name.s()));
+
+						Debug::Log("color:");
+						auto color = player["color"];
+						Debug::Log(std::string(color.s()));
+
+						if (color.s() == "RED")
 						{
 							button->getRenderer()->setBackgroundColor(tgui::Color::Red);
+							button->getRenderer()->setBackgroundColorDisabled(tgui::Color::Red);
 						}
-						else if (player["color"] == "GREEN")
+						else if (color.s() == "GREEN")
 						{
 							button->getRenderer()->setBackgroundColor(tgui::Color::Green);
+							button->getRenderer()->setBackgroundColorDisabled(tgui::Color::Green);
 						}
-						else if (player["color"] == "YELLOW")
+						else if (color.s() == "YELLOW")
 						{
 							button->getRenderer()->setBackgroundColor(tgui::Color::Yellow);
+							button->getRenderer()->setBackgroundColorDisabled(tgui::Color::Yellow);
 						}
-						else if (player["color"] == "BLUE")
+						else if (color.s() == "BLUE")
 						{
 							button->getRenderer()->setBackgroundColor(tgui::Color::Blue);
+							button->getRenderer()->setBackgroundColorDisabled(tgui::Color::Blue);
 						}
 					}
 
