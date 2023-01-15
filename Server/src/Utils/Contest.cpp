@@ -140,7 +140,14 @@ std::vector<Contest::EvaluatedAnswer> Contest::GetEvaluatedAnswers() {
 		evaluated_answers = GetEvaluatedAnswersForMultipleQuestion().value();
 	else
 		evaluated_answers = opt_evaluated_answers.value();
-
+	if (evaluated_answers.size() == 0) {
+		EvaluatedAnswer ev;
+		for (const auto& participant : m_participants) {
+			ev.m_player = participant;
+			ev.m_is_correct_or_margin_error = 0.0f;
+		}
+		return evaluated_answers;
+	}
 	if (std::holds_alternative<bool>(evaluated_answers[0].m_is_correct_or_margin_error))
 		std::stable_partition(evaluated_answers.begin(), evaluated_answers.end(),
 			[](const Contest::EvaluatedAnswer& ans) {
