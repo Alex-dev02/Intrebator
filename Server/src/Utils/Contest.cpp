@@ -83,15 +83,24 @@ crow::json::wvalue Contest::GetResults() {
 	auto multiple_answer_question = std::dynamic_pointer_cast<MultipleAnswerQuestion>(m_question);
 
 	std::vector<crow::json::wvalue> json_players;
-	for (const auto& answer : m_answers) {
-		json_players.push_back(
-			crow::json::wvalue{
-				{ "player", static_cast<crow::json::wvalue>(*(answer.m_player.get())) },
-				{ "answer", answer.m_answer }
-			}
-		);
-
-	}
+	if (m_answers.size() != 0)
+		for (const auto& answer : m_answers) {
+			json_players.push_back(
+				crow::json::wvalue{
+					{ "player", static_cast<crow::json::wvalue>(*(answer.m_player.get())) },
+					{ "answer", answer.m_answer }
+				}
+			);
+		}
+	else
+		for (const auto& participant : m_participants) {
+			json_players.push_back(
+				crow::json::wvalue{
+					{ "player", static_cast<crow::json::wvalue>(*(participant.get())) },
+					{ "answer", ""}
+				}
+			);
+		}
 
 	return crow::json::wvalue{
 		{"question", m_question->GetQuestion()},
