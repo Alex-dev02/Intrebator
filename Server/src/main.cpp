@@ -1,6 +1,7 @@
 #include <memory>
 #include <string>
 
+#include "../include/Services/BasicDatabaseCRUD.hpp"
 #include "../include/Server/Server.hpp"
 #include "../include/Services/UserServices.hpp"
 #include "../include/Services/GameServices.hpp"
@@ -32,14 +33,15 @@ int main() {
 
 void PopulateDatabase(std::shared_ptr<Database> database) {
 	try{
+		BasicDatabaseCRUD crud{database};
 		auto numeric_questions = ReadNumericQuestionsFromFile();
 		auto multiple_questions = ReadMultipleAnswerQuestionsFromFile();
 
 		for (const auto& n_question : numeric_questions)
-			database->insert<NumericQuestion>(n_question);
+			crud.Insert(n_question);
 
 		for (const auto& m_question : multiple_questions)
-			database->insert<MultipleAnswerQuestion>(m_question);
+			crud.Insert(m_question);
 	}
 	catch (const std::exception& e){
 		std::cerr << e.what() << '\n';

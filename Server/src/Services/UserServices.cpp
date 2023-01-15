@@ -1,6 +1,7 @@
 #include "../../include/Services/UserServices.hpp"
 #include "../../include/Utils/CrowResponse.hpp"
 #include "../../../Logger/Debug.hpp"
+#include "../../include/Services/BasicDatabaseCRUD.hpp"
 
 std::unique_ptr<User> UserServices::GetUserByName(const std::string& name) {
 	using namespace sqlite_orm;
@@ -9,15 +10,6 @@ std::unique_ptr<User> UserServices::GetUserByName(const std::string& name) {
 			return std::make_unique<User>(user);
 	}
 	return nullptr;
-}
-
-std::optional<int> UserServices::SaveUser(const User& user) {
-	try {
-		return m_database->insert(user);
-	}
-	catch (const std::exception& e) {
-		return std::nullopt;
-	}
 }
 
 crow::json::wvalue UserServices::UserRegister(const crow::request& req) {
@@ -39,7 +31,9 @@ crow::json::wvalue UserServices::UserRegister(const crow::request& req) {
 
 	std::string str_password{ password };
 
-	auto inserted_user_id = SaveUser(User(str_name, str_password));
+	BasicDatabaseCRUD crud{ m_database };
+
+	auto inserted_user_id = crud.Insert(User(str_name, str_password));
 
 	return CrowResponse::Json(CrowResponse::Code::OK, "",
 		inserted_user_id.has_value() ? crow::json::wvalue{ {"player_id", inserted_user_id.value()}} : crow::json::wvalue{});

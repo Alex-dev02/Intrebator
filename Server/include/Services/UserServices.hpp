@@ -15,7 +15,6 @@ public:
 
 public:
 	void InitRoutes(std::shared_ptr<Server> server);
-	std::optional<int> SaveUser(const User& user);
 
 private:
 	crow::json::wvalue UserRegister(const crow::request& req);
